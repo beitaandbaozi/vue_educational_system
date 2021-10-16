@@ -1,5 +1,12 @@
 <template>
   <div class="login-container">
+    <div class='logo'>
+      <img
+        src="@/assets/login_images/logo.png"
+        alt="logo"
+      >
+    </div>
+
     <el-form
       ref="loginForm"
       :model="loginForm"
@@ -10,7 +17,7 @@
     >
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">HOME SEIG</h3>
       </div>
 
       <el-form-item prop="username">
@@ -54,14 +61,10 @@
       <el-button
         :loading="loading"
         type="primary"
+        round
         style="width:100%;margin-bottom:30px;"
         @click.native.prevent="handleLogin"
-      >Login</el-button>
-
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
-      </div>
+      >登录</el-button>
 
     </el-form>
   </div>
@@ -152,8 +155,8 @@ export default {
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg: #283443;
-$light_gray: #fff;
-$cursor: #fff;
+$light_gray: #7940bf; //将输入框颜色改成蓝色
+$cursor: #333;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
@@ -163,6 +166,8 @@ $cursor: #fff;
 
 /* reset element-ui css */
 .login-container {
+  background-image: url("~@/assets/login_images/bg.jpg");
+  background-position: center;
   .el-input {
     display: inline-block;
     height: 47px;
@@ -187,24 +192,44 @@ $cursor: #fff;
 
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(255, 255, 255, 0.7); // 输入登录表单的背景色
     border-radius: 5px;
     color: #454545;
+  }
+
+  .el-form-item__error {
+    color: #fff;
+  }
+
+  .loginBtn {
+    height: 64px;
+    line-height: 32px;
+    font-size: 24px;
   }
 }
 </style>
 
 <style lang="scss" scoped>
 $bg: #2d3a4b;
-$dark_gray: #889aa4;
-$light_gray: #eee;
+$dark_gray: #333;
+$light_gray: #7940bf;
 
 .login-container {
   min-height: 100%;
   width: 100%;
   background-color: $bg;
   overflow: hidden;
-
+  .logo {
+    position: absolute;
+    left: 100px;
+    right: auto;
+    top: 30px;
+    bottom: auto;
+    img {
+      width: 300px;
+      height: 100px;
+    }
+  }
   .login-form {
     position: relative;
     width: 520px;
@@ -214,17 +239,7 @@ $light_gray: #eee;
     overflow: hidden;
   }
 
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
 
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
-  }
 
   .svg-container {
     padding: 6px 5px 6px 15px;
