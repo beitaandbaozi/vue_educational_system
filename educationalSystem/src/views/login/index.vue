@@ -72,6 +72,7 @@
 
 <script>
 import { validUsername } from "@/utils/validate";
+import { mapActions } from "vuex";
 
 export default {
   name: "Login",
@@ -88,7 +89,12 @@ export default {
             message: "请输入学号或教师号（管理员账号为admin）",
             trigger: "blur",
           },
-          { min: 4, max: 10, message: "长度在 4 到 5 个字符！", trigger: "blur" },
+          {
+            min: 4,
+            max: 10,
+            message: "长度在 4 到 5 个字符！",
+            trigger: "blur",
+          },
         ],
         password: [
           {
@@ -113,6 +119,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(["user/login"]),
     showPwd() {
       if (this.passwordType === "password") {
         this.passwordType = "";
@@ -123,22 +130,22 @@ export default {
         this.$refs.password.focus();
       });
     },
+
+    // 登录
     handleLogin() {
-      this.$refs.loginForm.validate((valid) => {
-        if (valid) {
-          this.loading = true;
-          this.$store
-            .dispatch("user/login", this.loginForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || "/" });
-              this.loading = false;
-            })
-            .catch(() => {
-              this.loading = false;
-            });
-        } else {
-          console.log("error submit!!");
-          return false;
+      // 表单验证
+      this.$refs.loginForm.validate(async (isOk) => {
+        if (isOk) {
+          try {
+            this.loading = true;
+            await this["user/login"](this.loginForm);
+            // 路由跳转
+            this.$router.push("/");
+          } catch (error) {
+            console.log(error);
+          } finally {
+            this.loading = false;
+          }
         }
       });
     },
@@ -177,7 +184,6 @@ $cursor: #333;
       color: $light_gray;
       height: 47px;
       caret-color: $cursor;
-
     }
   }
 
