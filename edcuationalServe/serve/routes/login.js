@@ -30,7 +30,7 @@ router.post('/login', function (req, res) {
                 res.json({
                     status: 200,
                     msg: '登录成功！',
-                    token: token
+                    data: token
                 })
             }
 
