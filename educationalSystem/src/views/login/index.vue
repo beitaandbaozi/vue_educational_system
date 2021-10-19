@@ -27,7 +27,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="Username"
+          placeholder="学号或教师号（管理员账号为admin）"
           name="username"
           type="text"
           tabindex="1"
@@ -44,7 +44,7 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          placeholder="Password"
+          placeholder="密码"
           name="password"
           tabindex="2"
           auto-complete="on"
@@ -76,20 +76,6 @@ import { validUsername } from "@/utils/validate";
 export default {
   name: "Login",
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error("Please enter the correct user name"));
-      } else {
-        callback();
-      }
-    };
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error("The password can not be less than 6 digits"));
-      } else {
-        callback();
-      }
-    };
     return {
       loginForm: {
         username: "admin",
@@ -97,10 +83,20 @@ export default {
       },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", validator: validateUsername },
+          {
+            required: true,
+            message: "请输入学号或教师号（管理员账号为admin）",
+            trigger: "blur",
+          },
+          { min: 4, max: 10, message: "长度在 4 到 5 个字符！", trigger: "blur" },
         ],
         password: [
-          { required: true, trigger: "blur", validator: validatePassword },
+          {
+            required: true,
+            message: "请输入密码",
+            trigger: "blur",
+          },
+          { min: 6, message: "密码至少为6位！", trigger: "blur" },
         ],
       },
       loading: false,
@@ -154,7 +150,6 @@ export default {
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-$bg: #283443;
 $light_gray: #7940bf; //将输入框颜色改成蓝色
 $cursor: #333;
 
@@ -183,10 +178,6 @@ $cursor: #333;
       height: 47px;
       caret-color: $cursor;
 
-      &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
-      }
     }
   }
 
@@ -198,7 +189,7 @@ $cursor: #333;
   }
 
   .el-form-item__error {
-    color: #fff;
+    color: #f00;
   }
 
   .loginBtn {
@@ -238,8 +229,6 @@ $light_gray: #7940bf;
     margin: 0 auto;
     overflow: hidden;
   }
-
-
 
   .svg-container {
     padding: 6px 5px 6px 15px;
