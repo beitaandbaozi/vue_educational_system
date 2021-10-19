@@ -26,9 +26,11 @@ const actions = {
     // 登录
     async login(context, data) {
         const res = await login(data);
-        if (res.data.status == 200) {
-            context.commit('setToken', res.data.token)
-        }
+        // axios默认给数据加了一层data
+        // 表示登录接口调用成功 也就是意味着你的用户名和密码是正确的
+        // 现在有用户token
+        // actions 修改state 必须通过mutations
+        context.commit('setToken', res)
     }
 }
 
