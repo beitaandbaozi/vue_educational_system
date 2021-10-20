@@ -11,7 +11,17 @@ const service = axios.create({
     timeout: 5000
 })
 // 请求拦截器
-service.interceptors.request.use()
+service.interceptors.request.use(config => {
+    // 在这个位置统一注入token
+    if (store.getters.token) {
+        // 如果存在token 注入token
+        config.headers['Authorization'] = `Bearer ${store.getters.token}`
+
+    }
+    return config
+}, error => {
+    return Promise.reject(error)
+})
 // 响应拦截器
 service.interceptors.response.use(response => {
     // axios默认加了一层data
