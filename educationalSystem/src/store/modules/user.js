@@ -1,11 +1,12 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getUserInfo } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 // 状态
 const state = {
     // 设置token初始状态
-    token: getToken()
+    token: getToken(),
+    userInfo: {}
 }
 //  修改状态
 const mutations = {
@@ -19,6 +20,13 @@ const mutations = {
     removeToken(state) {
         state.token = null // 删除vuex的token
         removeToken() // 先清除 vuex  再清除缓存 vuex和 缓存数据的同步
+    },
+    // 设置用户信息
+    setUserInfo(state, userInfo) {
+        state.userInfo = { ...userInfo }
+    },
+    removeUserInfo(state) {
+        state.userInfo = {}
     }
 }
 //  执行异步
@@ -31,6 +39,13 @@ const actions = {
         // 现在有用户token
         // actions 修改state 必须通过mutations
         context.commit('setToken', res)
+    },
+    // 获取用户资料
+    async getUserInfo(context) {
+        const res = await getUserInfo();
+        // 将整个用户的信息设置到用户的vuex中
+        context.commit('setUserInfo', res);
+        return res;
     }
 }
 
