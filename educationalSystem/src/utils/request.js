@@ -2,6 +2,7 @@
  * 创建一个axios拦截器
  */
 import axios from 'axios'
+import { Message } from 'element-ui'
 // 创建一个axios实例
 const service = axios.create({
     // 设计axios请求的基础的基础地址
