@@ -28,7 +28,7 @@ router.beforeEach(function (to, from, next) {
             // 说明找到了，在名单里面
             next()
         }else{
-            next('跳转到登录页')
+            next('/login')
         }
     }
     // 关闭进度条

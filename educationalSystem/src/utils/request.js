@@ -3,6 +3,7 @@
  */
 import axios from 'axios'
 import { Message } from 'element-ui'
+import store from '@/store'
 // 创建一个axios实例
 const service = axios.create({
     // 设计axios请求的基础的基础地址

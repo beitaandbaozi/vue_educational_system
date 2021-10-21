@@ -72,7 +72,7 @@
 
 <script>
 import { validUsername } from "@/utils/validate";
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex'
 
 export default {
   name: "Login",
@@ -133,17 +133,20 @@ export default {
 
     // 登录
     handleLogin() {
-      // 表单验证
-      this.$refs.loginForm.validate(async (isOk) => {
-        if (isOk) {
+      this.$refs.loginForm.validate(async (isOK) => {
+        if (isOK) {
           try {
             this.loading = true;
+            // 只有校验通过了 我们才去调用action
             await this["user/login"](this.loginForm);
-            // 路由跳转
+            // 应该登录成功之后
+            // async标记的函数实际上一个promise对象
+            // await下面的代码 都是成功执行的代码
             this.$router.push("/");
           } catch (error) {
             console.log(error);
           } finally {
+            //  不论执行try 还是catch  都去关闭转圈
             this.loading = false;
           }
         }
