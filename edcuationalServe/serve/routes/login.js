@@ -5,6 +5,7 @@ var express = require('express');
 var router = express.Router();
 const db = require('../db/index');
 const common = require('../common/index');
+const jwt = require('jsonwebtoken')
 
 // 登录
 router.post('/login', function (req, res) {
@@ -38,5 +39,31 @@ router.post('/login', function (req, res) {
 
     })
 
+})
+// 获取用户信息
+router.post('/getUserInfo', function (req, res) {
+    let { authorization } = req.headers
+    const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
+    const { name } = tokenData;
+    let sql = `SELECT * FROM user_login where id = ?`;
+    db.query(sql,[name],function (err, result) {
+        if (err) {
+            console.log('获取用户信息时数据库出错');
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '账号数据存在！',
+                data: {
+                    username: result[0].username,
+                    id: result[0].id,
+                    role: result[0].role,
+                    password: result[0].password
+                }
+            })
+
+        }
+
+    })
 })
 module.exports = router;
