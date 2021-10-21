@@ -9,7 +9,7 @@ import 'nprogress/nprogress.css' // 引入进度条样式
 // 定义一份白名单，不受权限控制的页面
 const whiteList = ['/login', '/404']
 // 路由前置守卫
-router.beforeEach(function (to, from, next) {
+router.beforeEach(async (to, from, next) => {
     // 开启进度条
     NProgress.start()
     // 首先判断有无token
@@ -19,15 +19,21 @@ router.beforeEach(function (to, from, next) {
             // 跳转到主页
             next('/');
         } else {
-            // 直接放行
-            next()
+            if (!store.getters.userId) {
+                // 如果没有id这个值 才会调用 vuex的获取资料的action
+                await store.dispatch('user/getUserInfo')
+                // 为什么要写await 因为我们想获取完资料再去放行
+                
+            }else{
+                next()
+            }
         }
     } else {
         // 没有token的情况
         if (whiteList.indexOf(to.path) > -1) {
             // 说明找到了，在名单里面
             next()
-        }else{
+        } else {
             next('/login')
         }
     }
@@ -36,6 +42,6 @@ router.beforeEach(function (to, from, next) {
 })
 
 // 后置守卫
-router.afterEach(function(){
+router.afterEach(function () {
     NProgress.done()
 })
