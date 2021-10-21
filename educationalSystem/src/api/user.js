@@ -10,11 +10,10 @@ export function login(data) {
 }
 
 // 获取用户信息
-export function getUserInfo(token) {
-    return require({
+export function getUserInfo() {
+    return request({
         url: '/login/getUserInfo',
-        method: 'get',
-        params: { token }
+        method: 'post'
     })
 
 }
