@@ -1,5 +1,5 @@
 import { login, getUserInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, removeToken,setTimeStamp } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 // 状态
@@ -38,7 +38,9 @@ const actions = {
         // 表示登录接口调用成功 也就是意味着你的用户名和密码是正确的
         // 现在有用户token
         // actions 修改state 必须通过mutations
-        context.commit('setToken', res)
+        context.commit('setToken', res);
+        // 写入时间戳
+        setTimeStamp() // 将当前的最新时间写入缓存
     },
     // 获取用户资料
     async getUserInfo(context) {
