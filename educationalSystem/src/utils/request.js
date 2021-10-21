@@ -46,8 +46,14 @@ service.interceptors.response.use(response => {
         return Promise.reject(new Error(msg))
     }
 }, error => {
-    // 提示错误信息
-    Message.error(error.message);
+    // error 信息 里面 response的对象
+    if (error.response && error.response.data && error.response.data.code === 10002) {
+        // 当等于10002的时候 表示 后端告诉我token超时了
+        store.dispatch('user/logout') // 登出action 删除token
+        router.push('/login')
+    } else {
+        Message.error(error.message) // 提示错误信息
+    }W
     // 返回执行错误 让当前的执行链跳出成功 直接进入 catch
     return Promise.reject(error)
 }
@@ -58,6 +64,6 @@ function IsCheckTimeOut() {
     var currentTime = Date.now() // 当前时间戳
     var timeStamp = getTimeStamp() // 缓存时间戳
     return (currentTime - timeStamp) / 1000 > TimeOut
-  }
+}
 // 导出
 export default service
