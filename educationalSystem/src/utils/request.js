@@ -12,7 +12,7 @@ const service = axios.create({
     // 设计axios请求的基础的基础地址   跨域处理
     baseURL: process.env.VUE_APP_BASE_API,
     // 定义超时时间
-    timeout: 5000
+    timeout: 100000
 })
 // 请求拦截器
 service.interceptors.request.use(config => {
@@ -53,7 +53,7 @@ service.interceptors.response.use(response => {
         router.push('/login')
     } else {
         Message.error(error.message) // 提示错误信息
-    }W
+    }
     // 返回执行错误 让当前的执行链跳出成功 直接进入 catch
     return Promise.reject(error)
 }

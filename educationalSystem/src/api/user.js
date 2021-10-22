@@ -18,6 +18,19 @@ export function getUserInfo() {
 
 }
 
-export function logout() {
-
+// 修改密码
+export function updatePaswd(data) {
+    return request({
+        url:'/users/updatePassword',
+        method: 'post',
+        data
+    })
+}
+// 提交修改密码
+export function commitPaswd(data){
+    return request({
+        url: '/users/commitPassword',
+        method: 'post',
+        data
+    })
 }

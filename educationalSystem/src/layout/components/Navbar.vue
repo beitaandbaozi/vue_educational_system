@@ -41,9 +41,9 @@
           </router-link>
           <el-dropdown-item
             divided
-            @click.native="logout"
+            @click.native="updatePassword"
           >
-            <span style="display:block;">退出登录</span>
+            <span style="display:block;">修改密码</span>
           </el-dropdown-item>
           <el-dropdown-item
             divided
@@ -55,6 +55,50 @@
       </el-dropdown>
     </div>
 
+    <!-- 修改密码对话框 -->
+    <el-dialog
+      title="修改密码"
+      :visible.sync="showUpPaswdDialog"
+      width="40%"
+      @close="btnCancel"
+    >
+      <el-form
+        :model="upPaswdForm"
+        :rules="upPaswdRules"
+        ref="upPaswdRef"
+        label-width="80px"
+      >
+        <el-form-item label="旧密码">
+          <el-input
+            v-model="upPaswdForm.password"
+            :disabled="true"
+            size="medium"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item
+          label="新密码"
+          prop="newPassword"
+        >
+          <el-input
+            v-model="upPaswdForm.newPassword"
+            size="medium"
+            show-password
+          ></el-input>
+        </el-form-item>
+      </el-form>
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="btnCancel">取 消</el-button>
+        <el-button
+          type="primary"
+          @click='btnOk'
+        >确 定</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -62,8 +106,30 @@
 import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
-
+import { updatePaswd, commitPaswd} from "@/api/user";
+import { Message } from 'element-ui'
 export default {
+  data() {
+    return {
+      // 修改密码对话框
+      showUpPaswdDialog: false,
+      // 修改密码表单
+      upPaswdForm: {
+        password: "",
+        newPassword: "",
+      },
+      upPaswdRules: {
+        newPassword: [
+          {
+            required: true,
+            message: "请输入密码",
+            trigger: "blur",
+          },
+          { min: 6, message: "密码至少为6位！", trigger: "blur" },
+        ],
+      },
+    };
+  },
   components: {
     Breadcrumb,
     Hamburger,
@@ -78,6 +144,48 @@ export default {
     async logout() {
       await this.$store.dispatch("user/logout");
       this.$router.push(`/login`);
+    },
+    // 关闭修改密码对话框
+    btnCancel() {
+      // 清空表单
+      this.upPaswdForm = {
+        password: "",
+        newPassword: "",
+      };
+      // 清空校验规则
+      this.$refs.upPaswdRef.resetFields();
+      //  关闭对话框
+      this.showUpPaswdDialog = false;
+    },
+    // 获取旧密码和新密码
+    async updatePassword() {
+      // 打开对话框
+      this.showUpPaswdDialog = true;
+      // 获取旧密码
+      const res = await updatePaswd(this.upPaswdForm);
+      // 给表单赋值
+      this.upPaswdForm.password = res.password;
+    },
+    // 对话框提交
+    btnOk() {
+      // 表单验证
+      this.$refs.upPaswdRef.validate(async (valid) => {
+        if (valid) {
+          try {
+            // 连接接口
+            await commitPaswd(this.upPaswdForm);
+            // 通知消息
+            Message.success('修改密码成功！')
+            // 关闭对话框
+            this.showUpPaswdDialog = false;
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      });
+      // 连接接口
+      // 通知消息
+      // 关闭对话框
     },
   },
 };
