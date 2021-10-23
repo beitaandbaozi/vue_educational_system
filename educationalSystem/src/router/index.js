@@ -72,12 +72,12 @@ export const constantRoutes = [
 // 动态路由
 export const asyncRoutes = [
     classSchedule,
-    dormitoryService,
     setUpCoures,
-    stuMesg,
+    dormitoryService,
     subCost,
     teachEvaluation,
-    testTime
+    testTime,
+    stuMesg
 ]
 
 const createRouter = () => new Router({
