@@ -51,55 +51,86 @@
           </el-col>
         </el-row>
       </el-card>
-      <!-- 必修成绩信息 -->
-      <el-table
-        :data="tableData"
-        border
-        style="width: 100%; margin-top: 20px"
-      >
-        <el-table-column
-          label="开课学期"
-          width="180"
-        >
-        </el-table-column>
-        <el-table-column
-          label="课程代码"
-        >
-        </el-table-column>
-        <el-table-column
-          label="学分"
-        >
-        </el-table-column>
-        <el-table-column
-          label="考核方式"
-        >
-        </el-table-column>
-        <el-table-column
-          label="修读学年学期"
-        >
-        </el-table-column>
-        <el-table-column
-          label="成绩"
-        >
-        </el-table-column>
-        <el-table-column
-          label="已得学分"
-        >
-        </el-table-column>
-        <el-table-column
-          label="先修课程"
-        >
-        </el-table-column>
-      </el-table>
+      <el-tabs type="border-card" style="margin-top:20px">
+        <el-tab-pane label="必修课程">
+          <!-- 必修课信息 -->
+          <el-table
+            :data="requiredCourseData.result"
+            border
+            style="width: 100%;"
+            :span-method="objectSpanMethod"
+          >
+            <el-table-column
+              align="center"
+              prop="time"
+              label="开课学期"
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="课程代码"
+              prop="course_number"
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="课程名称"
+              prop="name"
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="学分"
+              prop="credit"
+              width="50"
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="考核方式"
+              prop="type"
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="修读学年学期"
+              prop="academic"
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="成绩"
+              prop="score"
+              width="50"
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="已得学分"
+              prop="get_credit"
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="先修课程"
+              prop="pre_course"
+            >
+            </el-table-column>
+          </el-table>
+        </el-tab-pane>
+        <el-tab-pane label="选修课程">选修课程</el-tab-pane>
+      </el-tabs>
+
     </div>
   </div>
 </template>
 
 <script>
-import { getStuInfo } from "@/api/stuMesg";
+import { getStuInfo, getRequireCourseInfo } from "@/api/stuMesg";
 export default {
   data() {
     return {
+      // 个人基本信息
       stuForm: {
         number: "",
         name: "",
@@ -111,18 +142,43 @@ export default {
         advisor: "",
         counsellor: "",
       },
+      // 必修成绩
+      requiredCourseData: [],
     };
   },
   created() {
-    // 获取用户个人信息
+    // 获取学生个人信息
     this.getStuInfo();
+    // 获取学生必修课信息
+    this.getRequireCourseInfo();
   },
   methods: {
-    // 获取用户个人信息
+    // 获取学生个人信息
     async getStuInfo() {
       let res = await getStuInfo();
       // 给表单赋值
       this.stuForm = res;
+    },
+    // 获取学生必修课信息
+    async getRequireCourseInfo() {
+      let res = await getRequireCourseInfo();
+      this.requiredCourseData = res;
+    },
+    // 计算行列
+    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+      if (columnIndex === 0) {
+        if (rowIndex % 2 === 0) {
+          return {
+            rowspan: 2,
+            colspan: 1,
+          };
+        } else {
+          return {
+            rowspan: 0,
+            colspan: 0,
+          };
+        }
+      }
     },
   },
 };

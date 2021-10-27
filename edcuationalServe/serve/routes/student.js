@@ -32,6 +32,26 @@ router.post('/getStuInfo', function (req, res) {
         }
     })
 })
-
+// 获取学生必修课信息
+router.post('/getRequireCourseInfo', function (req, res) {
+    let { authorization } = req.headers
+    const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
+    const { name } = tokenData;
+    let sql = 'select * from  student_require_course where id = ? order by time';
+    db.query(sql, [name], function (err, result) {
+        if (err) {
+            console.log('获取学生必修课信息时数据库查询出错！');
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '获取学生必修课信息成功！',
+                data: {
+                    result
+                }
+            })
+        }
+    })
+})
 
 module.exports = router;
