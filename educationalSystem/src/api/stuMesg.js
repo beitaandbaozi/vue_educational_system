@@ -5,5 +5,11 @@ export function getStuInfo() {
         url: '/student/getStuInfo',
         method: 'post'
     })
-
+}
+// 获取必修课信息
+export function getRequireCourseInfo() {
+    return request({
+        url: '/student/getRequireCourseInfo',
+        method: 'post'
+    })
 }

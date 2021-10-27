@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
+      <!-- 个人基本信息 -->
       <el-card>
         <el-row
           type="flex"
@@ -50,6 +51,46 @@
           </el-col>
         </el-row>
       </el-card>
+      <!-- 必修成绩信息 -->
+      <el-table
+        :data="tableData"
+        border
+        style="width: 100%; margin-top: 20px"
+      >
+        <el-table-column
+          label="开课学期"
+          width="180"
+        >
+        </el-table-column>
+        <el-table-column
+          label="课程代码"
+        >
+        </el-table-column>
+        <el-table-column
+          label="学分"
+        >
+        </el-table-column>
+        <el-table-column
+          label="考核方式"
+        >
+        </el-table-column>
+        <el-table-column
+          label="修读学年学期"
+        >
+        </el-table-column>
+        <el-table-column
+          label="成绩"
+        >
+        </el-table-column>
+        <el-table-column
+          label="已得学分"
+        >
+        </el-table-column>
+        <el-table-column
+          label="先修课程"
+        >
+        </el-table-column>
+      </el-table>
     </div>
   </div>
 </template>
