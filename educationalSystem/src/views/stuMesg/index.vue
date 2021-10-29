@@ -51,7 +51,10 @@
           </el-col>
         </el-row>
       </el-card>
-      <el-tabs type="border-card" style="margin-top:20px">
+      <el-tabs
+        type="border-card"
+        style="margin-top:20px"
+      >
         <el-tab-pane label="必修课程">
           <!-- 必修课信息 -->
           <el-table
@@ -118,7 +121,62 @@
             </el-table-column>
           </el-table>
         </el-tab-pane>
-        <el-tab-pane label="选修课程">选修课程</el-tab-pane>
+        <el-tab-pane label="选修课程"> <el-table
+            :data="optioanlCourseData.result"
+            border
+            style="width: 100%;"
+          >
+            <el-table-column
+              align="center"
+              label="课程代码"
+              prop="course_number"
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="课程名称"
+              prop="name"
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="学分"
+              prop="credit"
+              width="50"
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="考核方式"
+              prop="type"
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="修读学年学期"
+              prop="academic"
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="成绩"
+              prop="score"
+              width="50"
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="已得学分"
+              prop="get_credit"
+            >
+            </el-table-column>
+            <el-table-column
+              align="center"
+              label="先修课程"
+              prop="pre_course"
+            >
+            </el-table-column>
+          </el-table></el-tab-pane>
       </el-tabs>
 
     </div>
@@ -126,7 +184,7 @@
 </template>
 
 <script>
-import { getStuInfo, getRequireCourseInfo } from "@/api/stuMesg";
+import { getStuInfo, getRequireCourseInfo,getOptionalCourseInfo } from "@/api/stuMesg";
 export default {
   data() {
     return {
@@ -142,8 +200,10 @@ export default {
         advisor: "",
         counsellor: "",
       },
-      // 必修成绩
+      // 必修课程信息
       requiredCourseData: [],
+      //选修课程信息
+      optioanlCourseData: [],
     };
   },
   created() {
@@ -151,6 +211,8 @@ export default {
     this.getStuInfo();
     // 获取学生必修课信息
     this.getRequireCourseInfo();
+    // 获取学生选修课信息
+    this.getOptionalCourseInfo();
   },
   methods: {
     // 获取学生个人信息
@@ -180,6 +242,11 @@ export default {
         }
       }
     },
+    // 获取选修课信息
+    async getOptionalCourseInfo(){
+        let res = await getOptionalCourseInfo();
+        this.optioanlCourseData = res
+    }
   },
 };
 </script>

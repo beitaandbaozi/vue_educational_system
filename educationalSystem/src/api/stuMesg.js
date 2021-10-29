@@ -13,3 +13,10 @@ export function getRequireCourseInfo() {
         method: 'post'
     })
 }
+// 获取选修课信息
+export function getOptionalCourseInfo(){
+    return request({
+        url: '/student/getOptionalCourseInfo',
+        method: 'post'
+    })
+}
