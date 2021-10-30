@@ -92,6 +92,7 @@
               align="center"
               label="考核方式"
               prop="type"
+              width="100"
             >
             </el-table-column>
             <el-table-column
@@ -149,6 +150,7 @@
               align="center"
               label="考核方式"
               prop="type"
+              width="100"
             >
             </el-table-column>
             <el-table-column
