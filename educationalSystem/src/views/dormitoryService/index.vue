@@ -58,7 +58,7 @@
         <!-- 注意事项 -->
         <i
           class="el-icon-warning"
-          style="padding-left:20px;margin-top:5px"
+          style="padding-left:20px;margin-top:10px;color:red"
         >
           如果在您预约的维修时间内维修人员上门维修但您宿舍没有人在，则视该维修单为无效，您需要重新填写报修单。总务处咨询电话：87818812
         </i>
