@@ -26,7 +26,8 @@ router.post('/getStuInfo', function (req, res) {
                     idCard:result[0].idCard,
                     email:result[0].email,
                     advisor:result[0].advisor,
-                    counsellor:result[0].counsellor
+                    counsellor:result[0].counsellor,
+                    dormitory:result[0].dormitory
                 }
             })
         }
