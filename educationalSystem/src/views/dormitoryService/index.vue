@@ -56,16 +56,97 @@
           ></el-step>
         </el-steps>
         <!-- 注意事项 -->
-        <i class="el-icon-warning" style="padding-left:20px;margin-top:5px">
-          如果在您预约的维修时间内维修人员上门维修但您宿舍没有人在，则视该维修单为无效，您需要重新填写报修单。
-          总务处咨询电话：87818812</i>
+        <i
+          class="el-icon-warning"
+          style="padding-left:20px;margin-top:5px"
+        >
+          如果在您预约的维修时间内维修人员上门维修但您宿舍没有人在，则视该维修单为无效，您需要重新填写报修单。总务处咨询电话：87818812
+        </i>
       </div>
+      <!-- 报修记录 -->
+      <el-row :gutter="20">
+        <el-col :span="6">
+          <h3>您所在宿舍及您以往申请的报修记录</h3>
+        </el-col>
+      </el-row>
+      <el-table
+        :data="serviceRecordData.result"
+        border
+        style="width: 100%;"
+      >
+        <el-table-column
+          align="center"
+          prop="service_type"
+          label="维修种类"
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="维修内容"
+          prop="content"
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="情况描述"
+          prop="service_mode"
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="状态"
+          prop="service_state"
+          width="50"
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="维修费用"
+          prop="service_price"
+          width="100"
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="申请维修时间"
+          prop="apply_time"
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="星期"
+          prop="service_week"
+          width="100"
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="宿舍编号"
+          prop="dormitory_id"
+          width="100"
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="申请人"
+          prop="apply_person"
+          width="100"
+        >
+        </el-table-column>
+        <el-table-column
+          align="center"
+          label="联系电话"
+          prop="tel"
+        >
+        </el-table-column>
+      </el-table>
     </div>
   </div>
 </template>
 
 <script>
 import { getStuInfo } from "@/api/stuMesg";
+import { getServiceRecord } from "@/api/dormitoryService";
 export default {
   data() {
     return {
@@ -74,18 +155,25 @@ export default {
         name: "",
         dormitory: "",
       },
+      //  宿舍报修记录
+      serviceRecordData: [],
     };
   },
-  created() {
-    this.getStuInfo();
+  async created() {
+    await this.getStuInfo();
+    await this.getServiceRecord();
   },
   methods: {
     //  获取个人信息
-    // 获取学生个人信息
     async getStuInfo() {
       let res = await getStuInfo();
       // 给表单赋值
       this.stuForm = res;
+    },
+    // 获取报修记录信息
+    async getServiceRecord() {
+      let res = await getServiceRecord(this.stuForm);
+      this.serviceRecordData = res;
     },
   },
 };

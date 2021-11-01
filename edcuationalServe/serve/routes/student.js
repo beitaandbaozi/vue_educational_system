@@ -65,6 +65,7 @@ router.post('/getOptionalCourseInfo', function (req, res) {
             console.log('获取学生选修课信息时数据库查询出错！');
             return
         } else {
+            console.log(result)
             res.send({
                 status: 200,
                 msg: '获取学生选修课信息成功！',
