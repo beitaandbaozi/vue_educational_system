@@ -53,6 +53,15 @@
         </el-form-item>
       </el-form>
       <!-- 课程表 -->
+      <el-row
+        type="flex"
+        class="row-bg"
+        justify="center"
+      >
+        <el-col :span="6">
+          <div>{{`${scheduleData.year} - ${Number(scheduleData.year) + 1} 第${digital2Chinese(scheduleData.term, 'week')}学期 上课时间表`}}</div>
+        </el-col>
+      </el-row>
       <div class='class-table'>
         <div class='table-wrapper'>
           <div class='tabel-container'>
@@ -116,7 +125,7 @@ export default {
     };
   },
   created() {
-      this.getClassSchedule();
+    this.getClassSchedule();
   },
   methods: {
     /**
@@ -150,7 +159,6 @@ export default {
       let res = await getClassSchedule(this.scheduleData);
       this.classTableData = res.result;
     },
-    
   },
 };
 </script>
@@ -168,7 +176,7 @@ export default {
     table {
       table-layout: fixed;
       width: 100%;
-
+      
       thead {
         background-color: #24c0e7dc;
         th {
