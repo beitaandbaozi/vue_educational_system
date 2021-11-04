@@ -38,12 +38,13 @@ router.post('/getRequireCourseInfo', function (req, res) {
     let { authorization } = req.headers
     const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
     const { name } = tokenData;
-    let sql = 'select * from  student_require_course where id = ? order by time';
+    let sql = `select sc.cno, sc.grade, sc.gradepo, sc.time,sc.class_type,sc.academic,class.name,class.credit,class.assess  from	sc join class on  sc.cno = class.c_id where sc.class_type  like "%必修%" and sc.sno = ?`;
     db.query(sql, [name], function (err, result) {
         if (err) {
             console.log('获取学生必修课信息时数据库查询出错！');
             return
         } else {
+            console.log(result)
             res.send({
                 status: 200,
                 msg: '获取学生必修课信息成功！',
@@ -59,13 +60,13 @@ router.post('/getOptionalCourseInfo', function (req, res) {
     let { authorization } = req.headers
     const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
     const { name } = tokenData;
-    let sql = 'select * from  student_optional_course where id = ?';
+    let sql = `select sc.cno, sc.grade, sc.gradepo, sc.time,sc.class_type,sc.academic,class.name,class.credit,class.assess  from sc join class on  sc.cno = class.c_id where sc.class_type  like "%选修%" and sc.sno = ?`;
     db.query(sql, [name], function (err, result) {
         if (err) {
             console.log('获取学生选修课信息时数据库查询出错！');
             return
         } else {
-            console.log(result)
+            // console.log(result)
             res.send({
                 status: 200,
                 msg: '获取学生选修课信息成功！',

@@ -72,7 +72,7 @@
             <el-table-column
               align="center"
               label="课程代码"
-              prop="course_number"
+              prop="cno"
             >
             </el-table-column>
             <el-table-column
@@ -91,7 +91,7 @@
             <el-table-column
               align="center"
               label="考核方式"
-              prop="type"
+              prop="assess"
               width="100"
             >
             </el-table-column>
@@ -104,20 +104,20 @@
             <el-table-column
               align="center"
               label="成绩"
-              prop="score"
+              prop="grade"
               width="50"
             >
             </el-table-column>
             <el-table-column
               align="center"
               label="已得学分"
-              prop="get_credit"
+              prop="gradepo"
             >
             </el-table-column>
             <el-table-column
               align="center"
-              label="先修课程"
-              prop="pre_course"
+              label="上课类型"
+              prop="class_type"
             >
             </el-table-column>
           </el-table>
@@ -130,7 +130,7 @@
             <el-table-column
               align="center"
               label="课程代码"
-              prop="course_number"
+              prop="cno"
             >
             </el-table-column>
             <el-table-column
@@ -149,7 +149,7 @@
             <el-table-column
               align="center"
               label="考核方式"
-              prop="type"
+              prop="assess"
               width="100"
             >
             </el-table-column>
@@ -162,20 +162,14 @@
             <el-table-column
               align="center"
               label="成绩"
-              prop="score"
+              prop="grade"
               width="50"
             >
             </el-table-column>
             <el-table-column
               align="center"
               label="已得学分"
-              prop="get_credit"
-            >
-            </el-table-column>
-            <el-table-column
-              align="center"
-              label="先修课程"
-              prop="pre_course"
+              prop="gradepo"
             >
             </el-table-column>
           </el-table></el-tab-pane>
