@@ -3,6 +3,6 @@ import request from '@/utils/request'
 export function getCourse(){
     return request({
         url:'/teacher/getCourse',
-        match:'post'
+        method:'post'
     })
 }
