@@ -117,7 +117,7 @@
             <el-table-column
               align="center"
               label="上课类型"
-              prop="class_type"
+              prop="type"
             >
             </el-table-column>
           </el-table>
