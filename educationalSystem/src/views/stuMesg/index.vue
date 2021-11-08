@@ -61,14 +61,7 @@
             :data="requiredCourseData.result"
             border
             style="width: 100%;"
-            :span-method="objectSpanMethod"
           >
-            <el-table-column
-              align="center"
-              prop="time"
-              label="开课学期"
-            >
-            </el-table-column>
             <el-table-column
               align="center"
               label="课程代码"
@@ -222,22 +215,7 @@ export default {
       let res = await getRequireCourseInfo();
       this.requiredCourseData = res;
     },
-    // 计算行列
-    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
-      if (columnIndex === 0) {
-        if (rowIndex % 2 === 0) {
-          return {
-            rowspan: 2,
-            colspan: 1,
-          };
-        } else {
-          return {
-            rowspan: 0,
-            colspan: 0,
-          };
-        }
-      }
-    },
+    
     // 获取选修课信息
     async getOptionalCourseInfo(){
         let res = await getOptionalCourseInfo();
