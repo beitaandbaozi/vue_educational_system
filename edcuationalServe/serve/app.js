@@ -12,6 +12,7 @@ var courseRouter = require('./routes/course');
 var dormitoryRouter = require('./routes/dormitory')
 var scheduleRouter = require('./routes/schedule')
 var teacherRouter = require('./routes/teacher')
+var test = require('./routes/test')
 
 var app = express();
 
@@ -34,6 +35,8 @@ app.use('/course',courseRouter);
 app.use('/dormitory',dormitoryRouter);
 app.use('/schedule',scheduleRouter);
 app.use('/teacher',teacherRouter)
+app.use('/testTime',test);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
