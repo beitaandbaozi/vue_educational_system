@@ -20,7 +20,7 @@
       </el-card>
       <!-- 考试时间信息 -->
       <el-card style="margin-top:20px">
-        <el-collapse style="padding:20px">
+        <el-collapse style="padding:10px">
           <el-collapse-item
             v-for="(item) in testList"
             :key="item.cno"
@@ -42,8 +42,11 @@
               <el-col>
                 课程学分：{{item.credit}}
               </el-col>
-              <el-col style="color:red;font-weight:bold;">
+              <el-col style="color:red;">
                 考试时间：{{item.test_time}}
+              </el-col>
+              <el-col style="color:red;">
+                考试地点：{{item.test_room}}
               </el-col>
             </el-row>
           </el-collapse-item>
