@@ -36,6 +36,7 @@ const mutations = {
     // newRoutes 可以认为是 用户登录 通过权限所得到的动态路由部分
     setRoutes(state, newRoutes) {
         state.routes = [...constantRoutes, ...newRoutes]
+        console.log(state.routes)
     }
 }
 const actions = {
