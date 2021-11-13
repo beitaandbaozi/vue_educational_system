@@ -30,12 +30,14 @@ router.post('/getTeacherInfo', function (req, res) {
     let { authorization } = req.headers
     const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
     const { name } = tokenData;
-    let sql = 'select * from  teacher_info  where id = ?';
+    // console.log(name)
+    let sql = 'select * from  teacher_info  where num = ?';
     db.query(sql, [name], function (err, result) {
         if (err) {
             console.log('获取教师个人信息时数据库查询出错！');
             return
         } else {
+            // console.log(result)
             res.send({
                 status: 200,
                 msg: '获取教师个人信息成功！',
