@@ -14,6 +14,10 @@ import stuMesg from './modules/stuMesg'
 import subCost from './modules/subCost'
 import teachEvaluation from './modules/teachEvaluation'
 import testTime from './modules/testTime'
+
+// 引入教师页面的路由
+import teacherMesg from './modules/teacherMesg'
+
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -77,7 +81,8 @@ export const asyncRoutes = [
     subCost,
     teachEvaluation,
     testTime,
-    stuMesg
+    stuMesg,
+    teacherMesg
 ]
 
 const createRouter = () => new Router({
