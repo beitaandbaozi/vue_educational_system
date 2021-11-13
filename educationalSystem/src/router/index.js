@@ -17,6 +17,7 @@ import testTime from './modules/testTime'
 
 // 引入教师页面的路由
 import teacherMesg from './modules/teacherMesg'
+import scoreManagement from './modules/scoreManagement'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -82,6 +83,7 @@ export const asyncRoutes = [
     teachEvaluation,
     testTime,
     stuMesg,
+    scoreManagement,
     teacherMesg
 ]
 
