@@ -6,3 +6,11 @@ export function getScore() {
         method: 'post'
     })
 }
+// 获取教师对应工号的课程的成绩信息
+export function getScoreByCno(cno) {
+    return request({
+        url: `/teacher/getScoreByCno/${cno}`,
+        method: 'post',
+        
+    })
+}

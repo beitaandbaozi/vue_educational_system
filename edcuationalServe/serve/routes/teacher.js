@@ -65,26 +65,64 @@ router.post('/getTeacherInfo', function (req, res) {
         }
     })
 })
+
+
 // 获取教师对应工号的课程成绩信息
 router.post('/getScore', function (req, res) {
     let { authorization } = req.headers
     const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
     const { name } = tokenData;
     // console.log(name)
-    let sql = 'select  teaching.cno,  class.name, sc.sno, sc.grade,student_info.name,student_info.class from teaching join class on teaching.cno = class.c_id join sc on teaching.cno = sc.cno  join student_info on  sc.sno = student_info.id  where teaching.teacher_id = ?';
-    db.query(sql, [name], function (err, result) {
+    let sql1 = 'select teaching.cno,class.name from teaching  join class on teaching.cno = class.c_id   where teaching.teacher_id = ?';
+    let sql2 = 'select sc.sno,sc.grade,student_info.stu_name,student_info.class from sc join student_info on sc.sno = student_info.id where sc.cno = ?';
+    db.query(sql1, [name], function (err, result) {
         if (err) {
-            console.log('获取教师对应工号的课程成绩信息时数据库查询出错！');
+            console.log('获取教师对应工号的课程信息时数据库查询出错！');
             return
         } else {
-            console.log(result)
+            var course = result
+            var cno = result[0].cno
+            db.query(sql2, [cno], function (err, result) {
+                if (err) {
+                    console.log('获取教师对应工号的课程的成绩时数据库查询出错')
+                    return;
+                }else{
+                    var grade = result
+                    res.send({
+                        status: 200,
+                        msg: '获取教师对应工号的课程信息成功！',
+                        data: {
+                            course,
+                            grade
+                        }
+                    })
+                }
+
+            })
+        }
+    })
+})
+
+// 获取教师对应工号的课程的成绩信息
+router.post('/getScoreByCno/:cno', function (req, res) {
+    const cno = req.params.cno
+    console.log(req.body)
+    let sql2 = 'select sc.sno,sc.grade,student_info.stu_name,student_info.class from sc join student_info on sc.sno = student_info.id where sc.cno = ?';
+    db.query(sql2, [cno], function (err, result) {
+        if (err) {
+            console.log('获取教师对应工号的课程的成绩时数据库查询出错！');
+            return
+        } else {
+            var grade = result
+            // var cno = req.body.cno ? req.body.cno : result[0].cno
             res.send({
                 status: 200,
-                msg: '获取教师对应工号的课程成绩信息成功！',
+                msg: '获取教师对应工号的课程的成绩信息成功！',
                 data: {
-                    result
+                    grade,
                 }
             })
+
         }
     })
 })

@@ -19,7 +19,7 @@ router.post('/getStuInfo', function (req, res) {
                 msg: '获取学生个人信息成功！',
                 data: {
                     number:result[0].id,
-                    name:result[0].name,
+                    name:result[0].stu_name,
                     grad:result[0].grad,
                     class:result[0].class,
                     major:result[0].major,
