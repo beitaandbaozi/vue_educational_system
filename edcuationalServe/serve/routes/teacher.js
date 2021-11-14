@@ -106,7 +106,7 @@ router.post('/getScore', function (req, res) {
 // 获取教师对应工号的课程的成绩信息
 router.post('/getScoreByCno/:cno', function (req, res) {
     const cno = req.params.cno
-    console.log(req.body)
+    // console.log(req.body)
     let sql2 = 'select sc.sno,sc.grade,student_info.stu_name,student_info.class from sc join student_info on sc.sno = student_info.id where sc.cno = ?';
     db.query(sql2, [cno], function (err, result) {
         if (err) {

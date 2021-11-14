@@ -1,93 +1,118 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
-      <el-tabs v-model="activename">
-        <el-tab-pane
-          label="基础信息"
-          name="first"
-        >
-          <el-card>
-            <el-row class="inline-info">
-              <el-col :span="6">
-                工号：{{teacherInfo.number}}
-              </el-col>
-              <el-col :span="6">
-                姓名：{{teacherInfo.name}}
-              </el-col>
-              <el-col :span="6">
-                部门：{{teacherInfo.duty}}
-              </el-col>
-              <el-col :span="6">
-                入职时间：{{teacherInfo.entry_time}}
-              </el-col>
+      <el-card>
+        <el-row>
+          <el-col :span="16">
+            <el-row>
+              <h2>{{teacherInfo.name}}</h2>
             </el-row>
             <el-row>
+              <el-col :span="6"><i class="el-icon-user"></i>{{teacherInfo.number}}</el-col>
+              <el-col :span="6"><i class="el-icon-message"></i>{{teacherInfo.email}}</el-col>
+            </el-row>
+            <br>
+            <el-row>
+              <el-col :span="6"><i class="el-icon-setting"></i>{{teacherInfo.duty}}</el-col>
+              <el-col :span="6"><i class="el-icon-loading"></i>{{teacherInfo.hire_form}}</el-col>
+            </el-row>
+          </el-col>
+          <el-col :span="8">
+            头像组件
+          </el-col>
+        </el-row>
+        <br>
+        <!-- 基础信息 -->
+        <el-divider content-position="left">
+          <h3 style="color:#5698c3">基础信息</h3>
+        </el-divider>
+        <br>
+        <el-card>
+          <el-row class="inline-info">
+            <el-col :span="6">
+              <i class="el-icon-star-on"></i> {{teacherInfo.number}}
+            </el-col>
+            <el-col :span="6">
+              <i class="el-icon-user-solid"></i> {{teacherInfo.name}}
+            </el-col>
+            <el-col :span="6">
+              <i class="el-icon-s-tools"></i> {{teacherInfo.duty}}
+            </el-col>
+            <el-col :span="6">
+              <i class="el-icon-watch"></i>{{teacherInfo.entry_time}}
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="6">
+              <i class="el-icon-s-promotion"></i> {{teacherInfo.hire_form}}
+            </el-col>
+            <el-col :span="6">
+              <i class="el-icon-s-home"></i> {{teacherInfo.education_bgc}}
+            </el-col>
+            <el-col :span="6">
+              <i class="el-icon-s-ticket"></i> {{teacherInfo.native_place}}
+            </el-col>
+            <el-col :span="6">
+              <i class="el-icon-s-claim"></i> {{teacherInfo.politics_status}}
+            </el-col>
+          </el-row>
+        </el-card>
+        <br>
+        <br>
+        <!--通讯信息-->
+        <el-divider content-position="left">
+          <h3 style="color:#5698c3">通讯信息</h3>
+        </el-divider>
+        <br>
+        <el-card>
+          <el-row class="inline-info">
+            <el-col :span="6">
+              <i class="el-icon-phone"></i>{{teacherInfo.mobile}}
+            </el-col>
+            <el-col :span="6">
+              <i class="el-icon-s-shop"></i>{{teacherInfo.qq_number}}
+            </el-col>
+            <el-col :span="6">
+              <i class="el-icon-s-marketing"></i>{{teacherInfo.wechat}}
+            </el-col>
+            <el-col :span="6">
+              <i class="el-icon-s-flag"></i>{{teacherInfo.email}}
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <i class="el-icon-s-home"></i>{{teacherInfo.address}}
+            </el-col>
+            <el-col :span="12">
+              <i class="el-icon-office-building"></i>{{teacherInfo.postal_address}}
+            </el-col>
+          </el-row>
+        </el-card>
+        <br>
+        <br>
+        <!-- 教育信息 -->
+        <!--通讯信息-->
+        <el-divider content-position="left">
+          <h3 style="color:#5698c3">教育信息</h3>
+        </el-divider>
+        <br>
+         <el-card>
+            <el-row>
               <el-col :span="6">
-                聘用形式：{{teacherInfo.hire_form}}
+                <i class="el-icon-s-custom"></i> {{teacherInfo.degree_type}}
               </el-col>
               <el-col :span="6">
-                最高学历：{{teacherInfo.education_bgc}}
+                <i class="el-icon-s-data"></i> {{teacherInfo.graduate_school}}
               </el-col>
               <el-col :span="6">
-                籍贯：{{teacherInfo.native_place}}
+                <i class="el-icon-s-order"></i> {{teacherInfo.graduate_time}}
               </el-col>
               <el-col :span="6">
-                政治面貌：{{teacherInfo.politics_status}}
+                <i class="el-icon-s-grid"></i> {{teacherInfo.major}}
               </el-col>
             </el-row>
           </el-card>
-        </el-tab-pane>
-        <el-tab-pane
-          label="通讯信息"
-          name="second"
-        >
-          <el-card>
-            <el-row class="inline-info">
-              <el-col :span="6">
-                联系手机：{{teacherInfo.mobile}}
-              </el-col>
-              <el-col :span="6">
-                QQ：{{teacherInfo.qq_number}}
-              </el-col>
-              <el-col :span="6">
-                微信：{{teacherInfo.wechat}}
-              </el-col>
-              <el-col :span="6">
-                个人邮箱：{{teacherInfo.email}}
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="12">
-                现居住地：{{teacherInfo.address}}
-              </el-col>
-              <el-col :span="12">
-                通讯地址：{{teacherInfo.postal_address}}
-              </el-col>
-            </el-row>
-          </el-card>
-        </el-tab-pane>
-        <el-tab-pane
-          label="教育信息"
-          name="third"
-        >
-          <el-card>
-            <el-row>
-              <el-col :span="6">
-                学历类型：{{teacherInfo.degree_type}}
-              </el-col>
-              <el-col :span="6">
-                毕业学校：{{teacherInfo.graduate_school}}
-              </el-col>
-              <el-col :span="6">
-                毕业时间：{{teacherInfo.graduate_time}}
-              </el-col>
-              <el-col :span="6">
-                专业：{{teacherInfo.major}}
-              </el-col>
-            </el-row>
-          </el-card>
-        </el-tab-pane>
-      </el-tabs>
+      </el-card>
     </div>
   </div>
 
@@ -98,8 +123,6 @@ import { getTeacherInfo } from "@/api/teacherMesg";
 export default {
   data() {
     return {
-      // Tab页激活
-      activename: "first",
       // 老师个人信息
       teacherInfo: {},
     };
