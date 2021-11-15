@@ -8,13 +8,13 @@
               <h2>{{teacherInfo.name}}</h2>
             </el-row>
             <el-row>
-              <el-col :span="6"><i class="el-icon-user"></i>{{teacherInfo.number}}</el-col>
-              <el-col :span="6"><i class="el-icon-message"></i>{{teacherInfo.email}}</el-col>
+              <el-col :span="6"><i class="el-icon-user"></i> {{teacherInfo.number}}</el-col>
+              <el-col :span="6"><i class="el-icon-message"></i> {{teacherInfo.email}}</el-col>
             </el-row>
             <br>
             <el-row>
-              <el-col :span="6"><i class="el-icon-setting"></i>{{teacherInfo.duty}}</el-col>
-              <el-col :span="6"><i class="el-icon-loading"></i>{{teacherInfo.hire_form}}</el-col>
+              <el-col :span="6"><i class="el-icon-setting"></i> {{teacherInfo.duty}}</el-col>
+              <el-col :span="6"><i class="el-icon-loading"></i> {{teacherInfo.hire_form}}</el-col>
             </el-row>
           </el-col>
           <el-col :span="8">
@@ -39,7 +39,7 @@
               <i class="el-icon-s-tools"></i> {{teacherInfo.duty}}
             </el-col>
             <el-col :span="6">
-              <i class="el-icon-watch"></i>{{teacherInfo.entry_time}}
+              <i class="el-icon-watch"></i> {{teacherInfo.entry_time}}
             </el-col>
           </el-row>
           <el-row>
