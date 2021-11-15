@@ -127,4 +127,26 @@ router.post('/getScoreByCno/:cno', function (req, res) {
     })
 })
 
+// 获取教师对应课程的考试时间信息
+router.post('/getTestTime',function (req,res) {
+    let { authorization } = req.headers
+    const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
+    const { name } = tokenData;
+    let sql = `select teaching.cno,class.name,class.duty,class.credit,class.test_time,class.test_room from teaching  join class on teaching.cno = class.c_id  where teacher_id = ? and class.assess like '%考试%'`;
+    db.query(sql,[name], function (err, result){
+        if(err){
+            console.log('获取教师对应课程的考试时间信息时数据库出错');
+            return
+        }else{
+            res.send({
+                status: 200,
+                msg: '获取教师对应课程的考试时间信息成功！',
+                data: {
+                    result
+                }
+            })
+        }
+    })
+    
+})
 module.exports = router;
