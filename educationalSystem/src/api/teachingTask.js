@@ -11,6 +11,14 @@ export function getTeachingTaskByCno(cno) {
     return request({
         url: `/teacher/getTeachingTaskByCno/${cno}`,
         method: 'post',
-        
+
+    })
+}
+// 编辑教学任务
+export function editTeachingTask(cno, data) {
+    return request({
+        url: `/teacher/editTeachingTask/${cno}`,
+        method: 'post',
+        data
     })
 }

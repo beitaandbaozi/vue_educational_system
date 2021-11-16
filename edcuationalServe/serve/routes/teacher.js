@@ -66,7 +66,6 @@ router.post('/getTeacherInfo', function (req, res) {
     })
 })
 
-
 // 获取教师对应工号的课程成绩信息
 router.post('/getScore', function (req, res) {
     let { authorization } = req.headers
@@ -157,7 +156,7 @@ router.post('/getTeachingTask', function (req, res) {
     const { name } = tokenData;
     // console.log(name)
     let sql1 = 'select teaching.cno,class.name from teaching  join class on teaching.cno = class.c_id   where teaching.teacher_id = ?';
-    let sql2 = 'select * from teaching_tasks where tno = ? and cno = ?';
+    let sql2 = 'select teaching_tasks.tno, teaching_tasks.cno, teaching_tasks.title, teaching_tasks.content, teaching_tasks.time,class.name from teaching_tasks join class on teaching_tasks.cno = class.c_id where tno = ? and cno = ?';
     db.query(sql1, [name], function (err, result) {
         if (err) {
             console.log('获取教师对应工号的课程信息时数据库查询出错！');
@@ -192,7 +191,7 @@ router.post('/getTeachingTaskByCno/:cno', function (req, res) {
     const { name } = tokenData;
     const cno = req.params.cno
     // console.log(req.body)
-    let sql2 = 'select * from teaching_tasks where tno = ? and cno = ? ';
+    let sql2 = 'select teaching_tasks.tno, teaching_tasks.cno, teaching_tasks.title, teaching_tasks.content, teaching_tasks.time,class.name from teaching_tasks join class on teaching_tasks.cno = class.c_id where tno = ? and cno = ? ';
     db.query(sql2, [name, cno], function (err, result) {
         if (err) {
             console.log('获取教师对应工号的课程的教学任务信息时数据库查询出错！');
@@ -211,5 +210,32 @@ router.post('/getTeachingTaskByCno/:cno', function (req, res) {
         }
     })
 
+})
+// 编辑教学任务
+router.post('/editTeachingTask/:cno', function (req, res) {
+    let { authorization } = req.headers
+    const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
+    const { name } = tokenData;
+    var cno = req.params.cno
+    var time = req.body.time
+    var title = req.body.title
+    var content = req.body.content
+    let sql = 'update teaching_tasks set title = ?, content = ? where tno = ? and cno = ? and time = ?';
+    db.query(sql,[title,content,name,cno,time],function (err, result){
+        if(err){
+            console.log('编辑教学任务时数据库查询出错！');
+            return
+        }else{
+            res.send({
+                status: 200,
+                msg: '修改教学任务信息成功',
+                data: {
+                    result
+                }
+            })
+        }
+
+    })
+    
 })
 module.exports = router;
