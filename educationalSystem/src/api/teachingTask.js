@@ -9,7 +9,7 @@ export function getTeachingTask() {
 // 获取教师对应工号的课程的教学任务信息
 export function getTeachingTaskByCno(cno) {
     return request({
-        url: `/teacher/getTeachingTask/${cno}`,
+        url: `/teacher/getTeachingTaskByCno/${cno}`,
         method: 'post',
         
     })
