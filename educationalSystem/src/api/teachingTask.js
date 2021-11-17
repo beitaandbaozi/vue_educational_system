@@ -33,3 +33,14 @@ export function delTeachingTask(cno, data) {
         data
     })
 }
+// 添加教学任务
+export function addTeachingTask(cno, data){
+    return request({
+        url:`/teacher/addTeachingTask/${cno}`,
+        method: 'post',
+        headers:{
+            'Content-Type': 'application/json; charset=UTF-8'
+        },
+        data
+    })
+}

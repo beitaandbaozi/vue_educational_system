@@ -264,7 +264,32 @@ router.post('/delTeachingTask/:cno', function (req, res) {
         }
 
     })
-
-
+})
+// 添加教学任务
+router.post('/addTeachingTask/:cno', function (req, res) {
+    let { authorization } = req.headers
+    const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
+    const { name } = tokenData;
+    var cno = req.params.cno;
+    var title = req.body.title;
+    var content = req.body.content;
+    var time = req.body.time;
+    console.log(time)
+    let sql = `insert into teaching_tasks values(?, ?, ?, ?, ?)`;
+    db.query(sql, [name,cno,title,content,time], function (err, result) {
+        console.log(sql)
+        if (err) {
+            console.log('添加教学任务数据库查询出错!')
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '添加教学任务信息成功',
+                data: {
+                    result
+                }
+            })
+        }
+    })
 })
 module.exports = router;
