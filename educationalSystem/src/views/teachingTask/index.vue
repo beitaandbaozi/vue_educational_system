@@ -42,10 +42,22 @@
           </el-timeline>
         </el-tab-pane>
       </el-tabs>
+      <!-- 新增教学任务的按钮 -->
+      <el-row
+        type="flex"
+        justify="end"
+      >
+        <el-button
+          type="success"
+          plain
+          round
+          @click="addTeachTask"
+        >新增教学任务</el-button>
+      </el-row>
     </div>
     <!-- 编辑教学任务的对话框 -->
     <el-dialog
-      title="教学任务"
+      title="编辑教学任务"
       :visible="editTeachTaskDialog"
       width="50%"
       @close="btnEditCancel"
@@ -120,6 +132,82 @@
         >确 定</el-button>
       </div>
     </el-dialog>
+    <!-- 添加教学任务的对话框 -->
+    <el-dialog
+      title="新增教学任务"
+      :visible="addTeachTaskDialog"
+      width="50%"
+      @close="btnAddCancel"
+    >
+      <el-form
+        :model="addForm"
+        ref="addRef"
+        :rules="editRules"
+      >
+        <el-form-item label="课程号">
+          <el-input
+            v-model="addForm.cno"
+            autocomplete="off"
+            placeholder="请输入课程号"
+            :disabled="true"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="课程名">
+          <el-input
+            v-model="addForm.name"
+            autocomplete="off"
+            placeholder="请输入课程名"
+            :disabled="true"
+          ></el-input>
+        </el-form-item>
+        <el-form-item
+          label="标题"
+          prop="title"
+        >
+          <el-input
+            v-model="addForm.title"
+            autocomplete="off"
+            placeholder="请输入标题"
+            maxlength="50"
+            show-word-limit
+            :clearable="true"
+          ></el-input>
+        </el-form-item>
+        <el-form-item
+          label="内容"
+          prop="content"
+        >
+          <el-input
+            type="textarea"
+            v-model="addForm.content"
+            autocomplete="off"
+            placeholder="请输入内容"
+            maxlength="500"
+            show-word-limit
+            :clearable="true"
+          ></el-input>
+        </el-form-item>
+        <el-form-item label="发布时间">
+          <el-date-picker
+            v-model="addForm.time"
+            format="yyyy/M/d H:mm"
+            value-format="yyyy/M/d H:mm"
+            type="datetime"
+            placeholder="选择日期"
+          ></el-date-picker>
+        </el-form-item>
+      </el-form>
+      <div
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="btnAddCancel">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="submitTeachTask(currentIndex)"
+        >确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -129,6 +217,7 @@ import {
   getTeachingTaskByCno,
   editTeachingTask,
   delTeachingTask,
+  addTeachingTask,
 } from "@/api/teachingTask";
 import { Message } from "element-ui";
 export default {
@@ -147,6 +236,10 @@ export default {
         title: [{ required: true, message: "请输入标题", trigger: "blur" }],
         content: [{ required: true, message: "请输入内容", trigger: "blur" }],
       },
+      // 添加教学任务对话框
+      addTeachTaskDialog: false,
+      // 添加教学任务对象
+      addForm: {},
     };
   },
   created() {
@@ -244,7 +337,6 @@ export default {
       }
       const cno = this.teachCourse[this.currentCourse].cno;
       const time = this.teachingTask[index].time;
-      console.log(cno, time);
       const data = JSON.stringify({ time });
       // 连接接口
       await delTeachingTask(cno, data);
@@ -253,6 +345,50 @@ export default {
       this.editTeachTaskDialog = false;
       // 提示消息
       Message.success("删除教学任务完成！");
+    },
+    // 新增教学任务
+    addTeachTask() {
+      this.addForm.cno = this.teachCourse[this.currentCourse].cno;
+      this.addForm.name = this.teachCourse[this.currentCourse].name;
+      this.addTeachTaskDialog = true;
+    },
+    // 关闭新增教学任务
+    btnAddCancel() {
+      // 清楚校验规则
+      // 清除对话框
+      // 关闭对话框
+      this.addTeachTaskDialog = false;
+    },
+    // 提交新增的教学任务
+    submitTeachTask(index) {
+      this.$refs.addRef.validate(async (valid) => {
+        if (!valid) return;
+        const confirmResult = await this.$confirm(
+          "此操作将提交教学任务，是否继续?",
+          "提示",
+          {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning",
+          }
+        ).catch((error) => error);
+        if (confirmResult != "confirm") {
+          return Message.info("已经取消提交！");
+        }
+        const cno = this.addForm.cno;
+        const time = this.addForm.time;
+        const title = this.addForm.title;
+        const content = this.addForm.content;
+        const data = JSON.stringify({ time, title, content });
+        // 连接接口
+        await addTeachingTask(cno, data);
+        // 更新数据
+        this.teachingTask.splice(index, 1, this.addForm);
+        // 通知消息
+        Message.success("新增教学任务成功！");
+        // 关闭接口
+        this.addTeachTaskDialog = false;
+      });
     },
   },
 };

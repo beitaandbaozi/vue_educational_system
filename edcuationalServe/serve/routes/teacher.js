@@ -274,10 +274,10 @@ router.post('/addTeachingTask/:cno', function (req, res) {
     var title = req.body.title;
     var content = req.body.content;
     var time = req.body.time;
-    console.log(time)
+    // console.log(time)
     let sql = `insert into teaching_tasks values(?, ?, ?, ?, ?)`;
     db.query(sql, [name,cno,title,content,time], function (err, result) {
-        console.log(sql)
+        // console.log(sql)
         if (err) {
             console.log('添加教学任务数据库查询出错!')
             return
