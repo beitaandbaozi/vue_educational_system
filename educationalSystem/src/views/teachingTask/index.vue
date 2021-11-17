@@ -27,14 +27,15 @@
                   <el-button
                     type="primary"
                     icon="el-icon-edit"
-                    circle
+                    size="small"
                     @click="editTeachTask(index)"
-                  ></el-button>
+                  >编辑</el-button>
                   <el-button
                     type="danger"
+                    size="small"
                     icon="el-icon-delete"
-                    circle
-                  ></el-button>
+                    @click="delTeachTask(index)"
+                  >删除</el-button>
                 </div>
               </el-card>
             </el-timeline-item>
@@ -127,6 +128,7 @@ import {
   getTeachingTask,
   getTeachingTaskByCno,
   editTeachingTask,
+  delTeachingTask,
 } from "@/api/teachingTask";
 import { Message } from "element-ui";
 export default {
@@ -166,9 +168,6 @@ export default {
           title: res.teaching_task[i].title,
           content: res.teaching_task[i].content,
           time: res.teaching_task[i].time,
-          cno: res.teaching_task[i].cno,
-          tno: res.teaching_task[i].tno,
-          name: res.teaching_task[i].name,
         });
       }
     },
@@ -186,9 +185,6 @@ export default {
           title: res.teaching_task[i].title,
           content: res.teaching_task[i].content,
           time: res.teaching_task[i].time,
-          cno: res.teaching_task[i].cno,
-          tno: res.teaching_task[i].tno,
-          name: res.teaching_task[i].name,
         });
       }
     },
@@ -197,12 +193,13 @@ export default {
       this.editForm = Object.assign({}, this.teachingTask[index]);
       //   console.log(this.editForm);
       this.currentIndex = index;
+      this.editForm.cno = this.teachCourse[this.currentCourse].cno;
+      this.editForm.name = this.teachCourse[this.currentCourse].name;
       // 开启对话框
       this.editTeachTaskDialog = true;
     },
     // 提交编辑教学任务
     btnEditOk(index) {
-      // 表单验证
       this.$refs.editRef.validate(async (valid) => {
         if (!valid) return;
         const confirmResult = await this.$confirm(
@@ -215,11 +212,12 @@ export default {
           }
         ).catch((error) => error);
         if (confirmResult != "confirm") {
-          return Message.info("已经取消删除！");
+          return Message.info("已经取消修改！");
         }
         // 连接接口
         await editTeachingTask(this.editForm.cno, this.editForm);
-        this.teachingTask.splice(index,1,this.editForm);
+        // 更新数据
+        this.teachingTask.splice(index, 1, this.editForm);
         // 提示消息
         Message.success("修改教学任务完成！");
         // 关闭对话框
@@ -229,6 +227,32 @@ export default {
     // 关闭编辑对话框
     btnEditCancel() {
       this.editTeachTaskDialog = false;
+    },
+    // 删除教学任务
+    async delTeachTask(index) {
+      const confirmResult = await this.$confirm(
+        "此操作将删除教学任务，是否继续?",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      ).catch((error) => error);
+      if (confirmResult != "confirm") {
+        return Message.info("已经取消删除！");
+      }
+      const cno = this.teachCourse[this.currentCourse].cno;
+      const time = this.teachingTask[index].time;
+      console.log(cno, time);
+      const data = JSON.stringify({ time });
+      // 连接接口
+      await delTeachingTask(cno, data);
+      // 更新数据
+      this.teachingTask.splice(index, 1);
+      this.editTeachTaskDialog = false;
+      // 提示消息
+      Message.success("删除教学任务完成！");
     },
   },
 };

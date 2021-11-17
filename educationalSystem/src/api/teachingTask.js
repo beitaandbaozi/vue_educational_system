@@ -22,3 +22,14 @@ export function editTeachingTask(cno, data) {
         data
     })
 }
+// 删除教学任务
+export function delTeachingTask(cno, data) {
+    return request({
+        url: `/teacher/delTeachingTask/${cno}`,
+        method: 'post',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8'
+        },
+        data
+    })
+}
