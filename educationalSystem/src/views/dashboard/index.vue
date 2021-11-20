@@ -195,9 +195,15 @@ export default {
   data() {
     return {
       // 课程任务
-      teachTasks: [],
+      teachTasks: [
+        {
+          time: "2020/6/6 6:30",
+          title: "欢迎使用该网站",
+          content: "暂无教学任务，查看更多可以更新哦！！！",
+        },
+      ],
       // 用户角色
-    //   role:this.roles
+      //   role:this.roles
     };
   },
   created() {
@@ -214,6 +220,9 @@ export default {
           time: res.teaching_task[i].time,
         });
       }
+      if (this.teachTasks.length > 1) {
+        this.teachTasks.splice(0, 1);
+      }
     },
     // 获取学生端的课程任务信息
     async getTeachingTaskByStu() {
@@ -224,6 +233,9 @@ export default {
           content: res.teaching_task[i].content,
           time: res.teaching_task[i].time,
         });
+      }
+      if (this.teachTasks.length > 1) {
+        this.teachTasks.splice(0, 1);
       }
     },
     getTeachTask() {
