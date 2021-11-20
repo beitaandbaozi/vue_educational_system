@@ -7,9 +7,16 @@ export function getTeachingTask() {
     })
 }
 //  获取教师对应工号的教学任务信息（首页中应用）
-export function getTeachingTaskLimit(){
+export function getTeachingTaskLimit() {
     return request({
-        url:'/teacher/getTeachTask?limit=2',
+        url: '/teacher/getTeachTask?limit=2',
+        method: 'post'
+    })
+}
+// 获取学生对应课程的教学任务信息（首页中使用）
+export function getTeachingTaskByStu() {
+    return request({
+        url: '/student/getTeachingTaskByStu?limit=2',
         method: 'post'
     })
 }
@@ -41,11 +48,11 @@ export function delTeachingTask(cno, data) {
     })
 }
 // 添加教学任务
-export function addTeachingTask(cno, data){
+export function addTeachingTask(cno, data) {
     return request({
-        url:`/teacher/addTeachingTask/${cno}`,
+        url: `/teacher/addTeachingTask/${cno}`,
         method: 'post',
-        headers:{
+        headers: {
             'Content-Type': 'application/json; charset=UTF-8'
         },
         data

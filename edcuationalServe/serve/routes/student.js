@@ -18,16 +18,16 @@ router.post('/getStuInfo', function (req, res) {
                 status: 200,
                 msg: '获取学生个人信息成功！',
                 data: {
-                    number:result[0].id,
-                    name:result[0].stu_name,
-                    grad:result[0].grad,
-                    class:result[0].class,
-                    major:result[0].major,
-                    idCard:result[0].idCard,
-                    email:result[0].email,
-                    advisor:result[0].advisor,
-                    counsellor:result[0].counsellor,
-                    dormitory:result[0].dormitory
+                    number: result[0].id,
+                    name: result[0].stu_name,
+                    grad: result[0].grad,
+                    class: result[0].class,
+                    major: result[0].major,
+                    idCard: result[0].idCard,
+                    email: result[0].email,
+                    advisor: result[0].advisor,
+                    counsellor: result[0].counsellor,
+                    dormitory: result[0].dormitory
                 }
             })
         }
@@ -77,4 +77,28 @@ router.post('/getOptionalCourseInfo', function (req, res) {
         }
     })
 })
+// 获取学生的课程通知（首页中应用）
+router.post('/getTeachingTaskByStu', function (req, res) {
+    let { authorization } = req.headers
+    const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
+    const { name } = tokenData;
+    const limit = parseInt(req.query.limit)
+    let sql = 'select teaching_tasks.title,teaching_tasks.title,teaching_tasks.content,teaching_tasks.time,teaching_tasks.cno from teaching_tasks join sc on sc.cno = teaching_tasks.cno where sc.sno = ? limit  ?';
+    db.query(sql, [name,limit], function (err, result) {
+        if (err) {
+            console.log('获取学生的课程通知（首页中应用）数据库出错！')
+            return
+        } else {
+            var teaching_task = result
+            res.send({
+                status: 200,
+                msg: '获取学生的课程通知（首页中应用）信息成功！',
+                data: {
+                    teaching_task
+                }
+            })
+        }
+    })
+})
+
 module.exports = router;

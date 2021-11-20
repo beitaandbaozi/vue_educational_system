@@ -96,39 +96,56 @@
             <el-button class="sideBtn">我的信息</el-button>
           </div>
         </el-card>
-
-        <!-- 绩效指数 -->
-        <el-card class="box-card">
-          <div
-            slot="header"
-            class="header headTit"
+        <div>
+          <!-- 绩效指数 -->
+          <el-card
+            class="box-card"
+            v-if="roles == 'admin' "
           >
-            <span>课程通知</span>
-          </div>
-          <el-scrollbar>
-            <el-timeline :reverse="true">
-              <el-timeline-item
-                v-for="(item, index) in teachTasks"
-                :timestamp="item.time"
-                placement="top"
-                :color="index===teachTasks.length - 1 ? '#0bbd87' : ''"
-                :key="index"
-              >
-                <el-card>
-                  <h4 class="task-title">{{ item.title }}</h4>
-                  <p class="task-content">{{ item.content }}</p>
-                </el-card>
-              </el-timeline-item>
-            </el-timeline>
-          </el-scrollbar>
-          <p class="see-more">
-            <el-link
-              type="primary"
-              icon="el-icon-view"
-              @click="$router.push('/teachingTask')"
-            >查看更多</el-link>
-          </p>
-        </el-card>
+            <div
+              slot="header"
+              class="header headTit"
+            >
+              <span>绩效指数</span>
+            </div>
+          </el-card>
+          <!-- 课程任务 -->
+          <el-card
+            class="box-card"
+            v-else
+          >
+            <div
+              slot="header"
+              class="header headTit"
+            >
+              <span>课程通知</span>
+            </div>
+            <el-scrollbar>
+              <el-timeline :reverse="true">
+                <el-timeline-item
+                  v-for="(item, index) in teachTasks"
+                  :timestamp="item.time"
+                  placement="top"
+                  :color="index===teachTasks.length - 1 ? '#0bbd87' : ''"
+                  :key="index"
+                >
+                  <el-card>
+                    <h4 class="task-title">{{ item.title }}</h4>
+                    <p class="task-content">{{ item.content }}</p>
+                  </el-card>
+                </el-timeline-item>
+              </el-timeline>
+            </el-scrollbar>
+            <p class="see-more">
+              <el-link
+                type="primary"
+                icon="el-icon-view"
+                @click="$router.push('/teachingTask')"
+              >查看更多</el-link>
+            </p>
+          </el-card>
+
+        </div>
         <!-- 帮助连接 -->
         <el-card class="box-card">
           <div class="header headTit">
@@ -165,7 +182,7 @@
 <script>
 import WorkCalender from "./components/work-calender.vue";
 import { mapGetters } from "vuex";
-import { getTeachingTaskLimit } from "@/api/teachingTask";
+import { getTeachingTaskLimit, getTeachingTaskByStu } from "@/api/teachingTask";
 
 export default {
   name: "Dashboard",
@@ -179,14 +196,28 @@ export default {
     return {
       // 课程任务
       teachTasks: [],
+      // 用户角色
+    //   role:this.roles
     };
   },
   created() {
     this.getTeachTask();
   },
   methods: {
+    // 获取教师端的课程任务信息
     async getTeachingTaskLimit() {
       let res = await getTeachingTaskLimit();
+      for (let i = 0; i < res.teaching_task.length; i++) {
+        this.teachTasks.push({
+          title: res.teaching_task[i].title,
+          content: res.teaching_task[i].content,
+          time: res.teaching_task[i].time,
+        });
+      }
+    },
+    // 获取学生端的课程任务信息
+    async getTeachingTaskByStu() {
+      let res = await getTeachingTaskByStu();
       for (let i = 0; i < res.teaching_task.length; i++) {
         this.teachTasks.push({
           title: res.teaching_task[i].title,
@@ -198,6 +229,8 @@ export default {
     getTeachTask() {
       if (this.roles === "teacher") {
         this.getTeachingTaskLimit();
+      } else {
+        this.getTeachingTaskByStu();
       }
     },
   },
