@@ -9,7 +9,7 @@ export function getTeachingTask() {
 //  获取教师对应工号的教学任务信息（首页中应用）
 export function getTeachingTaskLimit(){
     return request({
-        url:'/teacher/getTeachingTaskLimit?limit=2',
+        url:'/teacher/getTeachTask?limit=2',
         method: 'post'
     })
 }

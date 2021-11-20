@@ -293,7 +293,7 @@ router.post('/addTeachingTask/:cno', function (req, res) {
     })
 })
 // 获取教师对应的教学任务（课程通知，首页中应用）
-router.post('/getTeachingTaskLimit?limit=2', function (req, res) {
+router.post('/getTeachTask', function (req, res) {
     let { authorization } = req.headers
     const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
     const { name } = tokenData;
@@ -304,11 +304,12 @@ router.post('/getTeachingTaskLimit?limit=2', function (req, res) {
             console.log('获取教师对应的教学任务（课程通知，首页中应用）数据库出错！')
             return
         } else {
+            var teaching_task = result
             res.send({
                 status: 200,
                 msg: '获取教师对应的教学任务（课程通知，首页中应用）信息成功！',
                 data: {
-                    result
+                    teaching_task
                 }
             })
         }

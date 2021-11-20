@@ -101,11 +101,33 @@
         <el-card class="box-card">
           <div
             slot="header"
-            class="header"
+            class="header headTit"
           >
-            <span>绩效指数</span>
+            <span>课程通知</span>
           </div>
-          <!-- 放置雷达图 -->
+          <el-scrollbar>
+            <el-timeline :reverse="true">
+              <el-timeline-item
+                v-for="(item, index) in teachTasks"
+                :timestamp="item.time"
+                placement="top"
+                :color="index===teachTasks.length - 1 ? '#0bbd87' : ''"
+                :key="index"
+              >
+                <el-card>
+                  <h4 class="task-title">{{ item.title }}</h4>
+                  <p class="task-content">{{ item.content }}</p>
+                </el-card>
+              </el-timeline-item>
+            </el-timeline>
+          </el-scrollbar>
+          <p class="see-more">
+            <el-link
+              type="primary"
+              icon="el-icon-view"
+              @click="$router.push('/teachingTask')"
+            >查看更多</el-link>
+          </p>
         </el-card>
         <!-- 帮助连接 -->
         <el-card class="box-card">
@@ -143,14 +165,41 @@
 <script>
 import WorkCalender from "./components/work-calender.vue";
 import { mapGetters } from "vuex";
+import { getTeachingTaskLimit } from "@/api/teachingTask";
 
 export default {
   name: "Dashboard",
   computed: {
-    ...mapGetters(["name"]),
+    ...mapGetters(["name", "roles", "userId"]),
   },
   components: {
     WorkCalender,
+  },
+  data() {
+    return {
+      // 课程任务
+      teachTasks: [],
+    };
+  },
+  created() {
+    this.getTeachTask();
+  },
+  methods: {
+    async getTeachingTaskLimit() {
+      let res = await getTeachingTaskLimit();
+      for (let i = 0; i < res.teaching_task.length; i++) {
+        this.teachTasks.push({
+          title: res.teaching_task[i].title,
+          content: res.teaching_task[i].content,
+          time: res.teaching_task[i].time,
+        });
+      }
+    },
+    getTeachTask() {
+      if (this.roles === "teacher") {
+        this.getTeachingTaskLimit();
+      }
+    },
   },
 };
 </script>
@@ -210,6 +259,13 @@ export default {
       border-bottom: 4px solid #8a97f8;
       padding-bottom: 10px;
     }
+  }
+  .task-content {
+    text-indent: 2em;
+  }
+  .see-more {
+    display: flex;
+    justify-content: end;
   }
 }
 .header-card {
