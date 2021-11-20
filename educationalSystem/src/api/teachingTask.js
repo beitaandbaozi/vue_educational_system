@@ -1,4 +1,5 @@
 import request from '@/utils/request'
+
 // 获取教师对应工号的教学任务信息
 export function getTeachingTask() {
     return request({
@@ -13,19 +14,12 @@ export function getTeachingTaskLimit() {
         method: 'post'
     })
 }
-// 获取学生对应课程的教学任务信息（首页中使用）
-export function getTeachingTaskByStu() {
-    return request({
-        url: '/student/getTeachingTaskByStu?limit=2',
-        method: 'post'
-    })
-}
+
 // 获取教师对应工号的课程的教学任务信息
 export function getTeachingTaskByCno(cno) {
     return request({
         url: `/teacher/getTeachingTaskByCno/${cno}`,
         method: 'post',
-
     })
 }
 // 编辑教学任务
@@ -56,5 +50,29 @@ export function addTeachingTask(cno, data) {
             'Content-Type': 'application/json; charset=UTF-8'
         },
         data
+    })
+}
+
+// 获取学生对应课程的教学任务信息（首页中使用）
+export function getTeachingTaskByStu() {
+    return request({
+        url: '/student/getTeachingTaskByStu?limit=2',
+        method: 'post'
+    })
+}
+
+// 获取学生对应学号的教学任务信息
+export function getStuTeachingTask() {
+    return request({
+        url: '/student/getTeachingTask',
+        method: 'post'
+    })
+}
+
+// 获取学生对应学号的课程的教学任务信息
+export function getStuTeachingTaskByCno(cno) {
+    return request({
+        url: `/student/getStuTeachingTaskByCno/${cno}`,
+        method: 'post',
     })
 }

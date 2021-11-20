@@ -83,10 +83,10 @@ export const asyncRoutes = [
     subCost,
     teachEvaluation,
     testTime,
-    stuMesg,
     scoreManagement,
     teacherTestTime,
     teachingTask,
+    stuMesg,
     teacherMesg
 ]
 

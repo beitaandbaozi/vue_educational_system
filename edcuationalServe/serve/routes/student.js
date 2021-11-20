@@ -77,6 +77,7 @@ router.post('/getOptionalCourseInfo', function (req, res) {
         }
     })
 })
+
 // 获取学生的课程通知（首页中应用）
 router.post('/getTeachingTaskByStu', function (req, res) {
     let { authorization } = req.headers
@@ -84,7 +85,7 @@ router.post('/getTeachingTaskByStu', function (req, res) {
     const { name } = tokenData;
     const limit = parseInt(req.query.limit)
     let sql = 'select teaching_tasks.title,teaching_tasks.title,teaching_tasks.content,teaching_tasks.time,teaching_tasks.cno from teaching_tasks join sc on sc.cno = teaching_tasks.cno where sc.sno = ? limit  ?';
-    db.query(sql, [name,limit], function (err, result) {
+    db.query(sql, [name, limit], function (err, result) {
         if (err) {
             console.log('获取学生的课程通知（首页中应用）数据库出错！')
             return
@@ -101,4 +102,66 @@ router.post('/getTeachingTaskByStu', function (req, res) {
     })
 })
 
+// 获取学生对应学号的教学任务信息
+router.post('/getTeachingTask', function (req, res) {
+    let { authorization } = req.headers
+    const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
+    const { name } = tokenData;
+    // console.log(name)
+    let sql1 = 'select  distinct sc.cno,class.name from sc join class on sc.cno = class.c_id   join teaching_tasks on sc.cno = teaching_tasks.cno where sc.sno = ?';
+    let sql2 = 'select teaching_tasks.cno, teaching_tasks.title, teaching_tasks.content, teaching_tasks.time from teaching_tasks join class on teaching_tasks.cno = class.c_id join sc on teaching_tasks.cno = sc.cno where sc.sno = ? and teaching_tasks.cno = ?'
+    db.query(sql1, [name], function (err, result) {
+        if (err) {
+            console.log('获取教师对应工号的课程信息时数据库查询出错！');
+            return
+        } else {
+            var course = result
+            var cno = result[0].cno
+            db.query(sql2, [name, cno], function (err, result) {
+                if (err) {
+                    console.log('获取学生对应学号的教学任务信息数据库查询出错')
+                    return;
+                } else {
+                    var teaching_task = result
+                    res.send({
+                        status: 200,
+                        msg: '获取学生对应学号的教学任务信息成功！',
+                        data: {
+                            course,
+                            teaching_task
+                        }
+                    })
+                }
+
+            })
+        }
+    })
+})
+
+// 获取学生对应学号的课程的教学任务信息
+router.post('/getStuTeachingTaskByCno/:cno', function (req, res) {
+    let { authorization } = req.headers
+    const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
+    const { name } = tokenData;
+    const cno = req.params.cno
+    // console.log(req.body)
+    let sql2 = 'select teaching_tasks.cno, teaching_tasks.title, teaching_tasks.content, teaching_tasks.time from teaching_tasks join class on teaching_tasks.cno = class.c_id join sc on teaching_tasks.cno = sc.cno where sc.sno = ? and teaching_tasks.cno = ?';
+    db.query(sql2, [name, cno], function (err, result) {
+        if (err) {
+            console.log('获取学生对应学号的课程的教学任务信息时数据库查询出错！');
+            return
+        } else {
+            var teaching_task = result
+            // var cno = req.body.cno ? req.body.cno : result[0].cno
+            res.send({
+                status: 200,
+                msg: '获取学生对应学号的课程的教学任务信息成功！',
+                data: {
+                    teaching_task,
+                }
+            })
+
+        }
+    })
+})
 module.exports = router;

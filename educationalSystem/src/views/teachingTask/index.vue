@@ -3,7 +3,7 @@
     <div class="app-container">
       <el-tabs
         type="card"
-        @tab-click="tabClick"
+        @tab-click="tabCourse"
       >
         <el-tab-pane
           v-for="(item, index) in teachCourse"
@@ -23,7 +23,7 @@
                   <h4>{{item.title}}</h4>
                   <p class="content">{{item.content}}</p>
                 </div>
-                <div class="right">
+                <div class="right" v-if="roles == 'teacher'">
                   <el-button
                     type="primary"
                     icon="el-icon-edit"
@@ -46,6 +46,7 @@
       <el-row
         type="flex"
         justify="end"
+        v-if="roles == 'teacher'"
       >
         <el-button
           type="success"
@@ -218,9 +219,15 @@ import {
   editTeachingTask,
   delTeachingTask,
   addTeachingTask,
+  getStuTeachingTask,
+  getStuTeachingTaskByCno,
 } from "@/api/teachingTask";
 import { Message } from "element-ui";
+import { mapGetters } from "vuex";
 export default {
+  computed: {
+    ...mapGetters(["roles"]),
+  },
   data() {
     return {
       teachCourse: [],
@@ -243,10 +250,17 @@ export default {
     };
   },
   created() {
-    this.getTeachingTask();
+    this.getAllTeachingTask();
   },
 
   methods: {
+    getAllTeachingTask() {
+      if (this.roles == "teacher") {
+        this.getTeachingTask();
+      } else {
+        this.getStuTeachingTask();
+      }
+    },
     async getTeachingTask() {
       let res = await getTeachingTask();
       //   console.log(res);
@@ -264,7 +278,31 @@ export default {
         });
       }
     },
+    async getStuTeachingTask() {
+      let res = await getStuTeachingTask();
+      //   console.log(res);
+      for (let i = 0; i < res.course.length; i++) {
+        this.teachCourse.push({
+          name: res.course[i].name,
+          cno: res.course[i].cno,
+        });
+      }
+      for (let i = 0; i < res.teaching_task.length; i++) {
+        this.teachingTask.push({
+          title: res.teaching_task[i].title,
+          content: res.teaching_task[i].content,
+          time: res.teaching_task[i].time,
+        });
+      }
+    },
     // 切换tab页
+    tabCourse(value) {
+      if (this.roles == "teacher") {
+        this.tabClick(value);
+      } else {
+        this.tabStuClick(value);
+      }
+    },
     async tabClick(value) {
       const index = this.teachCourse.findIndex((ele, index) => {
         return ele.name === value.label;
@@ -281,6 +319,23 @@ export default {
         });
       }
     },
+    async tabStuClick(value) {
+      const index = this.teachCourse.findIndex((ele, index) => {
+        return ele.name === value.label;
+      });
+      this.currentCourse = index;
+      const cno = this.teachCourse[index].cno;
+      let res = await getStuTeachingTaskByCno(cno);
+      this.teachingTask = [];
+      for (let i = 0; i < res.teaching_task.length; i++) {
+        this.teachingTask.push({
+          title: res.teaching_task[i].title,
+          content: res.teaching_task[i].content,
+          time: res.teaching_task[i].time,
+        });
+      }
+    },
+
     // 编辑教学任务
     editTeachTask(index) {
       this.editForm = Object.assign({}, this.teachingTask[index]);
