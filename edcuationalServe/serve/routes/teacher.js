@@ -276,7 +276,7 @@ router.post('/addTeachingTask/:cno', function (req, res) {
     var time = req.body.time;
     // console.log(time)
     let sql = `insert into teaching_tasks values(?, ?, ?, ?, ?)`;
-    db.query(sql, [name,cno,title,content,time], function (err, result) {
+    db.query(sql, [name, cno, title, content, time], function (err, result) {
         // console.log(sql)
         if (err) {
             console.log('添加教学任务数据库查询出错!')
@@ -285,6 +285,28 @@ router.post('/addTeachingTask/:cno', function (req, res) {
             res.send({
                 status: 200,
                 msg: '添加教学任务信息成功',
+                data: {
+                    result
+                }
+            })
+        }
+    })
+})
+// 获取教师对应的教学任务（课程通知，首页中应用）
+router.post('/getTeachingTaskLimit?limit=2', function (req, res) {
+    let { authorization } = req.headers
+    const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
+    const { name } = tokenData;
+    const limit = parseInt(req.query.limit)
+    let sql = 'select title, content, time from teaching_tasks where tno = ? limit ?';
+    db.query(sql, [name, limit], function (err, result) {
+        if (err) {
+            console.log('获取教师对应的教学任务（课程通知，首页中应用）数据库出错！')
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '获取教师对应的教学任务（课程通知，首页中应用）信息成功！',
                 data: {
                     result
                 }
