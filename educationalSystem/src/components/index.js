@@ -3,7 +3,7 @@
  */
 import TagsView from './TagsView'
 export default {
-    install(vue) {
+    install(Vue) {
         Vue.component('TagsView',TagsView)
 
     }
