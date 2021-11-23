@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 export function getSubCost(){
     return request({
-        url:'/cost/getSubCost',
+        url:'/student/getSubCost',
         method: 'post'
     })
 }
