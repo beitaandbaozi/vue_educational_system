@@ -104,7 +104,7 @@ router.post('/getSubCost', function (req, res) {
 router.post('/getServiceRecord', function (req, res) {
     let dormitoryId = req.body.dormitory;
     let sql = `select * from dormitory_service where dormitory_id = "${dormitoryId}"`;
-    db.query(sql, function (err, result){
+    db.query(sql, function (err, result) {
         if (err) {
             console.log('获取报修记录信息时数据库查询出错！');
             return
@@ -112,6 +112,28 @@ router.post('/getServiceRecord', function (req, res) {
             res.send({
                 status: 200,
                 msg: '获取报修记录信息成功！',
+                data: {
+                    result
+                }
+            })
+        }
+    })
+})
+// 获取对应学号的科目考试时间
+router.post('/getTestTime', function (req, res) {
+    let { authorization } = req.headers
+    const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
+    const { name } = tokenData;
+    let sql = `select sc.cno,class.name,class.duty,class.credit,class.test_time,class.test_room from sc join class on sc.cno = class.c_id where sc.sno = ${name} and class.assess like '%考试%'`;
+    db.query(sql, function (err, result) {
+        if (err) {
+            console.log('获取学号对应课程考试时间时数据库查询出错！');
+            return
+        } else {
+            console.log(result)
+            res.send({
+                status: 200,
+                msg: '获取学号对应课程考试时间成功！',
                 data: {
                     result
                 }
@@ -142,7 +164,6 @@ router.post('/getTeachingTaskByStu', function (req, res) {
         }
     })
 })
-
 // 获取学生对应学号的教学任务信息
 router.post('/getTeachingTask', function (req, res) {
     let { authorization } = req.headers
