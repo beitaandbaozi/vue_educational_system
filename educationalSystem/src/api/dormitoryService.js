@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 export function getServiceRecord(data){
     return request({
-        url: '/dormitory/getServiceRecord',
+        url: '/student/getServiceRecord',
         method: 'post',
         data
     })

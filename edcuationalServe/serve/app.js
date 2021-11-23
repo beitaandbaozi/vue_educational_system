@@ -9,7 +9,6 @@ var loginRouter = require('./routes/login')
 var usersRouter = require('./routes/users');
 var studentRouter = require('./routes/student');
 var courseRouter = require('./routes/course');
-var dormitoryRouter = require('./routes/dormitory')
 var scheduleRouter = require('./routes/schedule')
 var teacherRouter = require('./routes/teacher')
 var testRouter = require('./routes/test')
@@ -32,7 +31,6 @@ app.use('/login',loginRouter)
 app.use('/users', usersRouter);
 app.use('/student',studentRouter);
 app.use('/course',courseRouter);
-app.use('/dormitory',dormitoryRouter);
 app.use('/schedule',scheduleRouter);
 app.use('/teacher',teacherRouter)
 app.use('/testTime',testRouter);
