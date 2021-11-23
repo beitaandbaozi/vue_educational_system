@@ -13,7 +13,6 @@ var dormitoryRouter = require('./routes/dormitory')
 var scheduleRouter = require('./routes/schedule')
 var teacherRouter = require('./routes/teacher')
 var testRouter = require('./routes/test')
-var costRouter = require('./routes/cost')
 
 var app = express();
 
@@ -37,7 +36,6 @@ app.use('/dormitory',dormitoryRouter);
 app.use('/schedule',scheduleRouter);
 app.use('/teacher',teacherRouter)
 app.use('/testTime',testRouter);
-app.use('/cost',costRouter)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
