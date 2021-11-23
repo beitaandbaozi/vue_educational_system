@@ -141,6 +141,32 @@ router.post('/getTestTime', function (req, res) {
         }
     })
 })
+// 获取对应学号的课程表
+router.post('/getClassSchedule', function (req, res) {
+    // 只要数据表绑定多一个主键 就可以实现不同学生的课程表
+    console.log(req.body)
+    let year = req.body.year;
+    console.log(year)
+    let term = req.body.term;
+    console.log(term)
+    let sql = `select * from class_schedule where school_year = ${year} and  term = ${term}`;
+    db.query(sql, function (err, result){
+        if (err) {
+            console.log('获取对应学年和学期时课程表数据库查询出错！');
+            return
+        } else {
+            // console.log(result)
+            res.send({
+                status: 200,
+                msg: '获取对应学年和学期时课程表信息成功！',
+                data: {
+                    result
+                }
+            })
+        }
+    })
+
+})
 // 获取学生的课程通知（首页中应用）
 router.post('/getTeachingTaskByStu', function (req, res) {
     let { authorization } = req.headers
@@ -199,7 +225,6 @@ router.post('/getTeachingTask', function (req, res) {
         }
     })
 })
-
 // 获取学生对应学号的课程的教学任务信息
 router.post('/getStuTeachingTaskByCno/:cno', function (req, res) {
     let { authorization } = req.headers
