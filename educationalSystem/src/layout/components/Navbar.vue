@@ -21,7 +21,7 @@
       >
         <div class="avatar-wrapper">
           <img
-            src="@/assets/common/header.png"
+            :src="userInfo.avator"
             class="user-avatar"
           >
           <span class="name">{{name}}</span>
@@ -106,8 +106,9 @@
 import { mapGetters } from "vuex";
 import Breadcrumb from "@/components/Breadcrumb";
 import Hamburger from "@/components/Hamburger";
-import { updatePaswd, commitPaswd} from "@/api/user";
-import { Message } from 'element-ui'
+import { updatePaswd, commitPaswd } from "@/api/user";
+import { Message } from "element-ui";
+import { getTeacherInfo } from "@/api/teacherMesg";
 export default {
   data() {
     return {
@@ -128,14 +129,19 @@ export default {
           { min: 6, message: "密码至少为6位！", trigger: "blur" },
         ],
       },
+      //  用户信息
+      userInfo: {},
     };
+  },
+  created() {
+    this.getUserInfo();
   },
   components: {
     Breadcrumb,
     Hamburger,
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar", "name"]),
+    ...mapGetters(["sidebar", "name", "roles"]),
   },
   methods: {
     toggleSideBar() {
@@ -175,7 +181,7 @@ export default {
             // 连接接口
             await commitPaswd(this.upPaswdForm);
             // 通知消息
-            Message.success('修改密码成功！')
+            Message.success("修改密码成功！");
             // 关闭对话框
             this.showUpPaswdDialog = false;
           } catch (error) {
@@ -186,6 +192,17 @@ export default {
       // 连接接口
       // 通知消息
       // 关闭对话框
+    },
+    // 获取教师信息
+    async getTeacherInfo() {
+      let res = await getTeacherInfo();
+      this.userInfo = res;
+    },
+    // 获取用户信息（分为教师端、学生端、管理端）
+    getUserInfo() {
+      if (this.roles === "teacher") {
+        this.getTeacherInfo();
+      }
     },
   },
 };

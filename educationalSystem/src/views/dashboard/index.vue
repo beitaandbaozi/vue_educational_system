@@ -5,7 +5,7 @@
       <div>
         <div class="fl headL">
           <div class="headImg">
-            <img src="@/assets/common/header.png">
+            <img :src="userInfo.avator">
           </div>
           <div class="headInfoTip">
             <p class="firstChild">早安，{{name}}，祝你开心每一天！</p>
@@ -183,6 +183,7 @@
 import WorkCalender from "./components/work-calender.vue";
 import { mapGetters } from "vuex";
 import { getTeachingTaskLimit, getTeachingTaskByStu } from "@/api/teachingTask";
+import { getTeacherInfo } from "@/api/teacherMesg";
 
 export default {
   name: "Dashboard",
@@ -202,12 +203,13 @@ export default {
           content: "暂无教学任务，查看更多可以更新哦！！！",
         },
       ],
-      // 用户角色
-      //   role:this.roles
+      // 用户信息
+      userInfo:{},
     };
   },
   created() {
     this.getTeachTask();
+    this.getUserInfo()
   },
   methods: {
     // 获取教师端的课程任务信息
@@ -238,6 +240,7 @@ export default {
         this.teachTasks.splice(0, 1);
       }
     },
+    // 获取课程任务信息（教师端和学生端）
     getTeachTask() {
       if (this.roles === "teacher") {
         this.getTeachingTaskLimit();
@@ -245,6 +248,18 @@ export default {
         this.getTeachingTaskByStu();
       }
     },
+    // 获取教师信息
+    async getTeacherInfo(){
+        let res = await getTeacherInfo();
+        this.userInfo = res
+    },
+
+    // 获取用户信息（分为教师端、学生端、管理端）
+    getUserInfo(){
+        if(this.roles === "teacher"){
+            this.getTeacherInfo()
+        }
+    }
   },
 };
 </script>
