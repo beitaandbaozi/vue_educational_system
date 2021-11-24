@@ -18,7 +18,16 @@
             </el-row>
           </el-col>
           <el-col :span="8">
-            头像组件
+            <ImageUpload ref="staffPhoto"></ImageUpload>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :offset="20">
+            <el-button
+              type="success"
+              round
+              @click="saveInfo"
+            >保存头像</el-button>
           </el-col>
         </el-row>
         <br>
@@ -96,22 +105,22 @@
           <h3 style="color:#5698c3">教育信息</h3>
         </el-divider>
         <br>
-         <el-card>
-            <el-row>
-              <el-col :span="6">
-                <i class="el-icon-s-custom"></i> {{teacherInfo.degree_type}}
-              </el-col>
-              <el-col :span="6">
-                <i class="el-icon-s-data"></i> {{teacherInfo.graduate_school}}
-              </el-col>
-              <el-col :span="6">
-                <i class="el-icon-s-order"></i> {{teacherInfo.graduate_time}}
-              </el-col>
-              <el-col :span="6">
-                <i class="el-icon-s-grid"></i> {{teacherInfo.major}}
-              </el-col>
-            </el-row>
-          </el-card>
+        <el-card>
+          <el-row>
+            <el-col :span="6">
+              <i class="el-icon-s-custom"></i> {{teacherInfo.degree_type}}
+            </el-col>
+            <el-col :span="6">
+              <i class="el-icon-s-data"></i> {{teacherInfo.graduate_school}}
+            </el-col>
+            <el-col :span="6">
+              <i class="el-icon-s-order"></i> {{teacherInfo.graduate_time}}
+            </el-col>
+            <el-col :span="6">
+              <i class="el-icon-s-grid"></i> {{teacherInfo.major}}
+            </el-col>
+          </el-row>
+        </el-card>
       </el-card>
     </div>
   </div>
@@ -119,7 +128,8 @@
 </template>
 
 <script>
-import { getTeacherInfo } from "@/api/teacherMesg";
+import { getTeacherInfo, saveTeacherInfo } from "@/api/teacherMesg";
+import { Message } from "element-ui";
 export default {
   data() {
     return {
@@ -135,6 +145,26 @@ export default {
     async getTeacherInfo() {
       let res = await getTeacherInfo();
       this.teacherInfo = res;
+      if (this.teacherInfo.avator) {
+        this.$refs.staffPhoto.fileList = [
+          { url: this.teacherInfo.avator, upload: true },
+        ];
+      }
+    },
+    // 保存头像
+    async saveInfo() {
+      // 读取上传的头像
+      const fileList = this.$refs.staffPhoto.fileList;
+      if (fileList.some((item) => !item.upload)) {
+        // 如果此时去找 upload为false的图片 找到了说明 有图片还没有上传完成
+        Message.warning("当前图片没有上传完成！");
+        return;
+      }
+      await saveTeacherInfo({
+        ...this.teacherInfo,
+        avator: fileList && fileList.length ? fileList[0].url : "",
+      });
+      Message.success('保存头像信息成功!')
     },
   },
 };

@@ -1,35 +1,27 @@
 <template>
   <div>
+    <!-- 放置一个上传组件 -->
+    <!-- action这里不写上传地址 因为我们是调用腾讯云cos 不是一个地址可以搞定的 要用自定义的上传 -->
     <el-upload
-      list-type="picture-card"
-      :limit="1"
-      action="#"
       :on-preview="preview"
       :on-remove="handleRemove"
-      :om-change="changeFile"
-      :file-list="fileList"
-      :class="{disabled:fileComputed}"
+      :on-change="changeFile"
       :before-upload="beforeUpload"
+      :file-list="fileList"
       :http-request="upload"
+      list-type="picture-card"
+      action="#"
+      :limit="1"
+      :class="{disabled: fileComputed }"
     >
       <i class="el-icon-plus" />
     </el-upload>
     <!-- 进度条 -->
-    <el-progress
-      v-if="showPercent"
-      style="width: 180px"
-      :percentage="percent"
-    />
-    <!-- 预览弹层 -->
-    <el-dialog
-      title="图片"
-      :visible.sync="showDialog"
-    >
-      <img
-        :src="imgUrl"
-        style="width:100%"
-        alt=""
-      >
+    <el-progress v-if="showPercent" style="width: 180px" :percentage="percent" />
+    <!-- 放置一个弹层 -->
+    <!-- sync修饰符自动将弹层关闭了 -->
+    <el-dialog title="图片" :visible.sync="showDialog">
+      <img :src="imgUrl" style="width:100%" alt="">
     </el-dialog>
   </div>
 </template>
@@ -40,7 +32,7 @@ import COS from "cos-js-sdk-v5";
 // COS实例化
 const cos = new COS({
   SecretId: "AKIDiFXaPyHJ3WjfJgmcARRBeqlQntiFWWFg",
-  SecretKey: " C8mAH8i13oIVR6UbR1JK4XliNltkJbdN",
+  SecretKey: "C8mAH8i13oIVR6UbR1JK4XliNltkJbdN",
 });
 export default {
   computed: {

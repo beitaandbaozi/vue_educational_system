@@ -60,11 +60,38 @@ router.post('/getTeacherInfo', function (req, res) {
                     graduate_school: result[0].graduate_school,
                     graduate_time: result[0].graduate_time,
                     major: result[0].major,
+                    avator: result[0].avator,
                 }
             })
         }
     })
 })
+
+// 保存教师提交的头像信息
+router.post('/saveTeacherInfo', function (req, res) {
+    let { authorization } = req.headers
+    const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
+    const { name } = tokenData;
+    // console.log(req.body)
+    let avator = req.body.avator;
+    let sql = 'update teacher_info set avator = ? where num = ?'
+    db.query(sql, [avator, name], function (err, result) {
+        if (err) {
+            console.log('保存教师提交的头像信息时数据库修改出错！')
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '保存教师提交的头像信息成功！',
+                data: {
+                    result
+                }
+            })
+        }
+    })
+
+})
+
 
 // 获取教师对应工号的课程成绩信息
 router.post('/getScore', function (req, res) {
