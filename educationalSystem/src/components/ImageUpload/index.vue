@@ -5,6 +5,7 @@
       :limit="1"
       action="#"
       :on-preview="preview"
+      :on-remove="handleRemove"
     >
       <i class="el-icon-plus" />
     </el-upload>
@@ -47,6 +48,12 @@ export default {
     preview(file) {
       this.imgUrl = file.url;
       this.showDialog = true;
+    },
+    // 图片删除
+    handleRemove(file){
+        // file是点击删除的文件
+        // 将原来的文件给排除掉，剩下的就是最新的数组了
+        this.fileList = this.fileList.filter(item => item.uid !== file.uid)
     },
   },
 };
