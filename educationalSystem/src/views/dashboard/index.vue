@@ -4,11 +4,17 @@
     <el-card class="header-card">
       <div>
         <div class="fl headL">
-          <div class="headImg" v-if="headFlag">
+          <div
+            class="headImg"
+            v-if="headFlag"
+          >
             <img :src="userInfo.avator">
           </div>
-           <!-- 初始头像不存在的情况 -->
-          <div class="headImg" v-else>
+          <!-- 初始头像不存在的情况 -->
+          <div
+            class="headImg"
+            v-else
+          >
             <img src="@/assets/common/header.png">
           </div>
           <div class="headInfoTip">
@@ -188,7 +194,7 @@ import WorkCalender from "./components/work-calender.vue";
 import { mapGetters } from "vuex";
 import { getTeachingTaskLimit, getTeachingTaskByStu } from "@/api/teachingTask";
 import { getTeacherInfo } from "@/api/teacherMesg";
-
+import { getStuInfo } from "@/api/stuMesg";
 export default {
   name: "Dashboard",
   computed: {
@@ -254,9 +260,17 @@ export default {
         this.getTeachingTaskByStu();
       }
     },
-    // 获取教师信息
+    // 获取教师端信息
     async getTeacherInfo() {
       let res = await getTeacherInfo();
+      this.userInfo = res;
+      if (this.userInfo.avator) {
+        this.headFlag = true;
+      }
+    },
+    // 获取学生端信息
+    async getStuInfo() {
+      let res = await getStuInfo();
       this.userInfo = res;
       if (this.userInfo.avator) {
         this.headFlag = true;
@@ -267,6 +281,8 @@ export default {
     getUserInfo() {
       if (this.roles === "teacher") {
         this.getTeacherInfo();
+      } else if (this.roles == "student") {
+        this.getStuInfo();
       }
     },
   },
