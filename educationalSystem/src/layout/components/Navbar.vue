@@ -21,7 +21,14 @@
       >
         <div class="avatar-wrapper">
           <img
+            v-if="headFlag"
             :src="userInfo.avator"
+            class="user-avatar"
+          >
+          <!-- 头像还未定义时的情况 -->
+          <img
+            v-else
+            src="@/assets/common/header.png"
             class="user-avatar"
           >
           <span class="name">{{name}}</span>
@@ -131,6 +138,8 @@ export default {
       },
       //  用户信息
       userInfo: {},
+      //  用户头像标签
+      headFlag: false,
     };
   },
   created() {
@@ -197,6 +206,9 @@ export default {
     async getTeacherInfo() {
       let res = await getTeacherInfo();
       this.userInfo = res;
+      if (this.userInfo.avator) {
+        this.headFlag = true;
+      }
     },
     // 获取用户信息（分为教师端、学生端、管理端）
     getUserInfo() {

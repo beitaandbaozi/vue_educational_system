@@ -4,8 +4,12 @@
     <el-card class="header-card">
       <div>
         <div class="fl headL">
-          <div class="headImg">
+          <div class="headImg" v-if="headFlag">
             <img :src="userInfo.avator">
+          </div>
+           <!-- 初始头像不存在的情况 -->
+          <div class="headImg" v-else>
+            <img src="@/assets/common/header.png">
           </div>
           <div class="headInfoTip">
             <p class="firstChild">早安，{{name}}，祝你开心每一天！</p>
@@ -204,12 +208,14 @@ export default {
         },
       ],
       // 用户信息
-      userInfo:{},
+      userInfo: {},
+      // 用户头像标签
+      headFlag: false,
     };
   },
   created() {
     this.getTeachTask();
-    this.getUserInfo()
+    this.getUserInfo();
   },
   methods: {
     // 获取教师端的课程任务信息
@@ -249,17 +255,20 @@ export default {
       }
     },
     // 获取教师信息
-    async getTeacherInfo(){
-        let res = await getTeacherInfo();
-        this.userInfo = res
+    async getTeacherInfo() {
+      let res = await getTeacherInfo();
+      this.userInfo = res;
+      if (this.userInfo.avator) {
+        this.headFlag = true;
+      }
     },
 
     // 获取用户信息（分为教师端、学生端、管理端）
-    getUserInfo(){
-        if(this.roles === "teacher"){
-            this.getTeacherInfo()
-        }
-    }
+    getUserInfo() {
+      if (this.roles === "teacher") {
+        this.getTeacherInfo();
+      }
+    },
   },
 };
 </script>
