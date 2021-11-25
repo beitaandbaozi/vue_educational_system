@@ -116,6 +116,7 @@ import Hamburger from "@/components/Hamburger";
 import { updatePaswd, commitPaswd } from "@/api/user";
 import { Message } from "element-ui";
 import { getTeacherInfo } from "@/api/teacherMesg";
+import { getStuInfo } from "@/api/stuMesg";
 export default {
   data() {
     return {
@@ -210,10 +211,20 @@ export default {
         this.headFlag = true;
       }
     },
+    // 获取学生信息
+    async getStuInfo() {
+      let res = await getStuInfo();
+      this.userInfo = res;
+      if (this.userInfo.avator) {
+        this.headFlag = true;
+      }
+    },
     // 获取用户信息（分为教师端、学生端、管理端）
     getUserInfo() {
       if (this.roles === "teacher") {
         this.getTeacherInfo();
+      } else if (this.roles == "student") {
+        this.getStuInfo();
       }
     },
   },
