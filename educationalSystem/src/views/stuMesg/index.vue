@@ -50,6 +50,20 @@
             <div>辅导员：{{stuForm.counsellor}}</div>
           </el-col>
         </el-row>
+        <br>
+        <!-- 头像管理 -->
+        <el-row>
+          <el-col :offset="18">
+            <ImageUpload ref="staffPhoto"></ImageUpload>
+          </el-col>
+          <el-col :offset="22">
+            <el-button
+              type="success"
+              round
+              @click="saveInfo"
+            >保存头像</el-button>
+          </el-col>
+        </el-row>
       </el-card>
       <el-tabs
         type="border-card"
@@ -115,7 +129,8 @@
             </el-table-column>
           </el-table>
         </el-tab-pane>
-        <el-tab-pane label="选修课程"> <el-table
+        <el-tab-pane label="选修课程">
+          <el-table
             :data="optioanlCourseData.result"
             border
             style="width: 100%;"
@@ -165,29 +180,27 @@
               prop="gradepo"
             >
             </el-table-column>
-          </el-table></el-tab-pane>
+          </el-table>
+        </el-tab-pane>
       </el-tabs>
-
     </div>
   </div>
 </template>
 
 <script>
-import { getStuInfo, getRequireCourseInfo,getOptionalCourseInfo } from "@/api/stuMesg";
+import {
+  getStuInfo,
+  getRequireCourseInfo,
+  getOptionalCourseInfo,
+  saveStuInfo
+} from "@/api/stuMesg";
+import { Message } from "element-ui";
 export default {
   data() {
     return {
       // 个人基本信息
       stuForm: {
-        number: "",
-        name: "",
-        grad: "",
-        class: "",
-        major: "",
-        idCard: "",
-        email: "",
-        advisor: "",
-        counsellor: "",
+        
       },
       // 必修课程信息
       requiredCourseData: [],
@@ -209,18 +222,39 @@ export default {
       let res = await getStuInfo();
       // 给表单赋值
       this.stuForm = res;
+      //头像赋值
+      if (this.stuForm.avator) {
+        this.$refs.staffPhoto.fileList = [
+          { url: this.stuForm.avator, upload: true },
+        ];
+      }
     },
     // 获取学生必修课信息
     async getRequireCourseInfo() {
       let res = await getRequireCourseInfo();
       this.requiredCourseData = res;
     },
-    
+
     // 获取选修课信息
-    async getOptionalCourseInfo(){
-        let res = await getOptionalCourseInfo();
-        this.optioanlCourseData = res
-    }
+    async getOptionalCourseInfo() {
+      let res = await getOptionalCourseInfo();
+      this.optioanlCourseData = res;
+    },
+    // 保存头像
+    async saveInfo() {
+      // 读取上传的头像
+      const fileList = this.$refs.staffPhoto.fileList;
+      if (fileList.some((item) => !item.upload)) {
+        // 如果此时去找 upload为false的图片 找到了说明 有图片还没有上传完成
+        Message.warning("当前图片没有上传完成！");
+        return;
+      }
+      await saveStuInfo({
+        ...this.stuForm,
+        avator: fileList && fileList.length ? fileList[0].url : "",
+      });
+      Message.success('保存头像信息成功!')
+    },
   },
 };
 </script>

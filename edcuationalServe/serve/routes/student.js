@@ -27,7 +27,8 @@ router.post('/getStuInfo', function (req, res) {
                     email: result[0].email,
                     advisor: result[0].advisor,
                     counsellor: result[0].counsellor,
-                    dormitory: result[0].dormitory
+                    dormitory: result[0].dormitory,
+                    avator:result[0].avator
                 }
             })
         }
@@ -250,5 +251,29 @@ router.post('/getStuTeachingTaskByCno/:cno', function (req, res) {
 
         }
     })
+})
+// 保存提交的头像信息
+router.post('/saveStuInfo', function (req, res) {
+    let { authorization } = req.headers
+    const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
+    const { name } = tokenData;
+    // console.log(req.body)
+    let avator = req.body.avator;
+    let sql = 'update student_info set avator = ? where id = ?'
+    db.query(sql, [avator, name], function (err, result) {
+        if (err) {
+            console.log('保存学生提交的头像信息时数据库修改出错！')
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '保存学生提交的头像信息成功！',
+                data: {
+                    result
+                }
+            })
+        }
+    })
+
 })
 module.exports = router;
