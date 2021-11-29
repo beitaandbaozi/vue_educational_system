@@ -78,7 +78,7 @@ router.post('/searchByStudents', function (req, res) {
     let sql = '';
     if (grad == '' && duty != '') {
         sql = `select *,(select count(*) from student_info where duty = '${duty}') as count from student_info where duty = '${duty}'`
-    } else if (duty == '' && grad != '' ) {
+    } else if (duty == '' && grad != '') {
         sql = `select *,(select count(*) from student_info where grad = '${grad}') as count from student_info where grad = '${grad}'`
     } else if (duty == '' && grad == '') {
         sql = 'select *,(select count(*) from student_info) as count from student_info limit 1,10'
@@ -105,5 +105,25 @@ router.post('/searchByStudents', function (req, res) {
 
     })
 
+})
+// 根据学号获取对应学生的信息
+router.post('/editStudentById/:id', function (req, res) {
+    let num = req.params.id
+    let sql = 'select * from student_info where id = ?';
+    db.query(sql, [num], function (err, result) {
+        if (err) {
+            console.log('根据学号获取对应学生的信息时数据库出错！')
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '根据学号获取对应学生的信息成功！',
+                data: {
+                    result:result[0],
+                }
+            })
+
+        }
+    })
 })
 module.exports = router;

@@ -22,3 +22,11 @@ export function searchByStudents(data){
         data
     })
 }
+// 根据学号编辑学生信息
+export function editStudentById(id){
+    return request({
+        url:`/admin/editStudentById/${id}`,
+        method: 'post'
+    })
+
+}
