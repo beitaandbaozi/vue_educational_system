@@ -160,6 +160,20 @@
                   @click="delStu(scope.row.id)"
                 ></el-button>
               </el-tooltip>
+              <!-- 详情 -->
+              <el-tooltip
+                effect="dark"
+                content="详情"
+                placement="top-start"
+                :enterable="false"
+              >
+                <el-button
+                  type="info"
+                  icon="el-icon-star-off"
+                  size="mini"
+                  @click="detailByStu(scope.row.id)"
+                ></el-button>
+              </el-tooltip>
             </template>
           </el-table-column>
         </el-table>
@@ -176,7 +190,6 @@
         >
         </el-pagination>
       </el-card>
-
     </div>
   </div>
 </template>
@@ -237,11 +250,11 @@ export default {
       this.total = res.count;
     },
     // 根据学号编辑学生信息
-    editStu(num){
-        console.log(num)
-
+    editStu(num) {},
+    delStu(num) {
+      console.log(num);
     },
-    delStu(num){
+    detailByStu(num){
         console.log(num)
     }
   },
