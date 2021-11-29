@@ -14,3 +14,11 @@ export function getAllDuty(){
         method: 'get',
     })
 }
+// 根据学年和系别查询数据
+export function searchByStudents(data){
+    return request({
+        url: '/admin/searchByStudents',
+        method: 'post',
+        data
+    })
+}
