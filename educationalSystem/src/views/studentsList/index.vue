@@ -3,11 +3,11 @@
     <div class="app-container">
       <!-- 工具栏 -->
       <page-tools :show-before="true">
-        <span slot="before">共录入{{this.total}}名学生</span>
+        <span slot="before">共有{{this.total}}名学生</span>
         <template slot="after">
           <el-button
             size="small"
-            type="warning"
+            type="success"
           >导入</el-button>
           <el-button
             size="small"
@@ -21,11 +21,12 @@
       </page-tools>
       <!-- 学生列表 -->
       <el-card>
-        <el-row
-          type="flex"
-        >
+        <el-row type="flex">
           <!-- 搜索框 -->
-          <el-col :span="6" style="margin-right: 35px">
+          <el-col
+            :span="6"
+            style="margin-right: 35px"
+          >
             <el-input
               size="small"
               placeholder="请输入学号"
@@ -87,7 +88,6 @@
               </el-select>
             </el-col>
           </el-col>
-
         </el-row>
         <!-- 学生信息 -->
         <el-table
@@ -127,7 +127,41 @@
             label="系别"
             align="center"
           ></el-table-column>
-          <!-- 操作按钮  当用户角色为管理员里再补上-->
+          <el-table-column
+            label="操作"
+            align="center"
+          >
+            <template slot-scope="scope">
+              <!-- 编辑按钮 -->
+              <el-tooltip
+                effect="dark"
+                content="编辑"
+                placement="top-start"
+                :enterable="false"
+              >
+                <el-button
+                  type="warning"
+                  icon="el-icon-edit"
+                  size="mini"
+                  @click="editStu(scope.row.id)"
+                ></el-button>
+              </el-tooltip>
+              <!-- 删除按钮 -->
+              <el-tooltip
+                effect="dark"
+                content="删除"
+                placement="top-start"
+                :enterable="false"
+              >
+                <el-button
+                  type="danger"
+                  icon="el-icon-delete"
+                  size="mini"
+                  @click="delStu(scope.row.id)"
+                ></el-button>
+              </el-tooltip>
+            </template>
+          </el-table-column>
         </el-table>
         <!-- 分页区域 -->
         <el-pagination
@@ -202,6 +236,14 @@ export default {
       this.studentsList = res;
       this.total = res.count;
     },
+    // 根据学号编辑学生信息
+    editStu(num){
+        console.log(num)
+
+    },
+    delStu(num){
+        console.log(num)
+    }
   },
 };
 </script>
