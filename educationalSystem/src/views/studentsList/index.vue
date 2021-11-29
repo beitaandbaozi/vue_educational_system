@@ -191,6 +191,11 @@
         </el-pagination>
       </el-card>
     </div>
+    <!-- 编辑学生对话框组件 -->
+    <edit-student
+      :show-dialog.sync="editStuDialog"
+      ref="editStudentRef"
+    ></edit-student>
   </div>
 </template>
 
@@ -200,7 +205,11 @@ import {
   getAllDuty,
   searchByStudents,
 } from "@/api/studentsList";
+import editStudent from "./components/editStudent.vue";
 export default {
+  components: {
+    editStudent,
+  },
   data() {
     return {
       paramsInfo: {
@@ -217,6 +226,8 @@ export default {
       },
       // 系别选项
       dutyOptions: [],
+      // 编辑学生对话框
+      editStuDialog: false,
     };
   },
   created() {
@@ -250,13 +261,21 @@ export default {
       this.total = res.count;
     },
     // 根据学号编辑学生信息
-    editStu(num) {},
+    editStu(num) {
+      /**
+       * 打开编辑学生的对话框
+       * 将值渲染到对应的表单
+       *
+       */
+      this.editStuDialog = true;
+      this.$refs.editStudentRef.editStudent(num);
+    },
     delStu(num) {
       console.log(num);
     },
-    detailByStu(num){
-        console.log(num)
-    }
+    detailByStu(num) {
+      console.log(num);
+    },
   },
 };
 </script>

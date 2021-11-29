@@ -3,7 +3,7 @@
     <el-dialog
       title="编辑学生"
       :visible="showDialog"
-      width="50%"
+      width="40%"
       @close="btnCancel"
     >
       <el-form
@@ -61,6 +61,7 @@
 </template>
 
 <script>
+import { editStudentById } from "@/api/studentsList";
 export default {
   props: {
     showDialog: {
@@ -81,7 +82,18 @@ export default {
   },
   methods: {
     btnOk() {},
-    btnCancel() {},
+    btnCancel() {
+      // 清空表单
+      this.editStudentForm = {};
+      // 清除校验规则
+      this.$refs.editStudentRef.resetFields();
+      // 关闭对话框
+      this.$emit("update:showDialog", false);
+    },
+    async editStudent(id) {
+      let res = await editStudentById(id);
+      this.editStudentForm = res.result;
+    },
   },
 };
 </script>
