@@ -6,5 +6,11 @@ export function getAllStudents(data) {
         method: 'post',
         data
     })
-    
+}
+// 获取系别信息
+export function getAllDuty(){
+    return request({
+        url: '/admin/getAllDuty',
+        method: 'get',
+    })
 }

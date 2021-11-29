@@ -21,7 +21,10 @@
       </page-tools>
       <!-- 学生列表 -->
       <el-card>
-        <el-row :gutter="20">
+        <el-row
+          type="flex"
+          justify="space-between"
+        >
           <!-- 搜索框 -->
           <el-col :span="6">
             <el-input
@@ -38,10 +41,11 @@
               ></el-button>
             </el-input>
           </el-col>
+          <!-- 学年 -->
           <el-col :span="6">
             <el-select
               size="small"
-              v-model="gradValue"
+              v-model="searchData.gradValue"
               clearable
               placeholder="请选择学年"
             >
@@ -61,6 +65,23 @@
                 label="2021学年"
                 value="2021"
               ></el-option>
+            </el-select>
+          </el-col>
+          <!-- 系别 -->
+          <el-col :span="6">
+            <el-select
+              size="small"
+              v-model="searchData.dutyValue"
+              clearable
+              placeholder="请选择系别"
+            >
+              <el-option
+                v-for="item in dutyOptions"
+                :key="item.duty"
+                :label="item.duty"
+                :value="item.duty"
+              >
+              </el-option>
             </el-select>
           </el-col>
         </el-row>
@@ -123,7 +144,7 @@
 </template>
 
 <script>
-import { getAllStudents } from "@/api/studentsList";
+import { getAllStudents, getAllDuty } from "@/api/studentsList";
 export default {
   data() {
     return {
@@ -134,12 +155,18 @@ export default {
       },
       total: 0,
       studentsList: [],
-      // 学年
-      gradValue:'2018学年'
+      searchData: {
+        // 学年
+        gradValue: "",
+        dutyValue: "",
+      },
+      // 系别选项
+      dutyOptions: [],
     };
   },
   created() {
     this.getAllStudents();
+    this.getAllDuty()
   },
   methods: {
     // 获取所有学生信息
@@ -155,6 +182,11 @@ export default {
     handleCurrentChange(newPage) {
       this.paramsInfo.pagenum = newPage;
       this.getAllStudents();
+    },
+    // 获取所有系别
+    async getAllDuty() {
+      let res = await getAllDuty();
+      this.dutyOptions = res.result;
     },
   },
 };

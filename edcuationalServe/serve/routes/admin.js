@@ -26,7 +26,7 @@ router.post('/getAllStudents', function (req, res) {
                 msg: '搜索关键词时数据库信息成功！',
                 data: {
                     result,
-                    count:result[0].count
+                    count: result[0].count
                 }
             })
         })
@@ -43,11 +43,30 @@ router.post('/getAllStudents', function (req, res) {
                     msg: '管理员获取全部学生成功！',
                     data: {
                         result,
-                        count:result[0].count
+                        count: result[0].count
                     }
                 })
             }
         })
     }
+})
+// 获取全部系别
+router.get('/getAllDuty', function (req, res) {
+    let sql = 'select distinct duty from student_info';
+    db.query(sql, function (err, result) {
+        if (err) {
+            console.log('获取全部系别信息时数据库出错！')
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '获取全部系别信息时数据库信息成功！',
+                data: {
+                    result,
+                }
+            })
+        }
+
+    })
 })
 module.exports = router;
