@@ -37,3 +37,10 @@ export function editStudentSubmit(id, data) {
         data
     })
 }
+// 根据学号删除学生
+export function delStudentById(id) {
+    return request({
+        url: `/admin/delStudentById/${id}`,
+        method: 'get'
+    })
+}

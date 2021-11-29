@@ -205,8 +205,10 @@ import {
   getAllStudents,
   getAllDuty,
   searchByStudents,
+  delStudentById,
 } from "@/api/studentsList";
 import editStudent from "./components/editStudent.vue";
+import { Message } from "element-ui";
 export default {
   components: {
     editStudent,
@@ -271,8 +273,22 @@ export default {
       this.editStuDialog = true;
       this.$refs.editStudentRef.editStudent(num);
     },
-    delStu(num) {
-      console.log(num);
+    async delStu(num) {
+      const confirmResult = await this.$confirm(
+        "此操作将永久删除该学生, 是否继续?",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      ).catch((error) => error);
+      if (confirmResult != "confirm") {
+        return Message.info("已经取消删除！");
+      }
+      await delStudentById(num);
+      Message.success("删除该学生成功！");
+      this.getAllStudents();
     },
     detailByStu(num) {
       console.log(num);

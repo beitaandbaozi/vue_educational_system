@@ -148,13 +148,27 @@ router.post('/editStudentSubmit/:id', function (req, res) {
         } else {
             res.send({
                 status: 200,
-                msg: '编辑提交操作时数据库成功！',
-                data: {
-                    result
-                }
+                msg: '编辑提交操作时数据库成功！'
             })
         }
 
     })
+})
+// 根据学号删除学生
+router.get('/delStudentById/:id', function (req, res) {
+    let num = req.params.id;
+    let sql = 'delete from student_info where id = ?';
+    db.query(sql, [num], function (err, result) {
+        if (err) {
+            console.log('根据学号删除学生数据库出错!')
+            return;
+        } else {
+            res.send({
+                status: 200,
+                msg: '根据学号删除学生数据库成功！',
+            })
+        }
+    })
+
 })
 module.exports = router;
