@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 // 获取全部学生信息
-export function getAllStudent(data) {
+export function getAllStudents(data) {
     return request({
-        url: '/course/getSetUpCourse',
+        url: '/admin/getAllStudents',
         method: 'post',
         data
     })
