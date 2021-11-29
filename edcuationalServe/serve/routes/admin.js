@@ -69,4 +69,41 @@ router.get('/getAllDuty', function (req, res) {
 
     })
 })
+// 根据系别和学年获取学生数据
+router.post('/searchByStudents', function (req, res) {
+    var grad = req.body.gradValue;
+    var duty = req.body.dutyValue;
+    // console.log(grad)
+    // console.log(duty)
+    let sql = '';
+    if (grad == '' && duty != '') {
+        sql = `select *,(select count(*) from student_info where duty = '${duty}') as count from student_info where duty = '${duty}'`
+    } else if (duty == '' && grad != '' ) {
+        sql = `select *,(select count(*) from student_info where grad = '${grad}') as count from student_info where grad = '${grad}'`
+    } else if (duty == '' && grad == '') {
+        sql = 'select *,(select count(*) from student_info) as count from student_info limit 1,10'
+    } else {
+        sql = `select *,(select count(*) from student_info where grad = '${grad}' and duty = '${duty}' ) as count from student_info where grad = '${grad}' and duty = '${duty}'`
+    }
+    // console.log(sql)
+    db.query(sql, function (err, result) {
+        if (err) {
+            console.log('根据系别和学年查询学生数据时数据库出错！')
+            return
+        } else {
+            // console.log(result)
+            res.send({
+                status: 200,
+                msg: '获取全部系别信息时数据库信息成功！',
+                data: {
+                    result,
+                    count: result[0].count
+                }
+
+            })
+        }
+
+    })
+
+})
 module.exports = router;

@@ -23,10 +23,9 @@
       <el-card>
         <el-row
           type="flex"
-          justify="space-between"
         >
           <!-- 搜索框 -->
-          <el-col :span="6">
+          <el-col :span="6" style="margin-right: 35px">
             <el-input
               size="small"
               placeholder="请输入学号"
@@ -41,49 +40,54 @@
               ></el-button>
             </el-input>
           </el-col>
-          <!-- 学年 -->
-          <el-col :span="6">
-            <el-select
-              size="small"
-              v-model="searchData.gradValue"
-              clearable
-              placeholder="请选择学年"
-            >
-              <el-option
-                label="2018学年"
-                value="2018"
-              ></el-option>
-              <el-option
-                label="2019学年"
-                value="2019"
-              ></el-option>
-              <el-option
-                label="2020学年"
-                value="2020"
-              ></el-option>
-              <el-option
-                label="2021学年"
-                value="2021"
-              ></el-option>
-            </el-select>
-          </el-col>
-          <!-- 系别 -->
-          <el-col :span="6">
-            <el-select
-              size="small"
-              v-model="searchData.dutyValue"
-              clearable
-              placeholder="请选择系别"
-            >
-              <el-option
-                v-for="item in dutyOptions"
-                :key="item.duty"
-                :label="item.duty"
-                :value="item.duty"
+          <el-col :span="12">
+            <!-- 学年 -->
+            <el-col :span="6">
+              <el-select
+                size="small"
+                v-model="searchData.gradValue"
+                clearable
+                placeholder="请选择学年"
+                @change="searchStudent"
               >
-              </el-option>
-            </el-select>
+                <el-option
+                  label="2018学年"
+                  value="2018"
+                ></el-option>
+                <el-option
+                  label="2019学年"
+                  value="2019"
+                ></el-option>
+                <el-option
+                  label="2020学年"
+                  value="2020"
+                ></el-option>
+                <el-option
+                  label="2021学年"
+                  value="2021"
+                ></el-option>
+              </el-select>
+            </el-col>
+            <!-- 系别 -->
+            <el-col :span="6">
+              <el-select
+                size="small"
+                v-model="searchData.dutyValue"
+                clearable
+                placeholder="请选择系别"
+                @change="searchStudent"
+              >
+                <el-option
+                  v-for="item in dutyOptions"
+                  :key="item.duty"
+                  :label="item.duty"
+                  :value="item.duty"
+                >
+                </el-option>
+              </el-select>
+            </el-col>
           </el-col>
+
         </el-row>
         <!-- 学生信息 -->
         <el-table
@@ -144,7 +148,11 @@
 </template>
 
 <script>
-import { getAllStudents, getAllDuty } from "@/api/studentsList";
+import {
+  getAllStudents,
+  getAllDuty,
+  searchByStudents,
+} from "@/api/studentsList";
 export default {
   data() {
     return {
@@ -166,7 +174,7 @@ export default {
   },
   created() {
     this.getAllStudents();
-    this.getAllDuty()
+    this.getAllDuty();
   },
   methods: {
     // 获取所有学生信息
@@ -187,6 +195,12 @@ export default {
     async getAllDuty() {
       let res = await getAllDuty();
       this.dutyOptions = res.result;
+    },
+    // 根据系别和学年来查询学生数据
+    async searchStudent() {
+      let res = await searchByStudents(this.searchData);
+      this.studentsList = res;
+      this.total = res.count;
     },
   },
 };
