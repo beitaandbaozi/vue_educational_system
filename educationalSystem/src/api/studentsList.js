@@ -8,14 +8,14 @@ export function getAllStudents(data) {
     })
 }
 // 获取系别信息
-export function getAllDuty(){
+export function getAllDuty() {
     return request({
         url: '/admin/getAllDuty',
         method: 'get',
     })
 }
 // 根据学年和系别查询数据
-export function searchByStudents(data){
+export function searchByStudents(data) {
     return request({
         url: '/admin/searchByStudents',
         method: 'post',
@@ -23,10 +23,17 @@ export function searchByStudents(data){
     })
 }
 // 根据学号编辑学生信息
-export function editStudentById(id){
+export function editStudentById(id) {
     return request({
-        url:`/admin/editStudentById/${id}`,
+        url: `/admin/editStudentById/${id}`,
         method: 'post'
     })
-
+}
+//  编辑提交
+export function editStudentSubmit(id, data) {
+    return request({
+        url: `/admin/editStudentSubmit/${id}`,
+        method: 'post',
+        data
+    })
 }

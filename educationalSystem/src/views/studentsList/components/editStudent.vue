@@ -12,10 +12,7 @@
         ref="editStudentRef"
         label-width="80px"
       >
-        <el-form-item
-          label="学号"
-          prop="id"
-        >
+        <el-form-item label="学号">
           <el-input
             v-model="editStudentForm.id"
             disabled
@@ -23,7 +20,7 @@
         </el-form-item>
         <el-form-item
           label="姓名"
-          prop="name"
+          prop="stu_name"
         >
           <el-input v-model="editStudentForm.stu_name"></el-input>
         </el-form-item>
@@ -61,7 +58,8 @@
 </template>
 
 <script>
-import { editStudentById } from "@/api/studentsList";
+import { editStudentById, editStudentSubmit } from "@/api/studentsList";
+import { Message } from "element-ui";
 export default {
   props: {
     showDialog: {
@@ -73,7 +71,7 @@ export default {
     return {
       editStudentForm: {},
       editStudentRules: {
-        name: [{ required: true, message: "请输入姓名!", trigger: "blur" }],
+        stu_name: [{ required: true, message: "请输入姓名!", trigger: "blur" }],
         grad: [{ required: true, message: "请输入年级！", trigger: "blur" }],
         class: [{ required: true, message: "请输入行政班！", trigger: "blur" }],
         duty: [{ required: true, message: "请输入系别！", trigger: "blur" }],
@@ -81,7 +79,22 @@ export default {
     };
   },
   methods: {
-    btnOk() {},
+    btnOk() {
+      /**
+       * 表单验证
+       * 连接接口
+       * 通知消息
+       * 更新数据
+       * 通知父组件关闭表单
+       */
+      this.$refs.editStudentRef.validate(async (valid) => {
+        if (!valid) return;
+        await editStudentSubmit(this.editStudentForm.id, this.editStudentForm);
+        Message.success("编辑学生信息成功！");
+        this.$emit("editStudent");
+        this.$emit("update:showDialog", false);
+      });
+    },
     btnCancel() {
       // 清空表单
       this.editStudentForm = {};

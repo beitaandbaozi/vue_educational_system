@@ -119,11 +119,42 @@ router.post('/editStudentById/:id', function (req, res) {
                 status: 200,
                 msg: '根据学号获取对应学生的信息成功！',
                 data: {
-                    result:result[0],
+                    result: result[0],
                 }
             })
 
         }
+    })
+})
+// 编辑提交操作
+router.post('/editStudentSubmit/:id', function (req, res) {
+    let num = req.params.id;
+    let name = req.body.stu_name;
+    let grad = req.body.grad;
+    let classes = req.body.class;
+    let major = req.body.major;
+    let idCard = req.body.idCard;
+    let email = req.body.email;
+    let advisor = req.body.advisor;
+    let counsellor = req.body.counsellor;
+    let dormitory = req.body.dormitory;
+    let avator = req.body.avator;
+    let duty = req.body.duty;
+    let sql = 'update  student_info  set stu_name=?,grad=?,class=?,major=?,idCard=?,email=?,advisor=?,counsellor=?,dormitory=?,avator=?,duty=?  where id =?';
+    db.query(sql, [name, grad, classes, major, idCard, email, advisor, counsellor, dormitory, avator, duty, num], function (err, result) {
+        if (err) {
+            console.log('编辑提交操作时数据库出错！')
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '编辑提交操作时数据库成功！',
+                data: {
+                    result
+                }
+            })
+        }
+
     })
 })
 module.exports = router;

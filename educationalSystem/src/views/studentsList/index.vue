@@ -195,6 +195,7 @@
     <edit-student
       :show-dialog.sync="editStuDialog"
       ref="editStudentRef"
+      @editStudent="getAllStudents"
     ></edit-student>
   </div>
 </template>
