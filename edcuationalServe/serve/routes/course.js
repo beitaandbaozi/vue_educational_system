@@ -23,14 +23,25 @@ router.post('/getSetUpCourse', function (req, res) {
                 return;
             }
             // console.log(result);
-            res.send({
-                status: 200,
-                msg: '搜索关键词时数据库信息成功！',
-                data: {
-                    result,
-                    count: result[0].count
-                }
-            })
+            if (result.length == 0) {
+                res.send({
+                    status: 400,
+                    msg: '没有找到该课程代码的课程',
+                    data: {
+                        count: 0
+                    }
+                })
+            } else {
+                res.send({
+                    status: 200,
+                    msg: '搜索关键词时数据库信息成功！',
+                    data: {
+                        result,
+                        count: result[0].count
+                    }
+                })
+            }
+
         })
     } else {
         sql = `select *,(select count(*) from class) as count from class limit ?,?`;
