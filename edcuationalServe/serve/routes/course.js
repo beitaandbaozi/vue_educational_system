@@ -56,7 +56,7 @@ router.post('/getSetUpCourse', function (req, res) {
 router.get('/getSetUpCourse/:id', function (req, res) {
     let id = req.params.id;
     let sql = `select distinct * from class where c_id like '%${id}%'`;
-    db.query(sql,function (err, result) {
+    db.query(sql, function (err, result) {
         if (err) {
             console.log('根据课程代码获取对应的课程资料信息时数据库出错');
             return
@@ -66,12 +66,34 @@ router.get('/getSetUpCourse/:id', function (req, res) {
                 status: 200,
                 msg: '根据课程代码获取对应的课程资料信息成功！',
                 data: {
-                    result:result[0],
+                    result: result[0],
                 }
             })
         }
     })
 
 })
+// 编辑课程信息提交
+router.post('/editCouresSubmit/:id', function (req, res) {
+    let id = req.params.id;
+    let name = req.body.name;
+    let credit = req.body.credit;
+    let assess = req.body.assess;
+    let duty = req.body.duty;
+    let class_type = req.body.class_type;
+    let intro = req.body.intro;
+    let sql = 'update class set name=?,credit=?,class_type=?,intro=? where c_id=?';
+    db.query(sql, [name, credit, assess, duty, class_type, intro, id], function (err, result) {
+        if (err) {
+            console.log('编辑课程信息提交时数据库出错！')
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '编辑课程信息提交时信息成功！',
+            })
+        }
+    })
 
+})
 module.exports = router;
