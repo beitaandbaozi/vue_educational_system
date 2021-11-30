@@ -44,3 +44,11 @@ export function delStudentById(id) {
         method: 'get'
     })
 }
+// 添加提交
+export function addStudentSubmit(data) {
+    return request({
+        url: `/admin/addStudentSubmit`,
+        method: 'post',
+        data
+    })
+}

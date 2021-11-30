@@ -181,4 +181,30 @@ router.get('/delStudentById/:id', function (req, res) {
     })
 
 })
+// 添加学生
+router.post('/addStudentSubmit', function (req, res) {
+    let id = req.body.id;
+    let stu_name = req.body.stu_name;
+    let grad = req.body.grad;
+    let classes = req.body.class;
+    let major = req.body.major;
+    let email = req.body.email;
+    let idCard = req.body.idCard;
+    let advisor = req.body.advisor;
+    let counsellor = req.body.counsellor;
+    let dormitoryId = req.body.dormitoryId;
+    let duty = req.body.duty;
+    let sql = 'insert into student_info (id,stu_name,grad,class,major,idCard,email,advisor,counsellor,dormitory,duty) values(?,?,?,?,?,?,?,?,?,?,?)';
+    db.query(sql, [id, stu_name, grad, classes, major, email, idCard, advisor, counsellor, dormitoryId, duty], function (err, result) {
+        if (err) {
+            console.log('添加学生是数据库出错');
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '添加学生成功！'
+            })
+        }
+    })
+})
 module.exports = router;

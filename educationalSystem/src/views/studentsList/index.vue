@@ -16,6 +16,7 @@
           <el-button
             size="small"
             type="primary"
+            @click="addStudent"
           >新增学生</el-button>
         </template>
       </page-tools>
@@ -143,6 +144,7 @@
                   type="warning"
                   icon="el-icon-edit"
                   size="mini"
+                   plain
                   @click="editStu(scope.row.id)"
                 ></el-button>
               </el-tooltip>
@@ -157,6 +159,7 @@
                   type="danger"
                   icon="el-icon-delete"
                   size="mini"
+                   plain
                   @click="delStu(scope.row.id)"
                 ></el-button>
               </el-tooltip>
@@ -171,6 +174,7 @@
                   type="info"
                   icon="el-icon-star-off"
                   size="mini"
+                   plain
                   @click="detailByStu(scope.row.id)"
                 ></el-button>
               </el-tooltip>
@@ -197,6 +201,8 @@
       ref="editStudentRef"
       @editStudent="getAllStudents"
     ></edit-student>
+    <!-- 新增学生对话框组件 -->
+    <add-student :show-dialog.sync="addStuDialog" @addStudent="getAllStudents"></add-student>
   </div>
 </template>
 
@@ -208,10 +214,12 @@ import {
   delStudentById,
 } from "@/api/studentsList";
 import editStudent from "./components/editStudent.vue";
+import addStudent from "./components/addStudent.vue";
 import { Message } from "element-ui";
 export default {
   components: {
     editStudent,
+    addStudent,
   },
   data() {
     return {
@@ -231,6 +239,8 @@ export default {
       dutyOptions: [],
       // 编辑学生对话框
       editStuDialog: false,
+      // 添加学生对话框
+      addStuDialog: false,
     };
   },
   created() {
@@ -273,6 +283,7 @@ export default {
       this.editStuDialog = true;
       this.$refs.editStudentRef.editStudent(num);
     },
+    // 根据学号删除学生信息
     async delStu(num) {
       const confirmResult = await this.$confirm(
         "此操作将永久删除该学生, 是否继续?",
@@ -289,6 +300,13 @@ export default {
       await delStudentById(num);
       Message.success("删除该学生成功！");
       this.getAllStudents();
+    },
+    // 添加学生
+    addStudent() {
+      /**
+       * 打开对话框
+       */
+      this.addStuDialog = true;
     },
     detailByStu(num) {
       console.log(num);
