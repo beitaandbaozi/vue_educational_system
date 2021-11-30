@@ -64,10 +64,19 @@
               ></el-input>
             </el-form-item>
             <el-form-item label="系别">
-              <el-input
+              <el-select
+                size="small"
                 v-model="studentInfo.duty"
-                size="mini"
-              ></el-input>
+                placeholder="请选择系别"
+              >
+                <el-option
+                  v-for="item in dutyOptions"
+                  :key="item.duty"
+                  :label="item.duty"
+                  :value="item.duty"
+                >
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="年级">
               <el-input
@@ -145,7 +154,11 @@
 </template>
 
 <script>
-import { editStudentById, editStudentSubmit } from "@/api/studentsList";
+import {
+  editStudentById,
+  editStudentSubmit,
+  getAllDuty,
+} from "@/api/studentsList";
 import { Message } from "element-ui";
 export default {
   data() {
@@ -153,10 +166,12 @@ export default {
       //路由信息中取下来的id值
       num: this.$route.params.id,
       studentInfo: {},
+      dutyOptions: {},
     };
   },
   created() {
     this.getStuInfoById();
+    this.getAllDuty();
   },
   methods: {
     async getStuInfoById() {
@@ -167,6 +182,11 @@ export default {
     async saveStudentInfo() {
       await editStudentSubmit(this.num, this.studentInfo);
       Message.success("保存学生信息成功！");
+    },
+    // 获取所有系别
+    async getAllDuty() {
+      let res = await getAllDuty();
+      this.dutyOptions = res.result;
     },
   },
 };
