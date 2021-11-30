@@ -1,11 +1,9 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
-      <!-- 添加一个编辑资料 再统一修改 -->
-      <!-- 添加一个打印处理 -->
       <page-tools :show-before="true">
-          <span slot="before"> {{studentInfo.stu_name}} 的个人资料</span>
-          <template slot="after">
+        <span slot="before"> {{studentInfo.stu_name}} 的个人资料</span>
+        <template slot="after">
           <el-button
             size="small"
             type="success"
@@ -18,6 +16,7 @@
           >打印</el-button>
         </template>
       </page-tools>
+      <!-- 资料 -->
       <el-card>
         <el-form
           :model="studentInfo"
@@ -29,6 +28,13 @@
             justify="end"
           >
             <img
+              v-if="studentInfo.avator"
+              :src="studentInfo.avator"
+              alt="header"
+              class="header"
+            >
+            <img
+              v-else
               src="@/assets/common/header.png"
               alt="header"
               class="header"
@@ -162,6 +168,8 @@ export default {
 <style lang="scss" scoped>
 .header {
   border-radius: 50%;
+  width: 120px;
+  height: 120px;
 }
 .divider {
   margin: 30px 0px;
