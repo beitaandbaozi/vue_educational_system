@@ -8,7 +8,8 @@
             size="small"
             type="success"
             plain
-          >编辑</el-button>
+            @click="saveStudentInfo"
+          >保存更新</el-button>
           <el-button
             size="small"
             type="primary"
@@ -144,7 +145,8 @@
 </template>
 
 <script>
-import { editStudentById } from "@/api/studentsList";
+import { editStudentById, editStudentSubmit } from "@/api/studentsList";
+import { Message } from "element-ui";
 export default {
   data() {
     return {
@@ -161,6 +163,11 @@ export default {
       let res = await editStudentById(this.num);
       this.studentInfo = res.result;
     },
+    // 保存更新操作
+    async saveStudentInfo() {
+      await editStudentSubmit(this.num, this.studentInfo);
+      Message.success("保存学生信息成功！");
+    },
   },
 };
 </script>
@@ -168,8 +175,8 @@ export default {
 <style lang="scss" scoped>
 .header {
   border-radius: 50%;
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
 }
 .divider {
   margin: 30px 0px;
