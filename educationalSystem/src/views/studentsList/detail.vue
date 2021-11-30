@@ -2,6 +2,22 @@
   <div class="dashboard-container">
     <div class="app-container">
       <!-- 添加一个编辑资料 再统一修改 -->
+      <!-- 添加一个打印处理 -->
+      <page-tools :show-before="true">
+          <span slot="before"> {{studentInfo.stu_name}} 的个人资料</span>
+          <template slot="after">
+          <el-button
+            size="small"
+            type="success"
+            plain
+          >编辑</el-button>
+          <el-button
+            size="small"
+            type="primary"
+            plain
+          >打印</el-button>
+        </template>
+      </page-tools>
       <el-card>
         <el-form
           :model="studentInfo"
@@ -122,6 +138,7 @@
 </template>
 
 <script>
+import { editStudentById } from "@/api/studentsList";
 export default {
   data() {
     return {
@@ -130,7 +147,15 @@ export default {
       studentInfo: {},
     };
   },
-  methods: {},
+  created() {
+    this.getStuInfoById();
+  },
+  methods: {
+    async getStuInfoById() {
+      let res = await editStudentById(this.num);
+      this.studentInfo = res.result;
+    },
+  },
 };
 </script>
 
