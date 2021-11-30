@@ -1,27 +1,29 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
+      <page-tools :show-before="true">
+        <span slot="before">共有{{total}}门课程</span>
+        <template slot="after">
+          <el-row>
+            <el-col>
+              <el-input
+                size="small"
+                placeholder="请输入课程代码"
+                clearable
+                v-model="paramsInfo.query"
+                @clear="getSetUpCourse"
+              >
+                <el-button
+                  slot="append"
+                  icon="el-icon-search"
+                  @click="getSetUpCourse"
+                ></el-button>
+              </el-input>
+            </el-col>
+          </el-row>
+        </template>
+      </page-tools>
       <el-card>
-        <!-- 搜索框 -->
-        <el-row :gutter="20">
-          <el-col :span="6">
-            <el-input
-              size="small"
-              placeholder="请输入课程代码"
-              clearable
-              v-model="paramsInfo.query"
-              @clear="getSetUpCourse"
-            >
-              <el-button
-                slot="append"
-                icon="el-icon-search"
-                @click="getSetUpCourse"
-              ></el-button>
-            </el-input>
-          </el-col>
-          <!-- 添加课程 -->
-          <!-- 当用户角色为管理员时添加  v-if -->
-        </el-row>
         <!-- 开设课程信息 -->
         <el-table
           stripe
@@ -34,11 +36,13 @@
             prop="c_id"
             label="课程代码"
             align="center"
+            width="100"
           ></el-table-column>
           <el-table-column
             prop="name"
             label="名称"
             align="center"
+            width="190"
           ></el-table-column>
           <el-table-column
             prop="credit"
@@ -56,20 +60,41 @@
             prop="duty"
             label="系别"
             align="center"
+            width="100"
           ></el-table-column>
           <el-table-column
             prop="class_type"
             label="上课方式"
             align="center"
-            width="90"
+            width="70"
           ></el-table-column>
           <el-table-column
             prop="intro"
             label="简介"
-            width="500"
             align="center"
           ></el-table-column>
           <!-- 操作按钮  当用户角色为管理员里再补上-->
+          <el-table-column
+            label="操作"
+            align="center"
+            v-if="roles == 'admin'"
+            width="150"
+          >
+            <template slot-scope="scope">
+              <el-button
+                plain
+                size="mini"
+                type="primary"
+                @click="editCoures(scope.row.c_id)"
+              >编辑</el-button>
+              <el-button
+                plain
+                size="mini"
+                type="danger"
+                @click="delCoures(scope.row.c_id)"
+              >删除</el-button>
+            </template>
+          </el-table-column>
         </el-table>
         <!-- 分页区域 -->
         <el-pagination
@@ -90,7 +115,11 @@
 
 <script>
 import { getSetUpCourse } from "@/api/setUpCoures";
+import { mapGetters } from "vuex";
 export default {
+  computed: {
+    ...mapGetters(["roles"]),
+  },
   data() {
     return {
       classList: [],
@@ -120,6 +149,10 @@ export default {
       this.paramsInfo.pagenum = newPage;
       this.getSetUpCourse();
     },
+    // 编辑开设课程
+    editCoures(id) {},
+    // 删除开设课程
+    delCoures(id) {},
   },
 };
 </script>
