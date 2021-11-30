@@ -309,7 +309,7 @@ export default {
       this.addStuDialog = true;
     },
     detailByStu(num) {
-      console.log(num);
+      this.$router.push(`/studentsList/detail/${num}`)
     },
   },
 };
