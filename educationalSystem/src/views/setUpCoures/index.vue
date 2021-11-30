@@ -70,7 +70,7 @@
           ></el-table-column>
           <el-table-column
             prop="intro"
-            label="简介"
+            label="课程介绍"
             align="center"
           ></el-table-column>
           <!-- 操作按钮  当用户角色为管理员里再补上-->
@@ -110,13 +110,22 @@
         </el-pagination>
       </el-card>
     </div>
+    <!-- 编辑课程对话框 -->
+    <edit-coures
+      :show-dialog.sync="editCouresDialog"
+      ref="editCouresRef"
+    ></edit-coures>
   </div>
 </template>
 
 <script>
 import { getSetUpCourse } from "@/api/setUpCoures";
 import { mapGetters } from "vuex";
+import editCoures from "./components/editCoures.vue";
 export default {
+  components: {
+    editCoures,
+  },
   computed: {
     ...mapGetters(["roles"]),
   },
@@ -129,6 +138,7 @@ export default {
         pagesize: 10,
       },
       total: 0,
+      editCouresDialog: false,
     };
   },
   created() {
@@ -150,7 +160,12 @@ export default {
       this.getSetUpCourse();
     },
     // 编辑开设课程
-    editCoures(id) {},
+    editCoures(id) {
+      // 打开编辑对话框
+      this.editCouresDialog = true;
+      // 触发函数
+      this.$refs.editCouresRef.editCoures(id.trim());
+    },
     // 删除开设课程
     delCoures(id) {},
   },

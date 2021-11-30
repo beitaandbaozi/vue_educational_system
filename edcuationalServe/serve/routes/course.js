@@ -28,7 +28,7 @@ router.post('/getSetUpCourse', function (req, res) {
                 msg: '搜索关键词时数据库信息成功！',
                 data: {
                     result,
-                    count:result[0].count
+                    count: result[0].count
                 }
             })
         })
@@ -45,13 +45,33 @@ router.post('/getSetUpCourse', function (req, res) {
                     msg: '获取开设课程信息成功！',
                     data: {
                         result,
-                        count:result[0].count
+                        count: result[0].count
                     }
                 })
             }
         })
     }
 })
+// 根据课程代码获取对应的课程资料
+router.get('/getSetUpCourse/:id', function (req, res) {
+    let id = req.params.id;
+    let sql = `select distinct * from class where c_id like '%${id}%'`;
+    db.query(sql,function (err, result) {
+        if (err) {
+            console.log('根据课程代码获取对应的课程资料信息时数据库出错');
+            return
+        } else {
+            // console.log(result)
+            res.send({
+                status: 200,
+                msg: '根据课程代码获取对应的课程资料信息成功！',
+                data: {
+                    result:result[0],
+                }
+            })
+        }
+    })
 
+})
 
 module.exports = router;

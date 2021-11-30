@@ -7,3 +7,11 @@ export function getSetUpCourse(data) {
         data
     })
 }
+// 根据课程代码获取对应的课程资料
+export function getCourseById(id) {
+    return request({
+        url: `/course/getSetUpCourse/${id}`,
+        method: 'get',
+    })
+
+}

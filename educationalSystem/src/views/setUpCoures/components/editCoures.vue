@@ -50,6 +50,7 @@
             v-model="editCouresForm.intro"
             type="textarea"
           ></el-input>
+        </el-form-item>
       </el-form>
       <span
         slot="footer"
@@ -66,6 +67,7 @@
 </template>
 
 <script>
+import { getCourseById } from "@/api/setUpCoures";
 export default {
   props: {
     showDialog: {
@@ -80,8 +82,14 @@ export default {
     };
   },
   methods: {
-    btnCancel() {},
+    btnCancel() {
+      this.$emit("update:showDialog", false);
+    },
     btnOk() {},
+    async editCoures(id) {
+      let res = await getCourseById(id);
+      this.editCouresForm = res.result;
+    },
   },
 };
 </script>
