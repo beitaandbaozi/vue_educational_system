@@ -8,7 +8,6 @@
     >
       <el-form
         :model="editCouresForm"
-        :rules="editCouresRules"
         ref="editCouresRef"
         label-width="100px"
       >
@@ -18,28 +17,16 @@
             disabled
           ></el-input>
         </el-form-item>
-        <el-form-item
-          label="名称"
-          prop="coures_name"
-        >
+        <el-form-item label="课程名称">
           <el-input v-model="editCouresForm.name"></el-input>
         </el-form-item>
-        <el-form-item
-          label="学分"
-          prop="credit"
-        >
+        <el-form-item label="学分">
           <el-input v-model="editCouresForm.credit"></el-input>
         </el-form-item>
-        <el-form-item
-          label="考察方式"
-          prop="assess"
-        >
+        <el-form-item label="考察方式">
           <el-input v-model="editCouresForm.assess"></el-input>
         </el-form-item>
-        <el-form-item
-          label="系别"
-          prop="duty"
-        >
+        <el-form-item label="系别">
           <el-input v-model="editCouresForm.duty"></el-input>
         </el-form-item>
         <el-form-item label="上课方式">
@@ -67,7 +54,8 @@
 </template>
 
 <script>
-import { getCourseById } from "@/api/setUpCoures";
+import { getCourseById, editCouresSubmit } from "@/api/setUpCoures";
+import { Message } from "element-ui";
 export default {
   props: {
     showDialog: {
@@ -78,14 +66,25 @@ export default {
   data() {
     return {
       editCouresForm: {},
-      editCouresRules: {},
     };
   },
   methods: {
     btnCancel() {
       this.$emit("update:showDialog", false);
     },
-    btnOk() {},
+    async btnOk() {
+      /**
+       * 表单验证
+       * 连接接口
+       * 通知消息
+       * 更新数据
+       * 通知父组件关闭表单
+       */
+      await editCouresSubmit(this.editCouresForm.c_id, this.editCouresForm);
+      Message.success("编辑课程信息成功！");
+      this.$emit("editCoures");
+      this.$emit("update:showDialog", false);
+    },
     async editCoures(id) {
       let res = await getCourseById(id);
       this.editCouresForm = res.result;

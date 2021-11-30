@@ -16,7 +16,7 @@ router.post('/getSetUpCourse', function (req, res) {
     }
     let sql = '';
     if (query != '') {
-        sql = `select *,(select count(*) from class where c_id like '%${query}%') as count from class where c_id  like '%${query}%'`;
+        sql = `select *,(select count(*) from class where c_id = '%${query}%') as count from class where c_id  = '%${query}%'`;
         db.query(sql, null, function (err, result) {
             if (err) {
                 console.log('搜索关键词时数据库出错' + err);
@@ -61,7 +61,6 @@ router.get('/getSetUpCourse/:id', function (req, res) {
             console.log('根据课程代码获取对应的课程资料信息时数据库出错');
             return
         } else {
-            // console.log(result)
             res.send({
                 status: 200,
                 msg: '根据课程代码获取对应的课程资料信息成功！',
@@ -82,8 +81,8 @@ router.post('/editCouresSubmit/:id', function (req, res) {
     let duty = req.body.duty;
     let class_type = req.body.class_type;
     let intro = req.body.intro;
-    let sql = 'update class set name=?,credit=?,class_type=?,intro=? where c_id=?';
-    db.query(sql, [name, credit, assess, duty, class_type, intro, id], function (err, result) {
+    let sql = `update class set name = '${name}',credit = '${credit}',assess = '${assess}',duty = '${duty}',class_type = '${class_type}',intro = '${intro}' where c_id=?`;
+    db.query(sql, [id], function (err, result) {
         if (err) {
             console.log('编辑课程信息提交时数据库出错！')
             return

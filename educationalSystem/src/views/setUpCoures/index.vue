@@ -40,7 +40,7 @@
           ></el-table-column>
           <el-table-column
             prop="name"
-            label="名称"
+            label="课程名称"
             align="center"
             width="190"
           ></el-table-column>
@@ -114,6 +114,7 @@
     <edit-coures
       :show-dialog.sync="editCouresDialog"
       ref="editCouresRef"
+      @editCoures="getSetUpCourse"
     ></edit-coures>
   </div>
 </template>
