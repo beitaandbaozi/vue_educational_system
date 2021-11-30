@@ -15,3 +15,11 @@ export function getCourseById(id) {
     })
 
 }
+// 编辑提交
+export function editCouresSubmit(id, data) {
+    return request({
+        url: `/course/editCouresSubmit/${id}`,
+        method: 'post',
+        data
+    })
+}
