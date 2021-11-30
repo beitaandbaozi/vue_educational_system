@@ -23,3 +23,10 @@ export function editCouresSubmit(id, data) {
         data
     })
 }
+// 根据课程代码删除对应的课程
+export function delCouresById(id) {
+    return request({
+        url: `/course/delCouresById/${id}`,
+        method: 'post'
+    })
+}

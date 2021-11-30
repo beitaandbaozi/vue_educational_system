@@ -66,7 +66,7 @@
             prop="class_type"
             label="上课方式"
             align="center"
-            width="70"
+            width="90"
           ></el-table-column>
           <el-table-column
             prop="intro"
@@ -120,9 +120,10 @@
 </template>
 
 <script>
-import { getSetUpCourse } from "@/api/setUpCoures";
+import { getSetUpCourse, delCouresById } from "@/api/setUpCoures";
 import { mapGetters } from "vuex";
 import editCoures from "./components/editCoures.vue";
+import { Message } from "element-ui";
 export default {
   components: {
     editCoures,
@@ -168,7 +169,23 @@ export default {
       this.$refs.editCouresRef.editCoures(id.trim());
     },
     // 删除开设课程
-    delCoures(id) {},
+    async delCoures(id) {
+      const confirmResult = await this.$confirm(
+        "此操作将永久删除该课程, 是否继续?",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      ).catch((error) => error);
+      if (confirmResult != "confirm") {
+        return Message.info("已经取消删除！");
+      }
+      await delCouresById(id.trim());
+      Message.success("删除该课程成功！");
+      this.getSetUpCourse();
+    },
   },
 };
 </script>

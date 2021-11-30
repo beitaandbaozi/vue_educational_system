@@ -95,4 +95,20 @@ router.post('/editCouresSubmit/:id', function (req, res) {
     })
 
 })
+// 根据课程代码删除对应的课程
+router.post('/delCouresById/:id', function (req, res) {
+    let id = req.params.id;
+    let sql = `delete from class where c_id like '%${id}%'`
+    db.query(sql, function (err, result) {
+        if (err) {
+            console.log('根据课程代码删除对应的课程数据库报错！')
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '根据课程代码删除对应的课程成功！',
+            })
+        }
+    })
+})
 module.exports = router;
