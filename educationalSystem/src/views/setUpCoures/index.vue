@@ -2,7 +2,7 @@
   <div class="dashboard-container">
     <div class="app-container">
       <page-tools :show-before="true">
-        <span slot="before">共有{{total}}门课程</span>
+        <span slot="before">共开设{{total}}门课程</span>
         <template slot="after">
           <el-row>
             <el-col>
