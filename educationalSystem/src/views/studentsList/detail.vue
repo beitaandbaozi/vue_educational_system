@@ -13,8 +13,9 @@
           <el-button
             size="small"
             type="primary"
+            icon="el-icon-printer"
             plain
-          >打印</el-button>
+          >打印个人信息</el-button>
         </template>
       </page-tools>
       <!-- 资料 -->

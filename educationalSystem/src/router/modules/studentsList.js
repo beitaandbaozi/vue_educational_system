@@ -24,5 +24,13 @@ export default {
             title: '学生详情' // 标记当前路由规则的中文名称 后续在做左侧菜单时 使用
         }
     },
+    {
+        path: 'print/:id', // 二级默认路由
+        component: () => import('@/views/studentsList/print'), // 按需加载
+        hidden: true,
+        meta: {
+            title: '打印', // 标记当前路由规则的中文名称 后续在做左侧菜单时 使用
+        }
+    }
     ]
 }
