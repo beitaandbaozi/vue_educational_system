@@ -13,6 +13,7 @@
           <el-button
             size="small"
             type="danger"
+            @click="excelExport"
           >excel导出</el-button>
           <el-button
             size="small"
@@ -145,7 +146,7 @@
                   type="warning"
                   icon="el-icon-edit"
                   size="mini"
-                   plain
+                  plain
                   @click="editStu(scope.row.id)"
                 ></el-button>
               </el-tooltip>
@@ -160,7 +161,7 @@
                   type="danger"
                   icon="el-icon-delete"
                   size="mini"
-                   plain
+                  plain
                   @click="delStu(scope.row.id)"
                 ></el-button>
               </el-tooltip>
@@ -175,7 +176,7 @@
                   type="info"
                   icon="el-icon-star-off"
                   size="mini"
-                   plain
+                  plain
                   @click="detailByStu(scope.row.id)"
                 ></el-button>
               </el-tooltip>
@@ -203,7 +204,10 @@
       @editStudent="getAllStudents"
     ></edit-student>
     <!-- 新增学生对话框组件 -->
-    <add-student :show-dialog.sync="addStuDialog" @addStudent="getAllStudents"></add-student>
+    <add-student
+      :show-dialog.sync="addStuDialog"
+      @addStudent="getAllStudents"
+    ></add-student>
   </div>
 </template>
 
@@ -213,6 +217,7 @@ import {
   getAllDuty,
   searchByStudents,
   delStudentById,
+  getAllStudentsByExcel,
 } from "@/api/studentsList";
 import editStudent from "./components/editStudent.vue";
 import addStudent from "./components/addStudent.vue";
@@ -310,7 +315,54 @@ export default {
       this.addStuDialog = true;
     },
     detailByStu(num) {
-      this.$router.push(`/studentsList/detail/${num}`)
+      this.$router.push(`/studentsList/detail/${num}`);
+    },
+    // 导出学生数据
+    excelExport() {
+      // 表头对应关系
+      const headers = {
+        学号: "id",
+        名字: "stu_name",
+        学年: "grad",
+        行政班级: "class",
+        专业: "major",
+        系别: "duty",
+        宿舍号: "dormitory",
+        导师: "advisor",
+        身份证: "idCard",
+        辅导员: "counsellor",
+        邮箱: "email",
+      };
+      // 懒加载
+      import("@/vendor/Export2Excel").then(async (excel) => {
+        let { result } = await getAllStudentsByExcel();
+        const data = this.formatJson(headers, result);
+        excel.export_json_to_excel({
+          header: Object.keys(headers),
+          data,
+          filename: "学生信息表",
+          autoWidth: true,
+          bookType: "xlsx",
+        });
+      });
+    },
+    // 将数组转化成二维数组 [{}] => [[]]
+    formatJson(headers, result) {
+      /**
+       * result:[{}]
+       * item是对象  => 转化成只有值的数组 => 数组值的顺序依赖headers  {username: '张三'
+       * Object.keys(headers): ["姓名", "手机号", "入职日期", "聘用形式", "转正日期", "工号", "部门"]
+       * headers[key]   对应的英文名字
+       * item(headers[key])   返回对应英文名字的值  因为他是一个对象
+       * map  返回的是数组
+       */
+      return result.map((item) => {
+        // item是一个对象 {id: '1740916212', stu_name: '静香',...}
+        return Object.keys(headers).map((key) => {
+          console.log(item[headers[key]]);
+          return item[headers[key]];
+        });
+      });
     },
   },
 };

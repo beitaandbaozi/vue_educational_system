@@ -6,6 +6,7 @@ router.post('/getAllStudents', function (req, res) {
     let query = req.body.query;
     let pagenum = Number(req.body.pagenum);
     let start, pagesize = Number(req.body.pagesize);
+    console.log(pagenum, pagesize)
     if (pagenum == undefined) {
         pagenum = 1;
         start = 0;
@@ -235,5 +236,23 @@ router.post('/importStudents', function (req, res) {
         msg: '导入excel学生成功！'
     })
 
+})
+// excel获取所有学生信息
+router.get('/getAllStudentsByExcel', function (req, res) {
+    let sql = 'select * from student_info';
+    db.query(sql, function (err, result) {
+        if (err) {
+            console.log('excel获取所有学生信息时数据库出错')
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '获取excel获取所有学生信息数据库信息成功！',
+                data: {
+                    result,
+                }
+            })
+        }
+    })
 })
 module.exports = router;

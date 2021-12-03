@@ -52,3 +52,10 @@ export function addStudentSubmit(data) {
         data
     })
 }
+// excel导出所有学生信息
+export function getAllStudentsByExcel() {
+    return request({
+        url: `/admin/getAllStudentsByExcel`,
+        method: 'get',
+    })
+}
