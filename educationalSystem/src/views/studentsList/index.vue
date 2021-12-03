@@ -8,11 +8,12 @@
           <el-button
             size="small"
             type="success"
-          >导入</el-button>
+            @click="$router.push('./import')"
+          >excel导入</el-button>
           <el-button
             size="small"
             type="danger"
-          >导出</el-button>
+          >excel导出</el-button>
           <el-button
             size="small"
             type="primary"

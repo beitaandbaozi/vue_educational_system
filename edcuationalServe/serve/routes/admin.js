@@ -197,7 +197,7 @@ router.post('/addStudentSubmit', function (req, res) {
     let sql = 'insert into student_info (id,stu_name,grad,class,major,idCard,email,advisor,counsellor,dormitory,duty) values(?,?,?,?,?,?,?,?,?,?,?)';
     db.query(sql, [id, stu_name, grad, classes, major, email, idCard, advisor, counsellor, dormitoryId, duty], function (err, result) {
         if (err) {
-            console.log('添加学生是数据库出错');
+            console.log('添加学生时数据库出错');
             return
         } else {
             res.send({
@@ -206,5 +206,34 @@ router.post('/addStudentSubmit', function (req, res) {
             })
         }
     })
+})
+// 使用excel导入学生
+router.post('/importStudents', function (req, res) {
+    const studentsList = req.body;
+    for (var i = 0; i < studentsList.length; i++) {
+        let id = studentsList[i].id;
+        let stu_name = studentsList[i].stu_name;
+        let grad = studentsList[i].grad;
+        let classes = studentsList[i].class;
+        let major = studentsList[i].major;
+        let idCard = studentsList[i].idCard;
+        let email = studentsList[i].email;
+        let advisor = studentsList[i].advisor;
+        let counsellor = studentsList[i].counsellor;
+        let dormitoryId = studentsList[i].dormitoryId;
+        let duty = studentsList[i].duty;
+        let sql = 'insert into student_info (id,stu_name,grad,class,major,idCard,email,advisor,counsellor,dormitory,duty) values(?,?,?,?,?,?,?,?,?,?,?)';
+        db.query(sql, [id, stu_name, grad, classes, major, email, idCard, advisor, counsellor, dormitoryId, duty], function (err, result) {
+            if (err) {
+                console.log('导入excel学生时数据库出错', err);
+                return
+            }
+        })
+    }
+    res.json({
+        status: 200,
+        msg: '导入excel学生成功！'
+    })
+
 })
 module.exports = router;
