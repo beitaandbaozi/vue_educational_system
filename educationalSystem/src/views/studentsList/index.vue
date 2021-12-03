@@ -359,7 +359,6 @@ export default {
       return result.map((item) => {
         // item是一个对象 {id: '1740916212', stu_name: '静香',...}
         return Object.keys(headers).map((key) => {
-          console.log(item[headers[key]]);
           return item[headers[key]];
         });
       });
