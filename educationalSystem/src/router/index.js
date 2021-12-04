@@ -9,7 +9,6 @@ import Layout from '@/layout'
 // 引入学生页面的路由
 import classSchedule from './modules/classSchedule'
 import dormitoryService from './modules/dormitoryService'
-import setUpCoures from './modules/setUpCoures'
 import stuMesg from './modules/stuMesg'
 import subCost from './modules/subCost'
 import teachEvaluation from './modules/teachEvaluation'
@@ -23,6 +22,10 @@ import teachingTask from './modules/teachingTask'
 
 // 引入管理员页面的路由
 import studentsList from './modules/studentsList'
+
+// 引入三种角色共有的路由
+import setUpCoures from './modules/setUpCoures'
+import guangRuanNew from './modules/guangRuanNew'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -88,6 +91,7 @@ export const constantRoutes = [
 
 // 动态路由
 export const asyncRoutes = [
+    guangRuanNew,
     classSchedule,
     setUpCoures,
     dormitoryService,
