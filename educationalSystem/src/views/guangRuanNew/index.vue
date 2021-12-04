@@ -92,7 +92,7 @@ export default {
       this.getAllNew();
     },
     getNewById(id) {
-      console.log(id);
+      this.$router.push(`/guangRuanNew/detail/${id}`);
     },
   },
 };
