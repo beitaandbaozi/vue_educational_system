@@ -2,21 +2,37 @@
   <div class="dashboard-container">
     <div class="app-container">
       <!-- 工具栏 -->
-      <el-timeline>
-        <el-timeline-item
-          v-for="item in newList"
-          :key="item.id"
-          :timestamp="item.time"
-          icon="el-icon-hot-water"
-          type="primary"
-          placement="top"
-        >
-          <el-card>
-            <h3>{{item.title}}</h3>
-            <p>{{item.content}}</p>
-          </el-card>
-        </el-timeline-item>
-      </el-timeline>
+      <page-tools
+        :show-before="true"
+        v-if="roles == 'admin'"
+      >
+        <span slot="before">共有{{total}}条快讯</span>
+        <template slot="after">
+          <el-button
+            size="small"
+            type="primary"
+            plain
+          >发布快讯</el-button>
+        </template>
+      </page-tools>
+      <el-card>
+        <el-timeline>
+          <el-timeline-item
+            v-for="item in newList"
+            :key="item.id"
+            :timestamp="item.time"
+            icon="el-icon-hot-water"
+            type="primary"
+            placement="top"
+          >
+            <el-card>
+              <h3>{{item.title}}</h3>
+              <p>{{item.content}}</p>
+            </el-card>
+          </el-timeline-item>
+        </el-timeline>
+      </el-card>
+
       <!-- 分页条 -->
       <el-pagination
         style="margin-top:20px;display:flex;justify-content:end"
@@ -35,7 +51,11 @@
 
 <script>
 import { getAllNew } from "@/api/guangRuanNew";
+import { mapGetters } from "vuex";
 export default {
+  computed: {
+    ...mapGetters(["roles"]),
+  },
   data() {
     return {
       // 分页条数据
