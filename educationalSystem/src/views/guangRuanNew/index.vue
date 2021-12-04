@@ -24,10 +24,17 @@
             icon="el-icon-hot-water"
             type="primary"
             placement="top"
+            size="large"
           >
             <el-card>
               <h3>{{item.title}}</h3>
               <p>{{item.content}}</p>
+              <el-link
+                type="primary"
+                class="checkMore"
+                :underline="false"
+                @click="getNewById(item.id)"
+              ><i class="el-icon-view el-icon--right"></i>查看详情</el-link>
             </el-card>
           </el-timeline-item>
         </el-timeline>
@@ -84,9 +91,16 @@ export default {
       this.paramsInfo.pagenum = newPage;
       this.getAllNew();
     },
+    getNewById(id) {
+      console.log(id);
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.checkMore {
+  display: flex;
+  justify-content: end;
+}
 </style>
