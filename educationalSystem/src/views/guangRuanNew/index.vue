@@ -28,7 +28,7 @@
           >
             <el-card>
               <h3>{{item.title}}</h3>
-              <p>{{item.content}}</p>
+              <p class="p-content">{{item.content}}</p>
               <el-link
                 type="primary"
                 class="checkMore"
@@ -102,5 +102,10 @@ export default {
 .checkMore {
   display: flex;
   justify-content: end;
+}
+.p-content {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 </style>

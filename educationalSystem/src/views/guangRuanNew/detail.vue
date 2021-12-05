@@ -78,6 +78,6 @@ export default {
 }
 .el-footer {
   text-align: center;
-  margin-top:20px
+  margin-top: 20px;
 }
 </style>
