@@ -6,7 +6,6 @@ import PageTools from './PageTools'
 import ImageUpload from './ImageUpload'
 import Print from 'vue-print-nb'
 import UploadExcel from './UploadExcel'
-import wangEnduit from './wangEnduit'
 export default {
     install(Vue) {
         Vue.component('TagsView', TagsView)
@@ -14,6 +13,5 @@ export default {
         Vue.component('ImageUpload', ImageUpload)
         Vue.use(Print)
         Vue.component('UploadExcel', UploadExcel)
-        Vue.component('wangEnduit', wangEnduit)
     }
 }

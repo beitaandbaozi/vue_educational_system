@@ -12,6 +12,7 @@
             size="small"
             type="primary"
             plain
+            @click="$router.push('/guangRuanNew/addNew')"
           >发布快讯</el-button>
         </template>
       </page-tools>

@@ -22,5 +22,13 @@ export default {
             title: '快讯详情' // 标记当前路由规则的中文名称 后续在做左侧菜单时 使用
         }
     },
+    {
+        path: 'addNew', // query传参 动态路由传参
+        component: () => import('@/views/guangRuanNew/addNew'),
+        hidden: true, // 不在左侧菜单显示
+        meta: {
+            title: '发布快讯' // 标记当前路由规则的中文名称 后续在做左侧菜单时 使用
+        }
+    },
     ]
 }
