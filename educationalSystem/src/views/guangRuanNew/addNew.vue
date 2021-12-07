@@ -183,8 +183,23 @@ export default {
     },
     // 发布快讯
     async issueNew() {
-      let res = await issueNew(this.addNewForm);
-      console.log(res);
+      this.$refs.addNewRef.validate(async (valid) => {
+        if (!valid) return;
+        await issueNew(this.addNewForm);
+        Message.success("发布快讯成功！");
+        //清空表单
+        this.addNewForm = {
+          title: "",
+          depart_feed: "",
+          contributor: "",
+          photographer: "",
+          edit: "",
+          first_trial: "",
+          recheck: "",
+          audit: "",
+          time: "",
+        };
+      });
     },
   },
   computed: {
