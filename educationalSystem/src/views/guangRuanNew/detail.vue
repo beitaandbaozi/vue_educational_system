@@ -3,7 +3,7 @@
     <div class="app-container">
       <el-container>
         <!-- 标题 -->
-        <el-header class="el-header">{{newList[0].title}}</el-header>
+        <el-header class="el-header">{{newList[0].new_title}}</el-header>
         <!-- 稿件信息 -->
         <el-main class="el-main-card">
           <el-card shadow="never">
@@ -12,15 +12,15 @@
               justify="space-between"
             >
               <el-col>供稿部门：{{newList[0].depart_feed}}</el-col>
-              <el-col>供稿人：{{newList[0].contributor | capitalize }}</el-col>
-              <el-col>摄影：{{newList[0].photographer | capitalize }}</el-col>
+              <el-col>供稿人：{{newList[0].contributor }}</el-col>
+              <el-col>摄影：{{newList[0].photographer}}</el-col>
               <el-col>编辑：{{newList[0].edit}}</el-col>
               <el-col>复审：{{newList[0].recheck}}</el-col>
               <el-col>审核：{{newList[0].audit}}</el-col>
             </el-row>
             <br>
             <el-row>
-              发布时间：{{newList[0].time}}
+              发布时间：{{newList[0].time | formatTime}}
             </el-row>
           </el-card>
         </el-main>
@@ -37,10 +37,21 @@
 import { getNewById } from "@/api/guangRuanNew";
 export default {
   filters: {
-    capitalize(val) {
-      if (!val) {
-        return "";
-      }
+    formatTime(value) {
+      const time = Number(value);
+      const date = new Date(time);
+      const y = date.getFullYear(); // 年
+      let MM = date.getMonth() + 1; // 月
+      MM = MM < 10 ? "0" + MM : MM;
+      let d = date.getDate(); // 日
+      d = d < 10 ? "0" + d : d;
+      let h = date.getHours(); // 时
+      h = h < 10 ? "0" + h : h;
+      let m = date.getMinutes(); // 分
+      m = m < 10 ? "0" + m : m;
+      let s = date.getSeconds(); // 秒
+      s = s < 10 ? "0" + s : s;
+      return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
     },
   },
   data() {

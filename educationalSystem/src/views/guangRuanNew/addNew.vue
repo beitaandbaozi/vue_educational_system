@@ -12,7 +12,7 @@
           label="新闻标题"
           prop="title"
         >
-          <el-input v-model="addNewForm.title"></el-input>
+          <el-input v-model="addNewForm.new_title"></el-input>
         </el-form-item>
         <el-form-item
           label="供稿部门"
@@ -75,6 +75,7 @@
             v-model="addNewForm.time"
             type="datetime"
             placeholder="选择日期时间"
+            value-format="timestamp"
           >
           </el-date-picker>
         </el-form-item>
@@ -139,7 +140,7 @@ export default {
         syntax: true, //语法检测
       },
       addNewForm: {
-        title: "",
+        new_title: "",
         depart_feed: "",
         contributor: "",
         photographer: "",
@@ -165,7 +166,13 @@ export default {
         content: [
           { required: true, message: "请输入新闻内容", trigger: "blur" },
         ],
-        time: [{ required: true, message: "请输入发表时间", trigger: "blur" }],
+        time: [
+          {
+            required: true,
+            message: "请输入发表时间",
+            trigger: "blur",
+          },
+        ],
       },
     };
   },
