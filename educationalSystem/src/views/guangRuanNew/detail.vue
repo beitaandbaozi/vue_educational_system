@@ -25,7 +25,7 @@
           </el-card>
         </el-main>
         <!-- 主要内容 -->
-        <el-main class="el-main-content">{{newList[0].content}}</el-main>
+        <el-main class="el-main-content" v-html="newList[0].content"></el-main>
         <!-- 尾部 -->
         <el-footer class="el-footer">（供稿：{{newList[0].depart_feed}} 初审：{{newList[0].edit}} 复审：{{newList[0].recheck}} 审核：{{newList[0].audit}}）</el-footer>
       </el-container>

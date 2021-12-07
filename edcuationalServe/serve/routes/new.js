@@ -12,10 +12,10 @@ router.post('/getAllNew', function (req, res) {
     } else {
         start = (pagenum - 1) * pagesize;
     }
-    let sql = `select *,(select count(*) from new) as count from new limit ?,?`;
+    let sql = `select *,(select count(*) from new) as count from new order by time DESC  limit ?,?`;
     db.query(sql, [start, pagesize], function (err, result) {
         if (err) {
-            console.log('获取所有新闻时数据库出错！')
+            console.log('获取所有新闻时数据库出错！',err.message)
             return
         } else {
             res.send({

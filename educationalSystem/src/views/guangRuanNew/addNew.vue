@@ -10,7 +10,7 @@
       >
         <el-form-item
           label="新闻标题"
-          prop="title"
+          prop="new_title"
         >
           <el-input v-model="addNewForm.new_title"></el-input>
         </el-form-item>
@@ -151,7 +151,9 @@ export default {
         time: "",
       },
       addNewRules: {
-        title: [{ required: true, message: "请输入新闻标题", trigger: "blur" }],
+        new_title: [
+          { required: true, message: "请输入新闻标题", trigger: "blur" },
+        ],
         depart_feed: [
           { required: true, message: "请输入供稿部门", trigger: "blur" },
         ],
@@ -177,17 +179,6 @@ export default {
     };
   },
   methods: {
-    // 失去焦点
-    onEditorBlur(editor) {},
-    // 获得焦点
-    onEditorFocus(editor) {},
-    // 开始
-    onEditorReady(editor) {},
-    // 值发生变化
-    onEditorChange(editor) {
-      this.content = editor.html;
-      console.log(editor);
-    },
     // 发布快讯
     async issueNew() {
       this.$refs.addNewRef.validate(async (valid) => {
@@ -208,6 +199,17 @@ export default {
         };
       });
     },
+    // 失去焦点
+    onEditorBlur(editor) {},
+    // 获得焦点
+    onEditorFocus(editor) {},
+    // 开始
+    onEditorReady(editor) {},
+    // 值发生变化
+    onEditorChange(editor) {
+      this.content = editor.html;
+      console.log(editor);
+    },
   },
   computed: {
     editor() {
@@ -222,6 +224,7 @@ export default {
   line-height: normal !important;
   height: 800px;
 }
+
 .ql-snow .ql-tooltip[data-mode="link"]::before {
   content: "请输入链接地址:";
 }

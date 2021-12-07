@@ -29,7 +29,12 @@
           >
             <el-card>
               <h3 v-if="item.new_title">{{item.new_title}}</h3>
-              <p class="p-content">{{item.content}}</p>
+              <div class="ql-container ql-snow">
+                <p
+                  class="p-content"
+                  v-html="item.content"
+                >{{item.content}}</p>
+              </div>
               <el-link
                 type="primary"
                 class="checkMore"
@@ -121,9 +126,12 @@ export default {
   display: flex;
   justify-content: end;
 }
-.p-content {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.p-content,
+.p-content > p,
+.ql-container .ql-snow {
+  border: none;
+  white-space: nowrap!important;
+  overflow: hidden!important;
+  text-overflow: ellipsis!important;
 }
 </style>
