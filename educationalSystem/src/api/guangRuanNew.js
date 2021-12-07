@@ -14,3 +14,11 @@ export function getNewById(id) {
         method: 'get'
     })
 }
+// 发布快讯
+export function issueNew(data){
+    return request({
+        url:'/new/issueNew',
+        method: 'post',
+        data
+    })
+}
