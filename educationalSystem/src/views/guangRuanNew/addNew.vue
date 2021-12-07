@@ -87,6 +87,7 @@
         <el-button
           type="success"
           plain
+          @click="issueNew"
         >发布快讯</el-button>
       </el-row>
       <!-- 回顶 -->
@@ -108,6 +109,8 @@
 </template>
 
 <script>
+import { issueNew } from "@/api/guangRuanNew";
+import { Message } from "element-ui";
 export default {
   data() {
     return {
@@ -178,14 +181,16 @@ export default {
       this.content = editor.html;
       console.log(editor);
     },
+    // 发布快讯
+    async issueNew() {
+      let res = await issueNew(this.addNewForm);
+      console.log(res);
+    },
   },
   computed: {
     editor() {
       return this.$refs.myTextEditor.quillEditor;
     },
-  },
-  mounted() {
-    // console.log('this is my editor',this.editor);
   },
 };
 </script>

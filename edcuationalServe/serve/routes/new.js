@@ -50,4 +50,29 @@ router.get('/getNewById/:id', function (req, res) {
     })
 
 })
+// 发布快讯
+router.post('/issueNew', function (req, res) {
+    let title = req.body.title;
+    let depart_feed = req.body.depart_feed;
+    let contributor = req.body.contributor;
+    let photographer = req.body.photographer;
+    let edit = req.body.edit;
+    let first_trial = req.body.first_trial;
+    let recheck = req.body.recheck;
+    let audit = req.body.audit;
+    let time = req.body.time;
+    let content = req.body.content;
+    let sql = 'insert into new (title,depart_feed,contributor,photographer,edit,first_trial,recheck,audit,time,content) values(?,?,?,?,?,?,?,?,?,?)';
+    db.query(sql, [title, depart_feed, contributor, photographer, edit, first_trial, recheck, audit, time, content], function (err, result) {
+        if (err) {
+            console.log('添加快讯时数据库出错', err.sqlMessage);
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '添加快讯成功！',
+            })
+        }
+    })
+})
 module.exports = router;
