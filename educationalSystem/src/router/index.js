@@ -22,6 +22,7 @@ import teachingTask from './modules/teachingTask'
 
 // 引入管理员页面的路由
 import studentsList from './modules/studentsList'
+import teachersList from './modules/teachersList'
 
 // 引入三种角色共有的路由
 import setUpCoures from './modules/setUpCoures'
@@ -103,7 +104,8 @@ export const asyncRoutes = [
     teachingTask,
     stuMesg,
     teacherMesg,
-    studentsList
+    studentsList,
+    teachersList
 ]
 
 const createRouter = () => new Router({
