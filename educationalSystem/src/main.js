@@ -22,6 +22,25 @@ import 'quill/dist/quill.bubble.css'
 
 import Component from '@/components'
 
+
+// 定义全局过滤器
+Vue.filter('dateFormat', function (value){
+    const time = Number(value);
+    const date = new Date(time);
+    const y = date.getFullYear(); // 年
+    let MM = date.getMonth() + 1; // 月
+    MM = MM < 10 ? "0" + MM : MM;
+    let d = date.getDate(); // 日
+    d = d < 10 ? "0" + d : d;
+    let h = date.getHours(); // 时
+    h = h < 10 ? "0" + h : h;
+    let m = date.getMinutes(); // 分
+    m = m < 10 ? "0" + m : m;
+    let s = date.getSeconds(); // 秒
+    s = s < 10 ? "0" + s : s;
+    return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
+})
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api

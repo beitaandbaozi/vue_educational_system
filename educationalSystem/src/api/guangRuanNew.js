@@ -26,7 +26,7 @@ export function issueNew(data) {
 // 获取快讯（首页中应用）
 export function getNewByLimit() {
     return request({
-        url: '/new/getNewByLimit?limit=2',
-        method: 'post'
+        url: '/new/getNewByLimit?limit=3',
+        method: 'get'
     })
 }

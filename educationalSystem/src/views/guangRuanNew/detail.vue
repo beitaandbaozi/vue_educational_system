@@ -20,7 +20,7 @@
             </el-row>
             <br>
             <el-row>
-              发布时间：{{newList[0].time | formatTime}}
+              发布时间：{{newList[0].time | dateFormat}}
             </el-row>
           </el-card>
         </el-main>
@@ -36,24 +36,6 @@
 <script>
 import { getNewById } from "@/api/guangRuanNew";
 export default {
-  filters: {
-    formatTime(value) {
-      const time = Number(value);
-      const date = new Date(time);
-      const y = date.getFullYear(); // 年
-      let MM = date.getMonth() + 1; // 月
-      MM = MM < 10 ? "0" + MM : MM;
-      let d = date.getDate(); // 日
-      d = d < 10 ? "0" + d : d;
-      let h = date.getHours(); // 时
-      h = h < 10 ? "0" + h : h;
-      let m = date.getMinutes(); // 分
-      m = m < 10 ? "0" + m : m;
-      let s = date.getSeconds(); // 秒
-      s = s < 10 ? "0" + s : s;
-      return y + "-" + MM + "-" + d + " " + h + ":" + m + ":" + s;
-    },
-  },
   data() {
     return {
       id: this.$route.params.id,
