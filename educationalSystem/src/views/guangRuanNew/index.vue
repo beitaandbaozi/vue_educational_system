@@ -29,12 +29,10 @@
           >
             <el-card>
               <h3 v-if="item.new_title">{{item.new_title}}</h3>
-              <div class="ql-container ql-snow">
-                <p
-                  class="p-content"
-                  v-html="item.content"
-                >{{item.content}}</p>
-              </div>
+              <p
+                class="p-content"
+                v-html="item.content"
+              ></p>
               <el-link
                 type="primary"
                 class="checkMore"
@@ -126,12 +124,11 @@ export default {
   display: flex;
   justify-content: end;
 }
-.p-content,
-.p-content > p,
-.ql-container .ql-snow {
-  border: none;
-  white-space: nowrap!important;
-  overflow: hidden!important;
-  text-overflow: ellipsis!important;
+.p-content {
+  // 多行文本溢出来替代单行文本溢出的形式
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
 }
 </style>
