@@ -15,10 +15,18 @@ export function getNewById(id) {
     })
 }
 // 发布快讯
-export function issueNew(data){
+export function issueNew(data) {
     return request({
-        url:'/new/issueNew',
+        url: '/new/issueNew',
         method: 'post',
         data
+    })
+}
+
+// 获取快讯（首页中应用）
+export function getNewByLimit() {
+    return request({
+        url: '/new/getNewByLimit?limit=2',
+        method: 'post'
     })
 }
