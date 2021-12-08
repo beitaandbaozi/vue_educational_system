@@ -83,17 +83,6 @@
       </el-col>
       <!-- 右侧内容 -->
       <el-col :span="11">
-        <el-card class="box-card">
-          <div class="header headTit">
-            <span>流程申请</span>
-          </div>
-          <div class="sideNav">
-            <el-button class="sideBtn">加班离职</el-button>
-            <el-button class="sideBtn">请假调休</el-button>
-            <el-button class="sideBtn">审批列表</el-button>
-            <el-button class="sideBtn">我的信息</el-button>
-          </div>
-        </el-card>
         <div>
           <!-- 绩效指数 -->
           <el-card
@@ -104,8 +93,9 @@
               slot="header"
               class="header headTit"
             >
-              <span>绩效指数</span>
+              <span>学生数据</span>
             </div>
+            <Echarts></Echarts>
           </el-card>
           <!-- 课程任务 -->
           <el-card
@@ -144,6 +134,31 @@
           </el-card>
 
         </div>
+        <!-- 广软一角 -->
+        <el-card class="box-card">
+          <div
+            slot="header"
+            class="header headTit"
+          >
+            <span>校园一角</span>
+          </div>
+          <el-carousel
+            :interval="2000"
+            type="card"
+            height="120px"
+            arrow="hover"
+          >
+            <el-carousel-item
+              v-for="(item, index) in scrollImageList"
+              :key="index"
+            >
+              <img
+                :src="item.url"
+                style="width:100%;height:100%;"
+              />
+            </el-carousel-item>
+          </el-carousel>
+        </el-card>
         <!-- 帮助连接 -->
         <el-card class="box-card">
           <div class="header headTit">
@@ -179,6 +194,7 @@
 
 <script>
 import WorkCalender from "./components/work-calender.vue";
+import Echarts from "./components/echarts.vue";
 import { mapGetters } from "vuex";
 import { getTeachingTaskLimit, getTeachingTaskByStu } from "@/api/teachingTask";
 import { getTeacherInfo } from "@/api/teacherMesg";
@@ -191,6 +207,7 @@ export default {
   },
   components: {
     WorkCalender,
+    Echarts,
   },
   data() {
     return {
@@ -208,6 +225,21 @@ export default {
       headFlag: false,
       // 快讯信息
       newList: [],
+      // 广软一角相片（不从数据库取了）
+      scrollImageList: [
+        {
+          url: "http://attach.seig.edu.cn/attachment/core/label/2020_10/22_14/8b6be371e189fee2.jpg",
+        },
+        {
+          url: "http://attach.seig.edu.cn/attachment/core/label/2020_10/22_14/1a700f6c093c9668.jpg",
+        },
+        {
+          url: "http://attach.seig.edu.cn/attachment/core/label/2020_10/22_14/0226d21804216567.jpg",
+        },
+        {
+          url: "http://attach.seig.edu.cn/attachment/core/label/2020_10/22_14/abae13226bace504.jpg",
+        },
+      ],
     };
   },
   created() {
