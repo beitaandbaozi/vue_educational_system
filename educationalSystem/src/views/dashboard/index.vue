@@ -49,45 +49,33 @@
         <!-- 公告 -->
         <el-card class="box-card">
           <div class="advContent">
-            <div class="title"> 公告</div>
+            <div class="title">
+              <span>广软快讯</span>
+              <span style="display:flex;justify-content:end">
+                <el-link
+                  type="warning"
+                  :underline="false"
+                  @click="$router.push('/guangRuanNew')"
+                ><i class="el-icon-s-promotion"></i>更多</el-link>
+              </span>
+            </div>
+
             <div class="contentItem">
               <ul class="noticeList">
-                <li>
+                <li
+                  v-for="item in newList"
+                  :key="item.id"
+                  @click="$router.push(`/guangRuanNew/detail/${item.id}`)"
+                >
                   <div class="item">
-                    <img
-                      src="@/assets/common/header.png"
-                      alt=""
-                    >
+                    <img src="@/assets/common/header.png">
                     <div>
-                      <p><span class="col">朱继柳</span> 发布了 第1期“XXXX”互动讨论获奖名单公布</p>
-                      <p>2018-07-21 15:21:38</p>
+                      <p><span class="col">{{item.depart_feed}}</span> 发布 {{item.new_title}}</p>
+                      <p>{{item.time | dateFormat}}</p>
                     </div>
                   </div>
                 </li>
-                <li>
-                  <div class="item">
-                    <img
-                      src="@/assets/common/header.png"
-                      alt=""
-                    >
-                    <div>
-                      <p><span class="col">朱继柳</span> 发布了 第2期“XXXX”互动讨论获奖名单公布</p>
-                      <p>2018-07-21 15:21:38</p>
-                    </div>
-                  </div>
-                </li>
-                <li>
-                  <div class="item">
-                    <img
-                      src="@/assets/common/header.png"
-                      alt=""
-                    >
-                    <div>
-                      <p><span class="col">朱继柳</span> 发布了 第3期“XXXX”互动讨论获奖名单公布</p>
-                      <p>2018-07-21 15:21:38</p>
-                    </div>
-                  </div>
-                </li>
+
               </ul>
             </div>
           </div>
@@ -195,6 +183,7 @@ import { mapGetters } from "vuex";
 import { getTeachingTaskLimit, getTeachingTaskByStu } from "@/api/teachingTask";
 import { getTeacherInfo } from "@/api/teacherMesg";
 import { getStuInfo } from "@/api/stuMesg";
+import { getNewByLimit } from "@/api/guangRuanNew";
 export default {
   name: "Dashboard",
   computed: {
@@ -217,11 +206,14 @@ export default {
       userInfo: {},
       // 用户头像标签
       headFlag: false,
+      // 快讯信息
+      newList: [],
     };
   },
   created() {
     this.getTeachTask();
     this.getUserInfo();
+    this.getNewByLimit();
   },
   methods: {
     // 获取教师端的课程任务信息
@@ -284,6 +276,11 @@ export default {
       } else if (this.roles == "student") {
         this.getStuInfo();
       }
+    },
+    // 获取快讯信息
+    async getNewByLimit() {
+      let res = await getNewByLimit();
+      this.newList = res.result;
     },
   },
 };

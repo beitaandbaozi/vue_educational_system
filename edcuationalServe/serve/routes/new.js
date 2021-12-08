@@ -15,7 +15,7 @@ router.post('/getAllNew', function (req, res) {
     let sql = `select *,(select count(*) from new) as count from new order by time DESC  limit ?,?`;
     db.query(sql, [start, pagesize], function (err, result) {
         if (err) {
-            console.log('获取所有新闻时数据库出错！',err.message)
+            console.log('获取所有新闻时数据库出错！', err.message)
             return
         } else {
             res.send({
@@ -71,6 +71,24 @@ router.post('/issueNew', function (req, res) {
             res.send({
                 status: 200,
                 msg: '添加快讯成功！',
+            })
+        }
+    })
+})
+// 获取快讯（首页中应用）
+router.get('/getNewByLimit', function (req, res) {
+    const limit = parseInt(req.query.limit)
+    let sql = 'select * from new limit ?';
+    db.query(sql, [limit], function (err, result) {
+        if (err) {
+            console.log('获取快讯（首页中应用）数据库出错', err.message)
+            return
+        } else {
+            // console.log(result)
+            res.send({
+                status: 200,
+                msg: '获取快讯（首页中应用）成功！',
+                data: { result }
             })
         }
     })
