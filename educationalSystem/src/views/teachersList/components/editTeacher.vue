@@ -20,7 +20,7 @@
         </el-form-item>
         <el-form-item
           label="姓名"
-          prop="teacher_name"
+          prop="name"
         >
           <el-input v-model="editTeacherForm.name"></el-input>
         </el-form-item>
@@ -71,6 +71,7 @@
 
 <script>
 import { getTeacherByNum } from "@/api/teachersList";
+import { validMobile } from "@/utils/validate";
 import { Message } from "element-ui";
 export default {
   props: {
@@ -80,10 +81,16 @@ export default {
     },
   },
   data() {
+    // 手机号校验规则
+    const validateMobile = (rule, value, callback) => {
+      validMobile(value)
+        ? callback()
+        : callback(new Error("手机号码格式不正确！"));
+    };
     return {
       editTeacherForm: {},
       editTeacherRules: {
-        teacher_name: [
+        name: [
           { required: true, message: "姓名不能为空!", trigger: "blur" },
         ],
         sex: [{ required: true, message: "性别不能为空！", trigger: "blur" }],
@@ -93,8 +100,16 @@ export default {
         ],
         mobile: [
           { required: true, message: "手机号码不能为空！", trigger: "blur" },
+          { validator: validateMobile, trigger: "blur" },
         ],
-        email: [{ required: true, message: "邮箱不能为空！", trigger: "blur" }],
+        email: [
+          { required: true, message: "邮箱不能为空！", trigger: "blur" },
+          {
+            type: "email",
+            message: "请输入正确的邮箱地址",
+            trigger: ["blur", "change"],
+          },
+        ],
       },
     };
   },

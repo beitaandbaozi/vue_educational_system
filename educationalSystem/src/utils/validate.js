@@ -25,7 +25,7 @@ export function validUsername(str) {
      * @param {String} identifier 标识符
      * @returns {String} 转换后的中文
      */
-export function  digital2Chinese(num, identifier) {
+export function digital2Chinese(num, identifier) {
     const character = [
         "零",
         "一",
@@ -44,4 +44,12 @@ export function  digital2Chinese(num, identifier) {
     return identifier === "week" && (num === 0 || num === 7)
         ? "日"
         : character[num];
+}
+
+/**
+ * 定义手机号检验规则
+ */
+export function validMobile(str) {
+    return /^1[3-9]\d{9}$/.test(str)
+
 }
