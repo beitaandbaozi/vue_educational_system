@@ -2,7 +2,7 @@
   <div class="dashboard-container">
     <div class="app-container">
       <page-tools :show-before="true">
-        <span slot="before">共开设{{total}}门课程</span>
+        <span slot="before">共有{{total}}门课程</span>
         <template slot="after">
           <el-row>
             <el-col>
@@ -36,41 +36,25 @@
             prop="c_id"
             label="课程代码"
             align="center"
-            width="100"
           ></el-table-column>
           <el-table-column
             prop="name"
             label="课程名称"
             align="center"
-            width="190"
           ></el-table-column>
           <el-table-column
             prop="credit"
             label="学分"
             align="center"
-            width="70"
           ></el-table-column>
           <el-table-column
             prop="assess"
             label="考察方式"
             align="center"
-            width="90"
           ></el-table-column>
           <el-table-column
             prop="duty"
             label="系别"
-            align="center"
-            width="100"
-          ></el-table-column>
-          <el-table-column
-            prop="class_type"
-            label="上课方式"
-            align="center"
-            width="90"
-          ></el-table-column>
-          <el-table-column
-            prop="intro"
-            label="课程介绍"
             align="center"
           ></el-table-column>
           <!-- 操作按钮  当用户角色为管理员里再补上-->
@@ -102,7 +86,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="paramsInfo.pagenum"
-          :page-sizes="[10, 15, 20, 25]"
+          :page-sizes="[20, 30, 40, 50]"
           :page-size="paramsInfo.pagesize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
@@ -137,7 +121,7 @@ export default {
       paramsInfo: {
         query: "",
         pagenum: 1,
-        pagesize: 10,
+        pagesize: 20,
       },
       total: 0,
       editCouresDialog: false,

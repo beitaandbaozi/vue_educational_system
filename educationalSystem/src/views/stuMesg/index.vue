@@ -121,12 +121,6 @@
               prop="gradepo"
             >
             </el-table-column>
-            <el-table-column
-              align="center"
-              label="上课类型"
-              prop="type"
-            >
-            </el-table-column>
           </el-table>
         </el-tab-pane>
         <el-tab-pane label="选修课程">

@@ -64,7 +64,7 @@ export function getTeachingTaskByStu() {
 // 获取学生对应学号的教学任务信息
 export function getStuTeachingTask() {
     return request({
-        url: '/student/getTeachingTask',
+        url: '/student/getStuTeachingTask',
         method: 'post'
     })
 }

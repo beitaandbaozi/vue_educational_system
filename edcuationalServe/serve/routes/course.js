@@ -90,9 +90,7 @@ router.post('/editCouresSubmit/:id', function (req, res) {
     let credit = req.body.credit;
     let assess = req.body.assess;
     let duty = req.body.duty;
-    let class_type = req.body.class_type;
-    let intro = req.body.intro;
-    let sql = `update class set name = '${name}',credit = '${credit}',assess = '${assess}',duty = '${duty}',class_type = '${class_type}',intro = '${intro}' where c_id=?`;
+    let sql = `update class set name = '${name}',credit = '${credit}',assess = '${assess}',duty = '${duty}' where c_id=?`;
     db.query(sql, [id], function (err, result) {
         if (err) {
             console.log('编辑课程信息提交时数据库出错！')

@@ -29,15 +29,6 @@
         <el-form-item label="系别">
           <el-input v-model="editCouresForm.duty"></el-input>
         </el-form-item>
-        <el-form-item label="上课方式">
-          <el-input v-model="editCouresForm.class_type"></el-input>
-        </el-form-item>
-        <el-form-item label="课程介绍">
-          <el-input
-            v-model="editCouresForm.intro"
-            type="textarea"
-          ></el-input>
-        </el-form-item>
       </el-form>
       <span
         slot="footer"

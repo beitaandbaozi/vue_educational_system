@@ -186,11 +186,12 @@ router.post('/getTeachingTask', function (req, res) {
     let sql2 = 'select teaching_tasks.tno, teaching_tasks.cno, teaching_tasks.title, teaching_tasks.content, teaching_tasks.time,class.name from teaching_tasks join class on teaching_tasks.cno = class.c_id where tno = ? and cno = ?';
     db.query(sql1, [name], function (err, result) {
         if (err) {
-            console.log('获取教师对应工号的课程信息时数据库查询出错！');
+            console.log('获取教师对应工号的课程信息时数据库查询出错！',err.message);
             return
         } else {
             var course = result
             var cno = result[0].cno
+            console.log(cno)
             db.query(sql2, [name, cno], function (err, result) {
                 if (err) {
                     console.log('获取教师对应工号的课程的教学任务时数据库查询出错')
@@ -211,6 +212,7 @@ router.post('/getTeachingTask', function (req, res) {
         }
     })
 })
+
 // 获取教师对应工号的课程的教学任务信息
 router.post('/getTeachingTaskByCno/:cno', function (req, res) {
     let { authorization } = req.headers
@@ -238,6 +240,7 @@ router.post('/getTeachingTaskByCno/:cno', function (req, res) {
     })
 
 })
+
 // 编辑教学任务
 router.post('/editTeachingTask/:cno', function (req, res) {
     let { authorization } = req.headers
@@ -265,6 +268,7 @@ router.post('/editTeachingTask/:cno', function (req, res) {
     })
 
 })
+
 // 删除教学任务
 router.post('/delTeachingTask/:cno', function (req, res) {
     let { authorization } = req.headers
@@ -292,6 +296,7 @@ router.post('/delTeachingTask/:cno', function (req, res) {
 
     })
 })
+
 // 添加教学任务
 router.post('/addTeachingTask/:cno', function (req, res) {
     let { authorization } = req.headers
@@ -319,6 +324,7 @@ router.post('/addTeachingTask/:cno', function (req, res) {
         }
     })
 })
+
 // 获取教师对应的教学任务（课程通知，首页中应用）
 router.post('/getTeachTask', function (req, res) {
     let { authorization } = req.headers

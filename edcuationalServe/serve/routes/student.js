@@ -39,7 +39,7 @@ router.post('/getRequireCourseInfo', function (req, res) {
     let { authorization } = req.headers
     const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
     const { name } = tokenData;
-    let sql = `select sc.cno, sc.grade, sc.gradepo, sc.time,sc.class_type,sc.academic,class.name,class.credit,class.assess,class.class_type  from	sc join class on  sc.cno = class.c_id where sc.class_type  like "%必修%" and sc.sno = ?`;
+    let sql = `select sc.cno, sc.grade, sc.gradepo, sc.time,sc.class_type,sc.academic,class.name,class.credit,class.assess  from sc join class on  sc.cno = class.c_id where sc.class_type  like "%必修%" and sc.sno = ?`;
     db.query(sql, [name], function (err, result) {
         if (err) {
             console.log('获取学生必修课信息时数据库查询出错！');
@@ -191,13 +191,14 @@ router.post('/getTeachingTaskByStu', function (req, res) {
         }
     })
 })
+
 // 获取学生对应学号的教学任务信息
-router.post('/getTeachingTask', function (req, res) {
+router.post('/getStuTeachingTask', function (req, res) {
     let { authorization } = req.headers
     const tokenData = jwt.decode(authorization.split(' ')[1].slice(0, -1));
     const { name } = tokenData;
     // console.log(name)
-    let sql1 = 'select  distinct sc.cno,class.name from sc join class on sc.cno = class.c_id   join teaching_tasks on sc.cno = teaching_tasks.cno where sc.sno = ?';
+    let sql1 = 'select distinct sc.cno,class.name from sc join class on sc.cno = class.c_id   join teaching_tasks on sc.cno = teaching_tasks.cno where sc.sno = ?';
     let sql2 = 'select teaching_tasks.cno, teaching_tasks.title, teaching_tasks.content, teaching_tasks.time from teaching_tasks join class on teaching_tasks.cno = class.c_id join sc on teaching_tasks.cno = sc.cno where sc.sno = ? and teaching_tasks.cno = ?'
     db.query(sql1, [name], function (err, result) {
         if (err) {
@@ -226,6 +227,7 @@ router.post('/getTeachingTask', function (req, res) {
         }
     })
 })
+
 // 获取学生对应学号的课程的教学任务信息
 router.post('/getStuTeachingTaskByCno/:cno', function (req, res) {
     let { authorization } = req.headers
@@ -252,6 +254,7 @@ router.post('/getStuTeachingTaskByCno/:cno', function (req, res) {
         }
     })
 })
+
 // 保存提交的头像信息
 router.post('/saveStuInfo', function (req, res) {
     let { authorization } = req.headers
