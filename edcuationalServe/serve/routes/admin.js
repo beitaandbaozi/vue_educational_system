@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 const db = require('../db/index');
+/**
+ * 学生列表端
+ */
 // 获取全部学生信息
 router.post('/getAllStudents', function (req, res) {
     let query = req.body.query;
@@ -255,4 +258,67 @@ router.get('/getAllStudentsByExcel', function (req, res) {
         }
     })
 })
+/**
+ * 教师列表端
+ */
+router.post('/getAllTeachers', function (req, res) {
+    let query = req.body.query;
+    let pagenum = Number(req.body.pagenum);
+    let start, pagesize = Number(req.body.pagesize);
+    console.log(pagenum, pagesize)
+    if (pagenum == undefined) {
+        pagenum = 1;
+        start = 0;
+    } else {
+        start = (pagenum - 1) * pagesize;
+    }
+    let sql = '';
+    if (query != '') {
+        sql = `select *,(select count(*) from teacher_info where num = '${query}') as count from teacher_info where num  like '${query}'`;
+        db.query(sql, null, function (err, result) {
+            if (err) {
+                console.log('搜索关键词时数据库出错' + err.message);
+                return;
+            }
+            if (result.length == 0) {
+                res.send({
+                    status: 400,
+                    msg: '没有找到该工号教师',
+                    data: {
+                        count: 0
+                    }
+                })
+            } else {
+                res.send({
+                    status: 200,
+                    msg: '搜索关键词时数据库信息成功！',
+                    data: {
+                        result,
+                        count: result[0].count
+                    }
+                })
+            }
+
+        })
+    } else {
+        sql = `select *,(select count(*) from teacher_info) as count from teacher_info limit ?,?`;
+        db.query(sql, [start, pagesize], function (err, result) {
+            if (err) {
+                console.log('管理员获取全部教师时数据库出错' + err.message);
+                return
+            } else {
+                // console.log(result);
+                res.send({
+                    status: 200,
+                    msg: '管理员获取全部教师成功！',
+                    data: {
+                        result,
+                        count: result[0].count
+                    }
+                })
+            }
+        })
+    }
+})
+
 module.exports = router;
