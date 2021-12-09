@@ -39,30 +39,30 @@
         <el-card>
           <el-row class="inline-info">
             <el-col :span="6">
-              <i class="el-icon-star-on"></i> {{teacherInfo.number}}
+              工号： {{teacherInfo.number}}
             </el-col>
             <el-col :span="6">
-              <i class="el-icon-user-solid"></i> {{teacherInfo.name}}
+              姓名： {{teacherInfo.name}}
             </el-col>
             <el-col :span="6">
-              <i class="el-icon-s-tools"></i> {{teacherInfo.duty}}
+              部门： {{teacherInfo.duty}}
             </el-col>
             <el-col :span="6">
-              <i class="el-icon-watch"></i> {{teacherInfo.entry_time}}
+              入职时间： {{teacherInfo.entry_time}}
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="6">
-              <i class="el-icon-s-promotion"></i> {{teacherInfo.hire_form}}
+              聘用形式： {{teacherInfo.hire_form}}
             </el-col>
             <el-col :span="6">
-              <i class="el-icon-s-home"></i> {{teacherInfo.education_bgc}}
+              最高学历： {{teacherInfo.education_bgc}}
             </el-col>
             <el-col :span="6">
-              <i class="el-icon-s-ticket"></i> {{teacherInfo.native_place}}
+              籍贯： {{teacherInfo.native_place}}
             </el-col>
             <el-col :span="6">
-              <i class="el-icon-s-claim"></i> {{teacherInfo.politics_status}}
+              政治面貌： {{teacherInfo.politics_status}}
             </el-col>
           </el-row>
         </el-card>
@@ -76,24 +76,24 @@
         <el-card>
           <el-row class="inline-info">
             <el-col :span="6">
-              <i class="el-icon-phone"></i>{{teacherInfo.mobile}}
+              联系电话： {{teacherInfo.mobile}}
             </el-col>
             <el-col :span="6">
-              <i class="el-icon-s-shop"></i>{{teacherInfo.qq_number}}
+              QQ： {{teacherInfo.qq_number}}
             </el-col>
             <el-col :span="6">
-              <i class="el-icon-s-marketing"></i>{{teacherInfo.wechat}}
+              微信： {{teacherInfo.wechat}}
             </el-col>
             <el-col :span="6">
-              <i class="el-icon-s-flag"></i>{{teacherInfo.email}}
+              邮箱： {{teacherInfo.email}}
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <i class="el-icon-s-home"></i>{{teacherInfo.address}}
+              现居住地： {{teacherInfo.address}}
             </el-col>
             <el-col :span="12">
-              <i class="el-icon-office-building"></i>{{teacherInfo.postal_address}}
+              通信地址： {{teacherInfo.postal_address}}
             </el-col>
           </el-row>
         </el-card>
@@ -108,16 +108,16 @@
         <el-card>
           <el-row>
             <el-col :span="6">
-              <i class="el-icon-s-custom"></i> {{teacherInfo.degree_type}}
+              学历类型： {{teacherInfo.degree_type}}
             </el-col>
             <el-col :span="6">
-              <i class="el-icon-s-data"></i> {{teacherInfo.graduate_school}}
+              毕业学校： {{teacherInfo.graduate_school}}
             </el-col>
             <el-col :span="6">
-              <i class="el-icon-s-order"></i> {{teacherInfo.graduate_time}}
+              毕业时间： {{teacherInfo.graduate_time}}
             </el-col>
             <el-col :span="6">
-              <i class="el-icon-s-grid"></i> {{teacherInfo.major}}
+              专业： {{teacherInfo.major}}
             </el-col>
           </el-row>
         </el-card>

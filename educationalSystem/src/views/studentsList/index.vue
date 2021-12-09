@@ -107,7 +107,7 @@
           ></el-table-column>
           <el-table-column
             prop="stu_name"
-            label="名字"
+            label="姓名"
             align="center"
           ></el-table-column>
           <el-table-column
