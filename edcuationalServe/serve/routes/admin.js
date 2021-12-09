@@ -261,6 +261,7 @@ router.get('/getAllStudentsByExcel', function (req, res) {
 /**
  * 教师列表端
  */
+// 获取全部教师信息
 router.post('/getAllTeachers', function (req, res) {
     let query = req.body.query;
     let pagenum = Number(req.body.pagenum);
@@ -319,6 +320,28 @@ router.post('/getAllTeachers', function (req, res) {
             }
         })
     }
+})
+// 通过工号获取对应教师的信息
+router.get('/getTeacherByNum/:id', function (req, res) {
+    let id = req.params.id;
+    let sql = 'select * from teacher_info where num = ?';
+    db.query(sql, [id], function (err, result) {
+        if (err) {
+            console.log('通过工号获取对应教师信息时数据库出错', err.message);
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '通过工号获取对应教师信息成功！',
+                data: {
+                    result,
+                }
+            })
+
+        }
+
+    })
+
 })
 
 module.exports = router;

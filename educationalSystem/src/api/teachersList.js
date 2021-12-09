@@ -7,3 +7,10 @@ export function getAllTeachers(data) {
         data
     })
 }
+// 通过工号获取对应教师的数据
+export function getTeacherByNum(id){
+    return request({
+        url:`/admin/getTeacherByNum/${id}`,
+        method: 'get'
+    })
+}
