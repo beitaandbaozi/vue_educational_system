@@ -157,6 +157,7 @@
     <edit-teacher
       :show-dialog.sync="editTeacherDialog"
       ref="editTeacherRef"
+      @updateTeachersList="getAllTeachers"
     ></edit-teacher>
   </div>
 </template>

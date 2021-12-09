@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { getTeacherByNum } from "@/api/teachersList";
+import { getTeacherByNum, editTeacherSubmit } from "@/api/teachersList";
 import { validMobile } from "@/utils/validate";
 import { Message } from "element-ui";
 export default {
@@ -90,9 +90,7 @@ export default {
     return {
       editTeacherForm: {},
       editTeacherRules: {
-        name: [
-          { required: true, message: "姓名不能为空!", trigger: "blur" },
-        ],
+        name: [{ required: true, message: "姓名不能为空!", trigger: "blur" }],
         sex: [{ required: true, message: "性别不能为空！", trigger: "blur" }],
         duty: [{ required: true, message: "系别不能为空！", trigger: "blur" }],
         hire_form: [
@@ -127,6 +125,13 @@ export default {
        * 更新数据
        * 通知父组件关闭表单
        */
+      this.$refs.editTeacherRef.validate(async (valid) => {
+        if (!valid) return;
+        await editTeacherSubmit(this.editTeacherForm.num, this.editTeacherForm);
+        Message.success("编辑学生信息成功！");
+        this.$emit("updateTeachersList");
+        this.$emit("update:showDialog", false);
+      });
     },
     btnCancel() {
       // 清空表单
