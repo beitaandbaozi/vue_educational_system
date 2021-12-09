@@ -92,7 +92,7 @@
             label="操作"
             align="center"
           >
-            <template>
+            <template slot-scope="scope">
               <!-- 编辑按钮 -->
               <el-tooltip
                 effect="dark"
@@ -105,6 +105,7 @@
                   icon="el-icon-edit"
                   size="mini"
                   plain
+                  @click="editTeacher(scope.row.num)"
                 ></el-button>
               </el-tooltip>
               <!-- 删除按钮 -->
@@ -152,12 +153,21 @@
         </el-pagination>
       </el-card>
     </div>
+    <!-- 编辑教师组件 -->
+    <edit-teacher
+      :show-dialog.sync="editTeacherDialog"
+      ref="editTeacherRef"
+    ></edit-teacher>
   </div>
 </template>
 
 <script>
 import { getAllTeachers } from "@/api/teachersList";
+import editTeacher from "./components/editTeacher.vue";
 export default {
+  components: {
+    editTeacher,
+  },
   data() {
     return {
       // 教师数据
@@ -170,6 +180,8 @@ export default {
       },
       // 数据总数
       total: 0,
+      // 编辑对话框
+      editTeacherDialog: false,
     };
   },
   created() {
@@ -189,6 +201,13 @@ export default {
     handleCurrentChange(newPage) {
       this.paramsInfo.pagenum = newPage;
       this.getAllStudents();
+    },
+    // 编辑教师
+    editTeacher(id) {
+      // 开启对话框
+      this.editTeacherDialog = true;
+      // id传递给子组件，控制子组件响应对应的方法
+      this.$refs.editTeacherRef.editTeacherById(id);
     },
   },
 };
