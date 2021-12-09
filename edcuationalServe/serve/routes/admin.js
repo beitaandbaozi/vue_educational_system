@@ -368,4 +368,21 @@ router.post('/editTeacherSubmit/:id', function (req, res) {
 
     })
 })
+
+// 通过工号删除对应教师信息
+router.get('/delTeacherByNum/:id', function (req, res) {
+    let id = req.params.id;
+    let sql = 'delete from teacher_info where num =?';
+    db.query(sql, [id], function (err, result) {
+        if (err) {
+            console.log('通过工号删除对应教师信息时数据库出错', err.message);
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '通过工号删除对应教师信息成功！'
+            })
+        }
+    })
+})
 module.exports = router;

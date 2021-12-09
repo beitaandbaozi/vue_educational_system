@@ -22,3 +22,10 @@ export function editTeacherSubmit(id, data) {
         data
     })
 }
+// 通过工号删除教师
+export function delTeacherByNum(id) {
+    return request({
+        url: `/admin/delTeacherByNum/${id}`,
+        method: 'get'
+    })
+}
