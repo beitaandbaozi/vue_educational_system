@@ -8,9 +8,17 @@ export function getAllTeachers(data) {
     })
 }
 // 通过工号获取对应教师的数据
-export function getTeacherByNum(id){
+export function getTeacherByNum(id) {
     return request({
-        url:`/admin/getTeacherByNum/${id}`,
+        url: `/admin/getTeacherByNum/${id}`,
         method: 'get'
+    })
+}
+// 编辑教师信息提交
+export function editTeacherSubmit(id, data) {
+    return request({
+        url: `/admin/editTeacherSubmit/${id}`,
+        method: 'post',
+        data
     })
 }

@@ -321,6 +321,7 @@ router.post('/getAllTeachers', function (req, res) {
         })
     }
 })
+
 // 通过工号获取对应教师的信息
 router.get('/getTeacherByNum/:id', function (req, res) {
     let id = req.params.id;
@@ -344,4 +345,27 @@ router.get('/getTeacherByNum/:id', function (req, res) {
 
 })
 
+// 编辑教师信息提交
+router.post('/editTeacherSubmit/:id', function (req, res) {
+    let id = req.params.id;
+    let name = req.body.name;
+    let sex = req.body.sex;
+    let duty = req.body.duty;
+    let hire_form = req.body.hire_form;
+    let mobile = req.body.mobile;
+    let email = req.body.email;
+    let sql = 'update  teacher_info set name=?,sex=?,duty=?,hire_form=?,mobile=?,email=? where num = ?';
+    db.query(sql, [name, sex, duty, hire_form, mobile, email, id], function (err, result) {
+        if (err) {
+            console.log('编辑教师信息提交时数据库出错', err.message);
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '编辑教师信息成功！'
+            })
+        }
+
+    })
+})
 module.exports = router;
