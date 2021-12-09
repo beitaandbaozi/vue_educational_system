@@ -120,6 +120,7 @@
                   icon="el-icon-delete"
                   size="mini"
                   plain
+                  @click="delTeacher(scope.row.num)"
                 ></el-button>
               </el-tooltip>
               <!-- 详情 -->
@@ -163,8 +164,9 @@
 </template>
 
 <script>
-import { getAllTeachers } from "@/api/teachersList";
+import { getAllTeachers, delTeacherByNum } from "@/api/teachersList";
 import editTeacher from "./components/editTeacher.vue";
+import { Message } from "element-ui";
 export default {
   components: {
     editTeacher,
@@ -197,11 +199,11 @@ export default {
     },
     handleSizeChange(newSize) {
       this.paramsInfo.pagesize = newSize;
-      this.getAllStudents();
+      this.getAllTeachers();
     },
     handleCurrentChange(newPage) {
       this.paramsInfo.pagenum = newPage;
-      this.getAllStudents();
+      this.getAllTeachers();
     },
     // 编辑教师
     editTeacher(id) {
@@ -209,6 +211,24 @@ export default {
       this.editTeacherDialog = true;
       // id传递给子组件，控制子组件响应对应的方法
       this.$refs.editTeacherRef.editTeacherById(id);
+    },
+    // 删除教师
+    async delTeacher(id) {
+      const confirmResult = await this.$confirm(
+        "此操作将永久删除该教师, 是否继续?",
+        "提示",
+        {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }
+      ).catch((error) => error);
+      if (confirmResult != "confirm") {
+        return Message.info("已经取消删除！");
+      }
+      await delTeacherByNum(id);
+      Message.success("删除该教师成功！");
+      this.getAllTeachers();
     },
   },
 };
