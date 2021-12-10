@@ -385,4 +385,42 @@ router.get('/delTeacherByNum/:id', function (req, res) {
         }
     })
 })
+
+// 添加教师
+router.post('/addTeacher', function (req, res) {
+    let num = req.body.num;
+    let name = req.body.name;
+    let sex = req.body.sex;
+    let duty = req.body.duty;
+    let entry_time = req.body.entry_time;
+    let hire_form = req.body.hire_form;
+    let education_bgc = req.body.education_bgc;
+    let native_place = req.body.native_place;
+    let politics_status = req.body.politics_status;
+    let mobile = req.body.mobile;
+    let qq_number = req.body.qq_number;
+    let wechat = req.body.wechat;
+    let email = req.body.email;
+    let address = req.body.address;
+    let postal_address = req.body.postal_address;
+    let degree_type = req.body.degree_type;
+    let graduate_school = req.body.graduate_school;
+    let graduate_time = req.body.graduate_time;
+    let major = req.body.major;
+    let sql = `insert into teacher_info(num,name,sex,duty,entry_time,hire_form,
+        education_bgc,native_place,politics_status,mobile,qq_number,wechat,email,
+        address,postal_address,degree_type,graduate_school,graduate_time,major) values
+        (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`;
+    db.query(sql, [num, name, sex, duty, entry_time, hire_form, education_bgc, native_place, politics_status, mobile, qq_number, wechat, email, address, postal_address, degree_type, graduate_school, graduate_time, major], function (err, result) {
+        if (err) {
+            console.log('添加教师时数据库出错', err.message)
+            return;
+        }else{
+            res.send({
+                status: 200,
+                msg: '添加教师成功!'
+            })
+        }
+    })
+})
 module.exports = router;

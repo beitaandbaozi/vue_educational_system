@@ -29,3 +29,11 @@ export function delTeacherByNum(id) {
         method: 'get'
     })
 }
+// 添加教师
+export function addTeacher(data) {
+    return request({
+        url: '/admin/addTeacher',
+        method: 'post',
+        data
+    })
+}
