@@ -13,5 +13,14 @@ export default {
             icon: 'teachersList',
             roles: ['admin']
         }
-    }]
+    },
+    {
+        path: 'addTeacher', // query传参 动态路由传参
+        component: () => import('@/views/teachersList/addTeacher'),
+        hidden: true, // 不在左侧菜单显示
+        meta: {
+            title: '新增教师' // 标记当前路由规则的中文名称 后续在做左侧菜单时 使用
+        }
+    },
+    ]
 }

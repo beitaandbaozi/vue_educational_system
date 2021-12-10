@@ -19,6 +19,7 @@
             size="small"
             type="primary"
             plain
+            @click="$router.push('/teachersList/addTeacher')"
           >新增教师</el-button>
         </template>
       </page-tools>
@@ -44,7 +45,6 @@
             </el-input>
           </el-col>
         </el-row>
-
         <!-- 教师区域 -->
         <el-table
           stripe
