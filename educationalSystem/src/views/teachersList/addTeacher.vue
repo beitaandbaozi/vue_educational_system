@@ -196,7 +196,8 @@
         <el-button
           type="warning"
           plain
-        >添加教师</el-button>
+          @click="addTeacher"
+        >提交添加教师信息</el-button>
       </el-row>
       <!-- 回顶 -->
       <el-backtop :bottom="50">
@@ -219,6 +220,7 @@
 <script>
 import { Message } from "element-ui";
 import { validMobile } from "@/utils/validate";
+import { addTeacher } from "@/api/teachersList";
 export default {
   props: {
     showDialog: {
@@ -342,20 +344,17 @@ export default {
       //   this.$refs.addTeacherRef.resetFields();
       //   this.$emit("update:showDialog", false);
     },
-    btnOk() {
-      /**
-       * 表单验证
-       * 连接接口
-       * 通知父组件关闭对话框
-       * 通知父组件更新学生表
-       */
-      //   this.$refs.addTeacherRef.validate(async (valid) => {
-      //     if (!valid) return;
-      //     await addStudentSubmit(this.addStudentForm);
-      //     Message.success("添加学生信息成功！");
-      //     this.$emit("addStudent");
-      //     this.$emit("update:showDialog", false);
-      //   });
+    addTeacher() {
+      this.$refs.addTeacherRef.validate(async (valid) => {
+        if (!valid) return;
+        await addTeacher(this.addTeacherForm);
+        Message.success("添加教师信息成功！");
+        // 表单清空
+        this.addTeacherForm = {};
+        // 清楚校验规则(后续加了Tab后看是否要使用这个操作)
+        // 回退
+        this.$router.go(-1);
+      });
     },
   },
 };
