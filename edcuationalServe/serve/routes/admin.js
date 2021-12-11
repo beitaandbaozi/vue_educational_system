@@ -445,11 +445,11 @@ router.post('/saveTeacherInfo', function (req, res) {
     let graduate_school = req.body.graduate_school;
     let graduate_time = req.body.graduate_time;
     let major = req.body.major;
-    let sql = `update teacher_info set name=?,sex=?,duty=?,hire_form=?,education_bgc=?,
+    let sql = `update teacher_info set name=?,sex=?,duty=?,entry_time=?,hire_form=?,education_bgc=?,
             native_place=?,politics_status=?,mobile=?,qq_number=?,wechat=?,email=?,
             address=?,postal_address=?,degree_type=?,graduate_school=?,graduate_time=?,
             major=?where num = ?`;
-    db.query(sql, [name, sex, duty, hire_form, education_bgc, native_place, politics_status, mobile, qq_number, wechat, email, address, postal_address, degree_type, graduate_school, graduate_time, major, num], function (err, result) {
+    db.query(sql, [name, sex, duty, entry_time, hire_form, education_bgc, native_place, politics_status, mobile, qq_number, wechat, email, address, postal_address, degree_type, graduate_school, graduate_time, major, num], function (err, result) {
         if (err) {
             console.log('详情页中保存教师信息数据库出错', err.message);
             return
@@ -479,5 +479,47 @@ router.get('/getAllTeachersByExcel', function (req, res) {
             })
         }
     })
+})
+
+// excel导入教师信息
+router.post('/importTeachers', function (req, res) {
+    const teachersList = req.body;
+    console.log(teachersList)
+    for (var i = 0; i < teachersList.length; i++) {
+        let num = teachersList[i].num;
+        let name = teachersList[i].name;
+        let sex = teachersList[i].sex;
+        let duty = teachersList[i].duty;
+        let entry_time = teachersList[i].entry_time;
+        let hire_form = teachersList[i].hire_form;
+        let education_bgc = teachersList[i].education_bgc;
+        let native_place = teachersList[i].native_place;
+        let politics_status = teachersList[i].politics_status;
+        let mobile = teachersList[i].mobile;
+        let qq_number = teachersList[i].qq_number;
+        let wechat = teachersList[i].wechat;
+        let email = teachersList[i].email;
+        let address = teachersList[i].address;
+        let postal_address = teachersList[i].postal_address;
+        let degree_type = teachersList[i].degree_type;
+        let graduate_school = teachersList[i].graduate_school;
+        let graduate_time = teachersList[i].graduate_time;
+        let major = teachersList[i].major;
+        let sql = `insert into teacher_info(num,name,sex,duty,entry_time,hire_form,
+            education_bgc,native_place,politics_status,mobile,qq_number,wechat,email,
+            address,postal_address,degree_type,graduate_school,graduate_time,major) values
+            (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`;
+        db.query(sql, [num, name, sex, duty, entry_time, hire_form, education_bgc, native_place, politics_status, mobile, qq_number, wechat, email, address, postal_address, degree_type, graduate_school, graduate_time, major], function (err, result) {
+            if (err) {
+                console.log('导入excel教师时数据库出错', err);
+                return
+            }
+        })
+    }
+    res.json({
+        status: 200,
+        msg: '导入excel教师成功！'
+    })
+
 })
 module.exports = router;
