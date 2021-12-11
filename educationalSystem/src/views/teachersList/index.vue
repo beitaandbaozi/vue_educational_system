@@ -135,6 +135,7 @@
                   icon="el-icon-star-off"
                   size="mini"
                   plain
+                  @click="$router.push(`/teachersList/detail/${scope.row.num}`)"
                 ></el-button>
               </el-tooltip>
             </template>

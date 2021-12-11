@@ -22,5 +22,14 @@ export default {
             title: '新增教师' // 标记当前路由规则的中文名称 后续在做左侧菜单时 使用
         }
     },
+    {
+        path: 'detail/:id', // query传参 动态路由传参
+        component: () => import('@/views/teachersList/detail'),
+        hidden: true, // 不在左侧菜单显示
+        meta: {
+            title: '查看详情信息' // 标记当前路由规则的中文名称 后续在做左侧菜单时 使用
+        }
+    },
+
     ]
 }
