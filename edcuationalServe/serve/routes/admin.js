@@ -424,20 +424,42 @@ router.post('/addTeacher', function (req, res) {
     })
 })
 
-// 获取对应工号的教师信息
-router.get('/getTeacherInfoByNum/:id', function (req, res) {
-    let num = req.params.id;
-    let sql = 'select * from teacher_info where num = ?';
-    db.query(sql, [num], function (err, result) {
+// 详情页中保存教师信息
+router.post('/saveTeacherInfo', function (req, res) {
+    let num = req.body.num;
+    let name = req.body.name;
+    let sex = req.body.sex;
+    let duty = req.body.duty;
+    let entry_time = req.body.entry_time;
+    let hire_form = req.body.hire_form;
+    let education_bgc = req.body.education_bgc;
+    let native_place = req.body.native_place;
+    let politics_status = req.body.politics_status;
+    let mobile = req.body.mobile;
+    let qq_number = req.body.qq_number;
+    let wechat = req.body.wechat;
+    let email = req.body.email;
+    let address = req.body.address;
+    let postal_address = req.body.postal_address;
+    let degree_type = req.body.degree_type;
+    let graduate_school = req.body.graduate_school;
+    let graduate_time = req.body.graduate_time;
+    let major = req.body.major;
+    let sql = `update teacher_info set name=?,sex=?,duty=?,hire_form=?,education_bgc=?,
+            native_place=?,politics_status=?,mobile=?,qq_number=?,wechat=?,email=?,
+            address=?,postal_address=?,degree_type=?,graduate_school=?,graduate_time=?,
+            major=?where num = ?`;
+    db.query(sql, [name, sex, duty, hire_form, education_bgc, native_place, politics_status, mobile, qq_number, wechat, email, address, postal_address, degree_type, graduate_school, graduate_time, major, num], function (err, result) {
         if (err) {
-            console.log('获取对应工号教师信息时数据库出错!', err.message)
+            console.log('详情页中保存教师信息数据库出错', err.message);
+            return
         } else {
             res.send({
                 status: 200,
-                msg: '获取对用工号教师信息成功！',
-                data: { result: result[0] }
+                msg: '详情页中保存教师信息成功'
             })
         }
     })
 })
+
 module.exports = router;
