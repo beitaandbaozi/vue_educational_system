@@ -1,6 +1,23 @@
 <template>
   <div class="dashboard-container">
     <div class="app-container">
+      <page-tools :show-before="true">
+        <span slot="before"> {{teacherInfo.name}} 的个人资料</span>
+        <template slot="after">
+          <el-button
+            size="small"
+            type="success"
+            plain
+            @click="saveTeacherInfo"
+          >保存更新</el-button>
+          <el-button
+            size="small"
+            type="primary"
+            icon="el-icon-printer"
+            plain
+          >打印教师信息</el-button>
+        </template>
+      </page-tools>
       <!-- 资料 -->
       <el-card>
         <el-form
@@ -217,6 +234,10 @@ export default {
       let res = await getAllDuty();
       this.dutyOptions = res.result;
     },
+    // 保存更改信息
+    saveTeacherInfo(){
+
+    }
   },
 };
 </script>
