@@ -9,6 +9,7 @@
             size="small"
             type="success"
             plain
+            @click="$router.push('./import?type=teacher')"
           >excel导入</el-button>
           <el-button
             size="small"
