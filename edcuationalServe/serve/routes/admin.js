@@ -462,4 +462,22 @@ router.post('/saveTeacherInfo', function (req, res) {
     })
 })
 
+// excel导出所有教师信息
+router.get('/getAllTeachersByExcel', function (req, res) {
+    let sql = 'select * from  teacher_info';
+    db.query(sql, function (err, result) {
+        if (err) {
+            console.log('excel导出所有教师信息时数据库出错')
+            return
+        } else {
+            res.send({
+                status: 200,
+                msg: '获取excel导出所有教师信息数据库信息成功！',
+                data: {
+                    result,
+                }
+            })
+        }
+    })
+})
 module.exports = router;

@@ -45,3 +45,11 @@ export function saveTeacherInfo(data) {
         data
     })
 }
+
+// excel导出所有教师信息
+export function getAllTeachersByExcel(){
+    return request({
+        url:'/admin/getAllTeachersByExcel',
+        method: 'get',
+    })
+}
