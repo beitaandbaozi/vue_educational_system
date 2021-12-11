@@ -415,10 +415,27 @@ router.post('/addTeacher', function (req, res) {
         if (err) {
             console.log('添加教师时数据库出错', err.message)
             return;
-        }else{
+        } else {
             res.send({
                 status: 200,
                 msg: '添加教师成功!'
+            })
+        }
+    })
+})
+
+// 获取对应工号的教师信息
+router.get('/getTeacherInfoByNum/:id', function (req, res) {
+    let num = req.params.id;
+    let sql = 'select * from teacher_info where num = ?';
+    db.query(sql, [num], function (err, result) {
+        if (err) {
+            console.log('获取对应工号教师信息时数据库出错!', err.message)
+        } else {
+            res.send({
+                status: 200,
+                msg: '获取对用工号教师信息成功！',
+                data: { result }
             })
         }
     })

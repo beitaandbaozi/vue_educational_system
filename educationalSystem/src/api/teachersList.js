@@ -37,3 +37,10 @@ export function addTeacher(data) {
         data
     })
 }
+// 获取对应工号的教师信息
+export function getTeacherInfoByNum(id){
+    return request({
+        url:`/admin/getTeacherInfoByNum/${id}`,
+        method: 'get'
+    })
+}
