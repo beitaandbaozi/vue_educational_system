@@ -64,9 +64,25 @@
                 size="mini"
               ></el-input>
             </el-form-item>
+            <el-form-item label="性别">
+              <el-select
+                v-model="teacherInfo.sex"
+                size="mini"
+                placeholder="请选择"
+              >
+                <el-option
+                  label="男"
+                  value="男"
+                ></el-option>
+                <el-option
+                  label="女"
+                  value="女"
+                ></el-option>
+              </el-select>
+            </el-form-item>
             <el-form-item label="部门">
               <el-select
-                size="small"
+                size="mini"
                 v-model="teacherInfo.duty"
                 placeholder="请选择部门"
               >
@@ -78,12 +94,6 @@
                 >
                 </el-option>
               </el-select>
-            </el-form-item>
-            <el-form-item label="入职时间">
-              <el-input
-                v-model="teacherInfo.entry_time"
-                size="mini"
-              ></el-input>
             </el-form-item>
           </el-row>
           <el-row
@@ -102,9 +112,9 @@
                 size="mini"
               ></el-input>
             </el-form-item>
-            <el-form-item label="籍贯">
+            <el-form-item label="入职时间">
               <el-input
-                v-model="teacherInfo.native_place"
+                v-model="teacherInfo.entry_time"
                 size="mini"
               ></el-input>
             </el-form-item>
@@ -153,6 +163,12 @@
             type="flex"
             justify="space-between"
           >
+            <el-form-item label="籍贯">
+              <el-input
+                v-model="teacherInfo.native_place"
+                size="mini"
+              ></el-input>
+            </el-form-item>
             <el-form-item label="现居住地">
               <el-input
                 v-model="teacherInfo.address"
@@ -207,8 +223,9 @@
 </template>
 
 <script>
-import { getTeacherInfoByNum } from "@/api/teachersList";
+import { getTeacherByNum, saveTeacherInfo } from "@/api/teachersList";
 import { getAllDuty } from "@/api/studentsList";
+import { Message } from "element-ui";
 export default {
   data() {
     return {
@@ -226,7 +243,7 @@ export default {
   methods: {
     //获取对应工号的教师信息
     async getTeacherInfoByNum() {
-      let res = await getTeacherInfoByNum(this.num);
+      let res = await getTeacherByNum(this.num);
       this.teacherInfo = res.result;
     },
     // 获取全部系别信息
@@ -235,9 +252,10 @@ export default {
       this.dutyOptions = res.result;
     },
     // 保存更改信息
-    saveTeacherInfo(){
-
-    }
+    async saveTeacherInfo() {
+      await saveTeacherInfo(this.teacherInfo);
+      Message.success("保存教师信息成功！");
+    },
   },
 };
 </script>
