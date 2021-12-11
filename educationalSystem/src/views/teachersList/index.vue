@@ -14,6 +14,7 @@
             size="small"
             type="danger"
             plain
+            @click="excelExport"
           >excel导出</el-button>
           <el-button
             size="small"
@@ -165,7 +166,11 @@
 </template>
 
 <script>
-import { getAllTeachers, delTeacherByNum } from "@/api/teachersList";
+import {
+  getAllTeachers,
+  delTeacherByNum,
+  getAllTeachersByExcel,
+} from "@/api/teachersList";
 import editTeacher from "./components/editTeacher.vue";
 import { Message } from "element-ui";
 export default {
@@ -230,6 +235,60 @@ export default {
       await delTeacherByNum(id);
       Message.success("删除该教师成功！");
       this.getAllTeachers();
+    },
+    // excel导出
+    excelExport() {
+      // 表头对应关系
+      const headers = {
+        工号: "num",
+        姓名: "name",
+        性别: "sex",
+        部门: "duty",
+        入职时间: "entry_time",
+        聘用形式: "hire_form",
+        最高学历: "education_bgc",
+        籍贯: "native_place",
+        政治面貌: "politics_status",
+        手机: "mobile",
+        QQ: "qq_number",
+        微信: "wechat",
+        邮箱: "email",
+        现居住地: "address",
+        通讯地址: "postal_address",
+        学历类型: "degree_type",
+        毕业学校: "graduate_school",
+        毕业时间: "graduate_time",
+        专业: "major",
+      };
+      // 懒加载
+      import("@/vendor/Export2Excel").then(async (excel) => {
+        let { result } = await getAllTeachersByExcel();
+        const data = this.formatJson(headers, result);
+        excel.export_json_to_excel({
+          header: Object.keys(headers),
+          data,
+          filename: "教师信息表",
+          autoWidth: true,
+          bookType: "xlsx",
+        });
+      });
+    },
+    // 将数组转化成二维数组 [{}] => [[]]
+    formatJson(headers, result) {
+      /**
+       * result:[{}]
+       * item是对象  => 转化成只有值的数组 => 数组值的顺序依赖headers  {username: '张三'
+       * Object.keys(headers): ["姓名", "手机号", "入职日期", "聘用形式", "转正日期", "工号", "部门"]
+       * headers[key]   对应的英文名字
+       * item(headers[key])   返回对应英文名字的值  因为他是一个对象
+       * map  返回的是数组
+       */
+      return result.map((item) => {
+        // item是一个对象 {id: '1740916212', stu_name: '静香',...}
+        return Object.keys(headers).map((key) => {
+          return item[headers[key]];
+        });
+      });
     },
   },
 };
