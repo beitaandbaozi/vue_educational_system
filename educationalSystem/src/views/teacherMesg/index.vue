@@ -100,7 +100,6 @@
         <br>
         <br>
         <!-- 教育信息 -->
-        <!--通讯信息-->
         <el-divider content-position="left">
           <h3 style="color:#5698c3">教育信息</h3>
         </el-divider>

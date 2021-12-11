@@ -435,7 +435,7 @@ router.get('/getTeacherInfoByNum/:id', function (req, res) {
             res.send({
                 status: 200,
                 msg: '获取对用工号教师信息成功！',
-                data: { result }
+                data: { result: result[0] }
             })
         }
     })
