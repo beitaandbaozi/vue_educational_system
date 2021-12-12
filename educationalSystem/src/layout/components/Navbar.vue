@@ -15,6 +15,8 @@
 
     <!-- 右侧下拉菜单 -->
     <div class="right-menu">
+      <!-- 全屏插件 -->
+      <ScreenFull class="right-menu-item"></ScreenFull>
       <el-dropdown
         class="avatar-container"
         trigger="click"

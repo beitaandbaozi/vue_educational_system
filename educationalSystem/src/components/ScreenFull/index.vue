@@ -7,18 +7,20 @@
       style="color:#fff; width: 20px; height: 20px"
       @click="changeScreen"
     />
+
   </div>
 </template>
 
 <script>
 import ScreenFull from "screenfull";
+import { Message } from "element-ui";
 export default {
   methods: {
     //   改变全屏
     changeScreen() {
       if (!ScreenFull.isEnabled) {
         // 此时全屏不可用
-        this.$message.warning("此时全屏组件不可用");
+        Message.warning("此时全屏组件不可用");
         return;
       }
       // document.documentElement.requestFullscreen()  原生js调用
