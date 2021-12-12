@@ -95,7 +95,7 @@
             <td colspan="1">{{ studentInfo.counsellor }}</td>
           </tr>
         </table>
-        <div style="display:flex;justify-content:end;margin-top:20px">签字：___________日期:___________</div>
+        <div style="display:flex;justify-content:end;margin-top:20px">签字：___________日期：___________</div>
       </div>
     </div>
   </div>
