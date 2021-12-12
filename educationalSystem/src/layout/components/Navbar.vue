@@ -17,6 +17,8 @@
     <div class="right-menu">
       <!-- 全屏插件 -->
       <ScreenFull class="right-menu-item"></ScreenFull>
+      <!-- 颜色主题组件 -->
+      <ThemePicker class="right-menu-item"></ThemePicker>
       <el-dropdown
         class="avatar-container"
         trigger="click"
