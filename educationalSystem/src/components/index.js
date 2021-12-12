@@ -8,6 +8,7 @@ import Print from 'vue-print-nb'
 import UploadExcel from './UploadExcel'
 import VueQuillEditor from 'vue-quill-editor'
 import ScreenFull from './ScreenFull'
+import ThemePicker from './ThemePicker'
 export default {
     install(Vue) {
         Vue.component('TagsView', TagsView)
@@ -17,5 +18,6 @@ export default {
         Vue.component('UploadExcel', UploadExcel)
         Vue.use(VueQuillEditor)
         Vue.component('ScreenFull', ScreenFull)
+        Vue.component('ThemePicker', ThemePicker)
     }
 }
