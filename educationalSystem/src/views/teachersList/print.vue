@@ -129,6 +129,7 @@ export default {
       num: this.$route.params.id,
       //教师信息
       teacherInfo: {},
+      printObj: { id: "myPrint" },
     };
   },
   created() {
