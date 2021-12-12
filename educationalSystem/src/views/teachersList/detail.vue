@@ -15,6 +15,7 @@
             type="primary"
             icon="el-icon-printer"
             plain
+            @click="$router.push(`/teachersList/print/${num}`)"
           >打印教师信息</el-button>
         </template>
       </page-tools>

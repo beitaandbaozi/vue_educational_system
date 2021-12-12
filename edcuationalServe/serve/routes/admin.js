@@ -484,7 +484,6 @@ router.get('/getAllTeachersByExcel', function (req, res) {
 // excel导入教师信息
 router.post('/importTeachers', function (req, res) {
     const teachersList = req.body;
-    console.log(teachersList)
     for (var i = 0; i < teachersList.length; i++) {
         let num = teachersList[i].num;
         let name = teachersList[i].name;
