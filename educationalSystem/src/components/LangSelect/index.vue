@@ -18,7 +18,11 @@
       <el-dropdown-item
         command="en"
         :disabled="'en'=== $i18n.locale "
-      >en</el-dropdown-item>
+      >英文</el-dropdown-item>
+      <el-dropdown-item
+        command="ja"
+        :disabled="'ja'=== $i18n.locale "
+      >日语</el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>
 </template>
