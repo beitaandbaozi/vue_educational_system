@@ -167,22 +167,22 @@
           <div class="sideLink">
             <el-row>
               <el-col :span="8">
-                <a href="#">
+                <div @click="demoInformation">
                   <span class="icon iconGuide" />
-                  <p>入门指南</p>
-                </a>
+                  <p>项目框架</p>
+                </div>
               </el-col>
               <el-col :span="8">
-                <a href="#">
+                <div @click="demoLink">
                   <span class="icon iconHelp" />
-                  <p>在线帮助手册</p>
-                </a>
+                  <p>项目链接</p>
+                </div>
               </el-col>
               <el-col :span="8">
-                <a href="#">
+                <div @click="connectHelp">
                   <span class="icon iconTechnology" />
                   <p>联系技术支持</p>
-                </a>
+                </div>
               </el-col>
             </el-row>
           </div>
@@ -314,6 +314,36 @@ export default {
       let res = await getNewByLimit();
       this.newList = res.result;
     },
+    // 项目框架
+    demoInformation() {
+      this.$notify({
+        title: "入门指南",
+        message:
+          "前端使用Vue-element-admin框架，后端使用node的广软教务管理系统",
+        type: "info",
+      });
+    },
+    // 项目链接
+    demoLink() {
+      const h = this.$createElement;
+      this.$notify({
+        title: "项目链接",
+        message: h(
+          "i",
+          { style: "color: teal" },"https://github.com/beitaandbaozi/vue_educational_system,麻烦点个start😀",
+        ),
+        duration: 0
+      });
+    },
+    // 联系帮助
+    connectHelp(){
+        this.$notify({
+        title: "邮件",
+        message:
+          "beita@0527.163.com",
+        type: "success",
+      });
+    }
   },
 };
 </script>
@@ -453,5 +483,9 @@ export default {
   .iconTechnology {
     background-position: -460px 0;
   }
+}
+
+.el-notification{
+    width:550px;
 }
 </style>
