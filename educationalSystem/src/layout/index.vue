@@ -12,7 +12,7 @@
     <div class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
         <navbar />
-        <!-- <TagsView></TagsView> -->
+        <TagsView></TagsView>
       </div>
       <app-main />
     </div>
