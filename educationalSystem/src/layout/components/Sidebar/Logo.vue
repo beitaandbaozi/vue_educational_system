@@ -2,7 +2,7 @@
  <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
       <router-link key="collapse" class="sidebar-logo-link" to="/">
-        <img src="@/assets/common/logo.png" class="sidebar-logo  ">
+        <img src="@/assets/common/logoHuaRuan.png" class="sidebar-logo  ">
       </router-link>
     </transition>
   </div>
@@ -51,7 +51,7 @@ export default {
 
     // 大图样式
     .sidebar-logo {
-      width: 140px;
+      width: 100%;
       vertical-align: middle;
       margin-right: 12px;
     }
@@ -72,8 +72,9 @@ export default {
   &.collapse {
     .sidebar-logo {
       margin-right: 0px;
-      width: 32px;
-      height: 32px;
+      width: 200px;
+      height: 50px;
+      margin-left:3px
     }
   }
 }
