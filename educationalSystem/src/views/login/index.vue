@@ -20,7 +20,10 @@
         <h3 class="title">HOME SEIG</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item
+        prop="username"
+        size="mini"
+      >
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
@@ -35,7 +38,10 @@
         />
       </el-form-item>
 
-      <el-form-item prop="password">
+      <el-form-item
+        prop="password"
+        size="mini"
+      >
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
@@ -57,7 +63,26 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
       </el-form-item>
-
+      <el-form-item
+        prop="verifyCode"
+        class="verifyCodeItemCss"
+        size="mini"
+      >
+        <el-row :span="24">
+          <el-col :span="14">
+            <el-input
+              class="verify_css"
+              placeholder="请输入4位验证码"
+              v-model="loginForm.verifyCode"
+              @keyup.enter.native="submitForm('ruleForm')"
+            ></el-input>
+          </el-col>
+          <!--关键 ↓-->
+          <el-col :span="10">
+            <div id="v_container"></div>
+          </el-col>
+        </el-row>
+      </el-form-item>
       <el-button
         :loading="loading"
         type="primary"
@@ -72,7 +97,9 @@
 
 <script>
 import { validUsername } from "@/utils/validate";
-import { mapActions } from 'vuex'
+import { mapActions } from "vuex";
+import { GVerify } from "@/utils/verifyCode";
+import { Message } from "element-ui";
 
 export default {
   name: "Login",
@@ -81,6 +108,7 @@ export default {
       loginForm: {
         username: "1840916216",
         password: "203036416",
+        verifyCode: "",
       },
       loginRules: {
         username: [
@@ -104,6 +132,10 @@ export default {
           },
           { min: 6, message: "密码至少为6位！", trigger: "blur" },
         ],
+        // 验证码
+        verifyCode: [
+          { required: true, message: "请输入验证码", trigger: "blur" },
+        ],
       },
       loading: false,
       passwordType: "password",
@@ -117,6 +149,9 @@ export default {
       },
       immediate: true,
     },
+  },
+  mounted() {
+    this.verifyCode = new GVerify("v_container");
   },
   methods: {
     ...mapActions(["user/login"]),
@@ -133,6 +168,14 @@ export default {
 
     // 登录
     handleLogin() {
+      var that = this;
+      // 获取验证码
+      var verifyCode = this.loginForm.verifyCode;
+      var verifyFlag = this.verifyCode.validate(verifyCode);
+      if (!verifyFlag) {
+        Message.error("验证码错误！");
+        return;
+      }
       this.$refs.loginForm.validate(async (isOK) => {
         if (isOK) {
           try {
@@ -142,7 +185,7 @@ export default {
             // 应该登录成功之后
             // async标记的函数实际上一个promise对象
             // await下面的代码 都是成功执行的代码
-            window.location.href="/"
+            window.location.href = "/";
           } catch (error) {
             console.log(error);
           } finally {
@@ -267,6 +310,10 @@ $light_gray: #7940bf;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
+  }
+  #v_container {
+    height: 100%;
+    margin: 5px 0px 0px 24px;
   }
 }
 </style>
