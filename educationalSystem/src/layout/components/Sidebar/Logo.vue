@@ -1,8 +1,18 @@
 <template>
- <div class="sidebar-logo-container" :class="{'collapse':collapse}">
+  <div
+    class="sidebar-logo-container"
+    :class="{'collapse':collapse}"
+  >
     <transition name="sidebarLogoFade">
-      <router-link key="collapse" class="sidebar-logo-link" to="/">
-        <img src="@/assets/common/logoHuaRuan.png" class="sidebar-logo  ">
+      <router-link
+        key="collapse"
+        class="sidebar-logo-link"
+        to="/"
+      >
+        <img
+          src="@/assets/common/logoHuaRuan.png"
+          class="sidebar-logo  "
+        >
       </router-link>
     </transition>
   </div>
@@ -41,7 +51,7 @@ export default {
   width: 100%;
   height: 50px;
   line-height: 50px;
-    // background: #2b2f3a;
+  // background: #2b2f3a;
   text-align: center;
   overflow: hidden;
 
@@ -54,8 +64,8 @@ export default {
       width: 100%;
       vertical-align: middle;
       margin-right: 12px;
+      height: 100%;
     }
-
 
     & .sidebar-title {
       display: inline-block;
@@ -74,7 +84,7 @@ export default {
       margin-right: 0px;
       width: 200px;
       height: 50px;
-      margin-left:3px
+      margin-left: 3px;
     }
   }
 }
