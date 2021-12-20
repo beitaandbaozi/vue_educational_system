@@ -22,10 +22,10 @@ let externals = {}
 if (isProd) {
     // 如果是生产环境 就排除打包 否则不排除
     externals = {
+        'vue': 'Vue',
         'element-ui': 'ELEMENT',
         'xlsx': 'XLSX',
         'vue-quill-editor': 'VueQuillEditor',
-        'vue': 'Vue'
     }
     cdn = {
         css: [
@@ -102,7 +102,7 @@ module.exports = {
          * value：实际上是 实际引入的包的全局变量名
          * externals 首先会排除掉 key，空出来的位置 会用 value 来替代
          */
-        externals: externals,
+        externals: externals
     },
     chainWebpack(config) {
         // it can improve the speed of the first screen, it is recommended to turn on preload
@@ -115,6 +115,12 @@ module.exports = {
                 include: 'initial'
             }
         ])
+        // 注入cdn文件
+        // 这行代码 会在执行打包的时候 执行 就会将cdn变量注入到html模板中
+        config.plugin('html').tap(args => {
+            args[0].cdn = cdn
+            return args
+        })
 
         // when there are many pages, it will cause too many meaningless requests
         config.plugins.delete('prefetch')
