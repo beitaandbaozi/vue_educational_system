@@ -58,7 +58,19 @@ module.exports = {
             alias: {
                 '@': resolve('src')
             }
-        }
+        },
+        // 排除包名
+        /**
+         * key:要排除的包名
+         * value：实际上是 实际引入的包的全局变量名
+         * externals 首先会排除掉 key，空出来的位置 会用 value 来替代
+         */
+        externals:{
+            'element-ui':'ELEMENT',
+            'xlsx':'XLSX',
+            'vue-quill-editor':'VueQuillEditor',
+            'vue':'Vue'
+        },
     },
     chainWebpack(config) {
         // it can improve the speed of the first screen, it is recommended to turn on preload
