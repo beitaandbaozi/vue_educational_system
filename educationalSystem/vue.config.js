@@ -15,6 +15,43 @@ const name = defaultSettings.title || 'vue Admin Template' // page title
 // port = 9528 npm run dev OR npm run dev --port = 9528
 const port = process.env.port || process.env.npm_config_port || 9528 // dev port
 
+let cdn = { css: [], js: [] }
+// 通过环境变量 来区分是否使用cdn
+const isProd = process.env.NODE_ENV === 'production' // 判断是否是生产环境
+let externals = {}
+if (isProd) {
+    // 如果是生产环境 就排除打包 否则不排除
+    externals = {
+        'element-ui': 'ELEMENT',
+        'xlsx': 'XLSX',
+        'vue-quill-editor': 'VueQuillEditor',
+        'vue': 'Vue'
+    }
+    cdn = {
+        css: [
+            // element-ui css
+            'https://unpkg.com/element-ui/lib/theme-chalk/index.css', // 样式表
+            // 富文本编辑器
+            'https://cdn.staticfile.org/quill/1.3.6/quill.snow.css',
+            'https://cdn.staticfile.org/quill/1.3.6/quill.bubble.css',
+            'https://cdn.staticfile.org/quill/1.3.6/quill.core.css',
+
+        ],
+        js: [
+            // vue must at first!
+            'https://unpkg.com/vue/dist/vue.js', // vuejs
+            // element-ui js
+            'https://unpkg.com/element-ui/lib/index.js',
+            // XLSX
+            'https://cdn.jsdelivr.net/npm/xlsx@0.16.6/dist/jszip.min.js',
+            'https://cdn.jsdelivr.net/npm/xlsx@0.16.6/dist/xlsx.full.min.js',
+            // 富文本
+            'https://cdn.staticfile.org/quill/1.3.6/quill.js',
+            'https://cdn.staticfile.org/quill/1.3.6/quill.min.js',
+            'https://cdn.staticfile.org/quill/1.3.6/quill.core.js'
+        ]
+    }
+}
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
     /**
@@ -45,7 +82,7 @@ module.exports = {
                 pathRewrite: {
                     // 重新路由  localhost:8888/api/login  => www.baidu.com/api/login
                     '^/api': '' // 假设我们想把 localhost:8888/api/login 变成www.baidu.com/login 就需要这么做 
-                } 
+                }
             }
         }
 
@@ -65,12 +102,7 @@ module.exports = {
          * value：实际上是 实际引入的包的全局变量名
          * externals 首先会排除掉 key，空出来的位置 会用 value 来替代
          */
-        externals:{
-            'element-ui':'ELEMENT',
-            'xlsx':'XLSX',
-            'vue-quill-editor':'VueQuillEditor',
-            'vue':'Vue'
-        },
+        externals: externals,
     },
     chainWebpack(config) {
         // it can improve the speed of the first screen, it is recommended to turn on preload
