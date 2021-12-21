@@ -18,8 +18,12 @@
             <img src="@/assets/common/header.png">
           </div>
           <div class="headInfoTip">
-            <p class="firstChild">早安，{{name}}，祝你开心每一天！</p>
-            <p class="lastChild">早安，{{name}}，祝你开心每一天！</p>
+            <p class="firstChild">
+              <span v-if="getHourse < 12">早上好</span>
+              <span v-else-if="getHourse >= 12 && getHourse <= 17">中午好</span>
+              <span v-else>晚上好</span>,{{ name }},祝你开心每一天！
+            </p>
+            <p class="lastChild">广州软件学院 | {{ roles }}</p>
           </div>
         </div>
         <div class="fr" />
@@ -204,6 +208,9 @@ export default {
   name: "Dashboard",
   computed: {
     ...mapGetters(["name", "roles", "userId"]),
+    getHourse() {
+      return new Date().getHours();
+    },
   },
   components: {
     WorkCalender,
@@ -330,20 +337,20 @@ export default {
         title: "项目链接",
         message: h(
           "i",
-          { style: "color: teal" },"https://github.com/beitaandbaozi/vue_educational_system,麻烦点个start😀",
+          { style: "color: teal" },
+          "https://github.com/beitaandbaozi/vue_educational_system,麻烦点个start😀"
         ),
-        duration: 0
+        duration: 0,
       });
     },
     // 联系帮助
-    connectHelp(){
-        this.$notify({
+    connectHelp() {
+      this.$notify({
         title: "邮件",
-        message:
-          "beita@0527.163.com",
+        message: "beita@0527.163.com",
         type: "success",
       });
-    }
+    },
   },
 };
 </script>
@@ -485,7 +492,7 @@ export default {
   }
 }
 
-.el-notification{
-    width:550px;
+.el-notification {
+  width: 550px;
 }
 </style>
