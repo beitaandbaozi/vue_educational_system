@@ -25,7 +25,7 @@ if (isProd) {
         'vue': 'Vue',
         'element-ui': 'ELEMENT',
         'xlsx': 'XLSX',
-        'vue-quill-editor': 'VueQuillEditor',
+        'vue-quill-editor': 'Quill Editor',
     }
     cdn = {
         css: [
