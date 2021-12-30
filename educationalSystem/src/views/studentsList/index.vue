@@ -262,11 +262,11 @@ export default {
     },
     handleSizeChange(newSize) {
       this.paramsInfo.pagesize = newSize;
-      this.getAllStudents();
+      this.searchStudent();
     },
     handleCurrentChange(newPage) {
       this.paramsInfo.pagenum = newPage;
-      this.getAllStudents();
+      this.searchStudent();
     },
     // 获取所有系别
     async getAllDuty() {
@@ -275,7 +275,10 @@ export default {
     },
     // 根据系别和学年来查询学生数据
     async searchStudent() {
-      let res = await searchByStudents(this.searchData);
+      let res = await searchByStudents({
+        ...this.searchData,
+        ...this.paramsInfo,
+      });
       this.studentsList = res;
       this.total = res.count;
     },
