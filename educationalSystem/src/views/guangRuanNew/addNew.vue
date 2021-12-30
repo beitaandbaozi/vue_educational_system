@@ -92,7 +92,7 @@
         >发布快讯</el-button>
       </el-row>
       <!-- 回顶 -->
-      <el-backtop :bottom="60">
+      <el-backtop :bottom="60" right="0">
         <div style="{
         height: 100%;
         width: 100%;

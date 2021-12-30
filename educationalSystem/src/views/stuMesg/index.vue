@@ -178,6 +178,25 @@
         </el-tab-pane>
       </el-tabs>
     </div>
+    <!-- 回顶 -->
+    <el-backtop
+      :bottom="60"
+      right="0"
+    >
+      <div style="{
+        height: 100%;
+        width: 100%;
+        background-color: #f2f5f6;
+        box-shadow: 0 0 6px rgba(0,0,0, .12);
+        text-align: center;
+        line-height: 40px;
+        color: #1989fa;
+        margin-right:0px;
+        border-radius:50%;
+      }">
+        ⭐
+      </div>
+    </el-backtop>
   </div>
 </template>
 
@@ -186,16 +205,14 @@ import {
   getStuInfo,
   getRequireCourseInfo,
   getOptionalCourseInfo,
-  saveStuInfo
+  saveStuInfo,
 } from "@/api/stuMesg";
 import { Message } from "element-ui";
 export default {
   data() {
     return {
       // 个人基本信息
-      stuForm: {
-        
-      },
+      stuForm: {},
       // 必修课程信息
       requiredCourseData: [],
       //选修课程信息
@@ -247,7 +264,7 @@ export default {
         ...this.stuForm,
         avator: fileList && fileList.length ? fileList[0].url : "",
       });
-      Message.success('保存头像信息成功!')
+      Message.success("保存头像信息成功!");
     },
   },
 };
