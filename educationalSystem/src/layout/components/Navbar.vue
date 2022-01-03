@@ -88,7 +88,6 @@
             size="medium"
           ></el-input>
         </el-form-item>
-
         <el-form-item
           label="新密码"
           prop="newPassword"
@@ -96,6 +95,16 @@
           <el-input
             v-model="upPaswdForm.newPassword"
             size="medium"
+            show-password
+          ></el-input>
+        </el-form-item>
+        <el-form-item
+          label="确认密码"
+          prop="checkPassword"
+        >
+          <el-input
+            size="medium"
+            v-model="upPaswdForm.checkPassword"
             show-password
           ></el-input>
         </el-form-item>
@@ -125,6 +134,26 @@ import { getTeacherInfo } from "@/api/teacherMesg";
 import { getStuInfo } from "@/api/stuMesg";
 export default {
   data() {
+    var newPassword = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请输入密码"));
+      } else {
+        if (this.upPaswdForm.checkPassword !== "") {
+          this.$refs.upPaswdRef.validateField("checkPassword");
+        }
+        callback();
+      }
+    };
+    // 确认密码
+    var checkPassword = (rule, value, callback) => {
+      if (value === "") {
+        callback(new Error("请再次输入密码"));
+      } else if (value !== this.upPaswdForm.newPassword) {
+        callback(new Error("两次输入密码不一致!"));
+      } else {
+        callback();
+      }
+    };
     return {
       // 修改密码对话框
       showUpPaswdDialog: false,
@@ -132,16 +161,11 @@ export default {
       upPaswdForm: {
         password: "",
         newPassword: "",
+        checkPassword: "",
       },
       upPaswdRules: {
-        newPassword: [
-          {
-            required: true,
-            message: "请输入密码",
-            trigger: "blur",
-          },
-          { min: 6, message: "密码至少为6位！", trigger: "blur" },
-        ],
+        newPassword: [{ validator: newPassword, trigger: "blur" }],
+        checkPassword: [{ validator: checkPassword, trigger: "blur" }],
       },
       //  用户信息
       userInfo: {},
