@@ -31,6 +31,7 @@
 import Cookie from "js-cookie";
 import { Message } from "element-ui";
 export default {
+  name: "LangSelect",
   methods: {
     changeLanguage(lang) {
       Cookie.set("language", lang); // 切换多语言
