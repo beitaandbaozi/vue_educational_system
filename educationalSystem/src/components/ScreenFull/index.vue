@@ -15,6 +15,7 @@
 import ScreenFull from "screenfull";
 import { Message } from "element-ui";
 export default {
+  name: "ScreenFull",
   methods: {
     //   改变全屏
     changeScreen() {
