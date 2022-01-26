@@ -30,7 +30,6 @@
 
 <script>
 export default {
-  name: "PageTools",
   props: {
     showBefore: {
       type: Boolean,
